@@ -160,7 +160,7 @@ if (strlen($user) == 0) {
                     if(Object.keys(object[j])[0] == 'text_box') {
                         tmp = tmp + "<div class='form-group'><label>"+object[j].text_box+"</label><input id='incident_ob"+i.toString()+"_text"+j.toString()+"' type='text' class='form-control bg-light border-0 small mb-4' placeholder='' aria-label='Search' aria-describedby='basic-addon2' value='"+ object[j].pre_filled +"'";
                         if(content.buttons[0].clicked == 'false') {
-                            tmp = tmp + "readOnly";
+                            tmp = tmp + " readOnly";
                         }
                         tmp = tmp + "></div>";
                     }
@@ -170,7 +170,7 @@ if (strlen($user) == 0) {
                             tmp = tmp + "checked";
                         }
                         if(content.buttons[0].clicked == 'false') {
-                            tmp = tmp + "readOnly";
+                            tmp = tmp + " disabled";
                         }
                         tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div>";
                     }
@@ -178,7 +178,7 @@ if (strlen($user) == 0) {
                         tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
                         tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm mb-4'";
                         if(content.buttons[0].clicked == 'false') {
-                            tmp = tmp + "disabled";
+                            tmp = tmp + " disabled";
                         }
                         tmp = tmp + ">";
                         for (var k = 0; k < object[j].pre_filled.length; k++) {
