@@ -50,6 +50,7 @@
                                                 id="password" name="password" aria-describedby="emailHelp"
                                                 placeholder="Enter Password..." required>
                                         </div>
+                                        <p id="danger-txt" class="d-none text-danger text-center">Sorry, try to use another code</p>
                                         <button class="btn btn-primary btn-user btn-block">
                                             Send Code
     </button>
@@ -94,8 +95,13 @@
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType:'application/json',
-                    success: function (data) {
-                        // window.location.replace("login");
+                    complete: function(data) {
+                        if(data.status == 404) {
+                            document.getElementById('danger-txt').classList.remove('d-none');
+                        }
+                        else if(data.status == 200) {
+                            window.location.replace("login");
+                        }
                     }
                 })
                 event.preventDefault();

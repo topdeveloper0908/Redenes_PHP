@@ -52,6 +52,7 @@
                                                 id="phone" name="phone" aria-describedby="emailHelp"
                                                 placeholder="Enter Phone Number..." required>
                                         </div>
+                                        <p id="danger-txt" class="d-none text-danger text-center">The Phone Number is incorrect</p>
                                         <button class="btn btn-primary btn-user btn-block">
                                             Reset Password
                                         </button>
@@ -96,8 +97,13 @@
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType:'application/json',
-                    success: function (data) {
-                        window.location.replace("login");
+                    complete: function(data) {
+                        if(data.status == 404) {
+                            document.getElementById('danger-txt').classList.remove('d-none');
+                        }
+                        else if(data.status == 200) {
+                            window.location.replace("one-password");
+                        }
                     }
                 })
                 event.preventDefault();
