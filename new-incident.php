@@ -212,12 +212,7 @@ if (strlen($user) == 0) {
             if(content.buttons) {
                tmp = tmp + "<div class='d-flex justify-content-center'>";
                for (var i = 0; i < content.buttons.length; i++) {
-                   if(content.buttons[i].color == 'green') {
-                        tmp = tmp + "<button type='button' onclick='saveData("+i+")' class='btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>"+content.buttons[i].button+"</span></button>";
-                   }
-                   else if(content.buttons[i].color == 'red') {
-                        tmp = tmp + "<button type='button' onclick='saveData("+i+")' class='btn btn-danger btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-times'></i></span><span class='text'>"+content.buttons[i].button+"</span></button>";
-                   }
+                   tmp = tmp + "<button type='button' onclick='saveData("+i+")' class='btn my-1 mr-2' style='background-color:"+content.buttons[i].background+";color:"+content.buttons[i].text+"'></span><span class='text'>"+content.buttons[i].button+"</span></button>";
                }
                tmp = tmp + "</div>"
             }   
