@@ -146,12 +146,11 @@ if (strlen($user) == 0) {
             })
         }
         function writeData(content) {
-            console.log(content);
             increment = content.new_incident_increment;
             var tmp='';
             if(content.buttons) {
                tmp = tmp + "<div class='d-flex'>";
-               tmp = tmp + "<button type='button' onclick='' class='btn mb-4 mr-2' style='background-color:"+content.buttons[0].background+";color:"+content.buttons[0].text+"'></span><span class='text'>"+content.buttons[0].button+"</span></button>";
+               tmp = tmp + "<button type='button' onclick='saveData()' class='btn mb-4 mr-2' style='background-color:"+content.buttons[0].background+";color:"+content.buttons[0].text+"'></span><span class='text'>"+content.buttons[0].button+"</span></button>";
                tmp = tmp + "</div>"
             }
             for (var i = 0; i < content.objects.length; i++) {
@@ -200,6 +199,38 @@ if (strlen($user) == 0) {
         function changeAgencyData(agency_id) {
             document.cookie = "agency_id = " + agency_id;
             window.location.replace("overview");
+        }
+        function saveData(index) {
+            for (var i = 0; i < formData.objects.length; i++) {
+                for (var j = 0; j < formData.objects[i].length; j++) {
+                    if(Object.keys(formData.objects[i][j])[0] == 'text_box') {
+                        id = "incident_ob"+i.toString()+"_text"+j.toString();
+                        formData.objects[i][j].pre_filled = document.getElementById(id).value;
+                    }
+                    if(Object.keys(formData.objects[i][j])[0] == 'drop_down') {
+                        id = "incident_ob"+i.toString()+"_dropdown"+j.toString();
+                        formData.objects[i][j].pre_filled_selected = document.getElementById(id).value;
+                    }
+                    if(Object.keys(formData.objects[i][j])[0] == 'check_box') {
+                        id = "incident_ob"+i.toString()+"_check"+j.toString();
+                        formData.objects[i][j].pre_filled = document.getElementById(id).checked;
+                    }
+                }     
+            }
+            if(formData.buttons) {
+                formData.buttons[0].clicked = 'true';
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/select-incident/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                success: function (res) {
+                    formData = res;
+                    writeData(res);
+                }
+            })
         }
     </script>
 </body>
