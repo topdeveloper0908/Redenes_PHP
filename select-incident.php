@@ -64,7 +64,7 @@ if (strlen($user) == 0) {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800">New Incident</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Selected Incident - <?php echo $incident_id?></h1>
                     <form>
                         <div id="incident-content">
                         </div>
@@ -162,7 +162,7 @@ if (strlen($user) == 0) {
                 tmp = tmp + "<div class='card shadow mb-4'><div class='card-header py-3'><label class='m-0 font-weight-bold text-primary'>" + object[0].title + "</label></div><div class='card-body'>";    
                 for (var j = 1; j < object.length; j++) {
                     if(Object.keys(object[j])[0] == 'text_box') {
-                        tmp = tmp + "<div class='form-group'><label>"+object[j].text_box+"</label><input id='incident_ob"+i.toString()+"_text"+j.toString()+"' type='text' class='form-control bg-light border-0 small mb-4' placeholder='' aria-label='Search' aria-describedby='basic-addon2' value='"+ object[j].pre_filled +"'";
+                        tmp = tmp + "<div class='form-group'><label>"+object[j].text_box+"</label><input id='incident_ob"+i.toString()+"_text"+j.toString()+"' type='text' class='form-control form-control-user' placeholder='' aria-label='Search' aria-describedby='basic-addon2' value='"+ object[j].pre_filled +"'";
                         if(content.status == 'false') {
                             tmp = tmp + " readOnly";
                         }

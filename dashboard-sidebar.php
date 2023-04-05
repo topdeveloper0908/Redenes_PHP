@@ -157,12 +157,18 @@
         document.getElementById('alert-item').lastElementChild.classList.add('show');
         document.getElementById('alert-item').lastElementChild.firstElementChild.children[3].classList.add('active');
     }
-    if(currentUrl.includes('/closed-incident')) {
+    else if(currentUrl.includes('/closed-incident')) {
         document.getElementById('alert-item').classList.add('active');
         console.log(document.getElementById('alert-item').firstChild);
         document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
         document.getElementById('alert-item').lastElementChild.classList.add('show');
         document.getElementById('alert-item').lastElementChild.firstElementChild.children[2].classList.add('active');
+    }
+    else if(currentUrl.includes('/select-incident')) {
+        document.getElementById('alert-item').classList.add('active');
+        console.log(document.getElementById('alert-item').firstChild);
+        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+        document.getElementById('alert-item').lastElementChild.classList.add('show');
     }
     else if(currentUrl.includes('/new-incident')) {
         document.getElementById('alert-item').classList.add('active');
