@@ -146,11 +146,15 @@ if (strlen($user) == 0) {
             })
         }
         function writeData(content) {
+            console.log(content);
             increment = content.new_incident_increment;
             var tmp='';
+            
             if(content.buttons) {
                tmp = tmp + "<div class='d-flex'>";
-               tmp = tmp + "<button type='button' onclick='saveData()' class='btn mb-4 mr-2' style='background-color:"+content.buttons[0].background+";color:"+content.buttons[0].text+"'></span><span class='text'>"+content.buttons[0].button+"</span></button>";
+               for (var i = 0; i < content.buttons.length; i++) {
+                   tmp = tmp + "<button type='button' onclick='saveData("+i+")' class='btn mb-4 mr-2' style='background-color:"+content.buttons[i].background+";color:"+content.buttons[i].text+"'></span><span class='text'>"+content.buttons[i].button+"</span></button>";
+               }
                tmp = tmp + "</div>"
             }
             for (var i = 0; i < content.objects.length; i++) {
@@ -159,7 +163,7 @@ if (strlen($user) == 0) {
                 for (var j = 1; j < object.length; j++) {
                     if(Object.keys(object[j])[0] == 'text_box') {
                         tmp = tmp + "<div class='form-group'><label>"+object[j].text_box+"</label><input id='incident_ob"+i.toString()+"_text"+j.toString()+"' type='text' class='form-control bg-light border-0 small mb-4' placeholder='' aria-label='Search' aria-describedby='basic-addon2' value='"+ object[j].pre_filled +"'";
-                        if(content.buttons[0].clicked == 'false') {
+                        if(content.status == 'false') {
                             tmp = tmp + " readOnly";
                         }
                         tmp = tmp + "></div>";
@@ -169,7 +173,7 @@ if (strlen($user) == 0) {
                         if(object[j].pre_filled == 'true') {
                             tmp = tmp + "checked";
                         }
-                        if(content.buttons[0].clicked == 'false') {
+                        if(content.status == 'false') {
                             tmp = tmp + " disabled";
                         }
                         tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div>";
@@ -177,7 +181,7 @@ if (strlen($user) == 0) {
                     if(Object.keys(object[j])[0] == 'drop_down') {
                         tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
                         tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm mb-4'";
-                        if(content.buttons[0].clicked == 'false') {
+                        if(content.status == 'false') {
                             tmp = tmp + " disabled";
                         }
                         tmp = tmp + ">";
@@ -218,7 +222,7 @@ if (strlen($user) == 0) {
                 }     
             }
             if(formData.buttons) {
-                formData.buttons[0].clicked = 'true';
+                formData.buttons[index].clicked = 'true';
             }
             $.ajax({
                 type: "POST",
