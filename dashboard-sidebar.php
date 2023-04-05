@@ -86,7 +86,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <button class="collapse-item d-inline-block">Emergency</button>
                 <a href="new-incident" class="collapse-item d-inline-block">New Incident</a>
-                <a href="close-incident" class="collapse-item d-inline-block">Closed Incident</a>
+                <a href="closed-incident" class="collapse-item d-inline-block">Closed Incident</a>
                 <a href="active-incident" class="collapse-item d-inline-block">Active Incident</a>
                 <button class="collapse-item d-inline-block">Phone</button>
                 <button class="collapse-item d-inline-block">Messages</button>
@@ -157,7 +157,7 @@
         document.getElementById('alert-item').lastElementChild.classList.add('show');
         document.getElementById('alert-item').lastElementChild.firstElementChild.children[3].classList.add('active');
     }
-    if(currentUrl.includes('/close-incident')) {
+    if(currentUrl.includes('/closed-incident')) {
         document.getElementById('alert-item').classList.add('active');
         console.log(document.getElementById('alert-item').firstChild);
         document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
