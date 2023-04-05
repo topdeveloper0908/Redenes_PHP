@@ -123,7 +123,7 @@ if (strlen($user) == 0) {
             var tmp='';
             for (var i = 0; i < content.length; i++) {
                 object = content[i];
-                tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #"+object[0].color+";'><a class='incident-link' href='active-incident?incident_id="+object[0].incident_id+"'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
+                tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #"+object[0].color+";'><a class='incident-link' href='select-incident?incident_id="+object[0].incident_id+"'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
                 for(var j = 1; j < object.length; j++) {
                    tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>"+object[j].field + ": "+object[j].value+"</div>"; 
                 }
