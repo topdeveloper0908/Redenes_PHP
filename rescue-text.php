@@ -1,6 +1,4 @@
 <?php  
-
-    var_dump($_SERVER['HTTP_USER_AGENT']) ;
     $broswer = ($_SERVER['HTTP_SEC_CH_UA']) ;
     // Google Chrome
     if(strpos($broswer,"Google Chrome") > -1) {
@@ -13,8 +11,16 @@
             }
         }
     }
-    $browser = get_browser();
-
+    else if(strpos($broswer,"Microsoft Edge") > -1) {
+        $broswer_name = "Microsoft Edge";
+        $broswer_array = explode(',', $broswer);
+        for ($i=0; $i < count($broswer_array); $i++) { 
+            if(strpos($broswer_array[$i], "Microsoft Edge") > -1) {
+                $tmp = explode(';', $broswer_array[$i]);
+                $broswer_ver = substr($tmp[1], 3, strlen($tmp[1])-4);
+            }
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
