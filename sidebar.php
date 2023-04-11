@@ -57,16 +57,17 @@
         <span>Agency Settings</span>
     </a>
 </li>
-<li id="module_item" class="nav-item">
-    <a class="nav-link" href="module-setting">
-        <i class="fas fa-fw fa-tools"></i>
-        <span>Module Settings</span>
-    </a>
-</li>
 <li id="user_item" class="nav-item">
     <a class="nav-link" href="user-setting">
         <i class="fas fa-fw fa-user-cog"></i>
         <span>User Settings</span>
+    </a>
+</li>
+
+<li id="module_item" class="nav-item">
+    <a class="nav-link" href="module-setting">
+        <i class="fas fa-fw fa-tools"></i>
+        <span>Module Settings</span>
     </a>
 </li>
 
