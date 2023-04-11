@@ -124,25 +124,25 @@ $agency_id = $_COOKIE['agency_id'];
                                     <div class="card-body">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-status" id="avaiableCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="avaiableCheck" disabled>
                                                 <label class="custom-control-label" for="avaiableCheck">Avaiable</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-status" id="onCallCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="onCallCheck" disabled>
                                                 <label class="custom-control-label" for="onCallCheck">On Call</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-status" id="onDutyCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="onDutyCheck" disabled>
                                                 <label class="custom-control-label" for="onDutyCheck">On Duty</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-status" id="offDutyCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="offDutyCheck" disabled>
                                                 <label class="custom-control-label" for="offDutyCheck">Off Duty</label>
                                             </div>
                                         </div>
@@ -165,25 +165,25 @@ $agency_id = $_COOKIE['agency_id'];
                                     <div class="card-body">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-type" id="chiefCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="chiefCheck" disabled>
                                                 <label class="custom-control-label" for="chiefCheck">Chief</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-type" id="operationLeaderCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="operationLeaderCheck" disabled>
                                                 <label class="custom-control-label" for="operationLeaderCheck">Opeartions Leader</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-type" id="memberCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="memberCheck" disabled>
                                                 <label class="custom-control-label" for="memberCheck">Member</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-type" id="supportMemberCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="supportMemberCheck" disabled>
                                                 <label class="custom-control-label" for="supportMemberCheck">Support Member</label>
                                             </div>
                                         </div>
@@ -206,25 +206,25 @@ $agency_id = $_COOKIE['agency_id'];
                                     <div class="card-body">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-medical" id="emtCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="emtCheck" disabled>
                                                 <label class="custom-control-label" for="emtCheck">EMT</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-medical" id="paramedicCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="paramedicCheck" disabled>
                                                 <label class="custom-control-label" for="paramedicCheck">Paramedic</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-medical" id="nurseCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="nurseCheck" disabled>
                                                 <label class="custom-control-label" for="nurseCheck">Nurse</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="radio" class="custom-control-input" name="user-medical" id="doctorCheck" disabled>
+                                                <input type="checkbox" class="custom-control-input" id="doctorCheck" disabled>
                                                 <label class="custom-control-label" for="doctorCheck">Doctor</label>
                                             </div>
                                         </div>
@@ -277,14 +277,13 @@ $agency_id = $_COOKIE['agency_id'];
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-users/",
+                url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: {
                     agency_id: agency_id,
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
-                    console.log(res);
-                    user_setting_info = res.agencies_users[1];
+                    user_setting_info = res.agencies_user_settings[0];
                     writeData();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");                
@@ -334,7 +333,7 @@ $agency_id = $_COOKIE['agency_id'];
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType:'application/json',
-                success: function (res) {                    
+                success: function (res) {            
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
@@ -379,43 +378,23 @@ $agency_id = $_COOKIE['agency_id'];
         }
         function writeData() {
             document.getElementById('registerID').value = init_id;
-            if(user_setting_info.status == 'Available') {
-                document.getElementById('availableCheck').checked = true;
+            if(user_setting_info.auto_add_email_domain) {
+                document.getElementById('emailDomain').value = user_setting_info.auto_add_email_domain;
             }
-            else if(user_setting_info.status == 'On Call') {
-                document.getElementById('onCallCheck').checked = true;
-            }
-            else if(user_setting_info.status == 'On Duty') {
-                document.getElementById('onDutyCheck').checked = true;
-            }
-            else if(user_setting_info.status == 'Off Duty') {
-                document.getElementById('offDutyCheck').checked = true;
-            }
+            document.getElementById('avaiableCheck').checked = user_setting_info.user_status[0]['Available'] == 'true'?true:false;
+            document.getElementById('onCallCheck').checked = user_setting_info.user_status[0]['On Call'] == 'true'?true:false;
+            document.getElementById('onDutyCheck').checked = user_setting_info.user_status[0]['On Duty'] == 'true'?true:false;
+            document.getElementById('offDutyCheck').checked = user_setting_info.user_status[0]['Off Duty'] == 'true'?true:false;
 
-            if(user_setting_info.type == 'Chief') {
-                document.getElementById('chiefCheck').checked = true;
-            }
-            else if(user_setting_info.type == 'Operations Leader') {
-                document.getElementById('operationLeaderCheck').checked = true;
-            }
-            else if(user_setting_info.type == 'Member') {
-                document.getElementById('memberCheck').checked = true;
-            }
-            else if(user_setting_info.type == 'Support Member') {
-                document.getElementById('supportMemberCheck').checked = true;
-            }
-            if(user_setting_info.medical == 'EMT') {
-                document.getElementById('emtCheck').checked = true;
-            }
-            else if(user_setting_info.medical == 'Paramedic') {
-                document.getElementById('paramedicCheck').checked = true;
-            }
-            else if(user_setting_info.medical == 'Nurse') {
-                document.getElementById('nurseCheck').checked = true;
-            }
-            else if(user_setting_info.medical == 'Doctor') {
-                document.getElementById('doctorCheck').checked = true;
-            }
+            document.getElementById('chiefCheck').checked = user_setting_info.user_types[0]['Chief'] == 'true'?true:false;
+            document.getElementById('operationLeaderCheck').checked = user_setting_info.user_types[0]['Member'] == 'true'?true:false;
+            document.getElementById('memberCheck').checked = user_setting_info.user_types[0]['Operations Leader'] == 'true'?true:false;
+            document.getElementById('supportMemberCheck').checked = user_setting_info.user_types[0]['Support Member'] == 'true'?true:false;
+
+            document.getElementById('emtCheck').checked = user_setting_info.user_medical_level[0]['EMT'] == 'true'?true:false;
+            document.getElementById('paramedicCheck').checked = user_setting_info.user_medical_level[0]['Paramedic'] == 'true'?true:false;
+            document.getElementById('nurseCheck').checked = user_setting_info.user_medical_level[0]['Nurse'] == 'true'?true:false;
+            document.getElementById('doctorCheck').checked = user_setting_info.user_medical_level[0]['Doctor'] == 'true'?true:false;
         }
     </script>
 </body>
