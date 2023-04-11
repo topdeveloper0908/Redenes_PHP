@@ -111,7 +111,6 @@ if (strlen($user) == 0) {
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
-                    console.log(res);
                     writeData(res.incidents);
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");

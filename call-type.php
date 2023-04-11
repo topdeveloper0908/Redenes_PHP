@@ -291,7 +291,7 @@ $agency_id = $_COOKIE['agency_id'];
                     id: trElement.querySelector('.col-id').innerHTML,
                     call_type: inputs[0].value,
                     call_abbreviation: inputs[1].value,
-                    active: checkbox.value,
+                    active: checkbox.checked,
                 }
                 document.getElementById("my-loader-element").classList.add("loader");                
                 $.ajax({

@@ -135,7 +135,6 @@ if (strlen($user) == 0) {
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
-                    console.log(res);
                     writeData(res);
                     formData = res;
                     // To hide the loader
@@ -149,7 +148,6 @@ if (strlen($user) == 0) {
                 for (var j = 0; j < formData.objects[i].length; j++) {
                     if(Object.keys(formData.objects[i][j])[0] == 'text_box') {
                         id = "incident_ob"+i.toString()+"_text"+j.toString();
-                        console.log(id);
                         formData.objects[i][j].pre_filled = document.getElementById(id).value;
                     }
                     if(Object.keys(formData.objects[i][j])[0] == 'drop_down') {
@@ -172,7 +170,6 @@ if (strlen($user) == 0) {
                 dataType: "json",
                 contentType:'application/json',
                 success: function (res) {
-                    console.log(res);
                     formData = res;
                     writeData(res);
                 }

@@ -353,7 +353,7 @@ $agency_id = $_COOKIE['agency_id'];
                     status: selects[0].value,
                     type: selects[1].value,
                     medical: selects[2].value,
-                    admin: checkbox.value
+                    admin: checkbox.checked
                 }
                 $.ajax({
                     type: "POST",

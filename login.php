@@ -114,7 +114,6 @@ session_start();
                     },
                     encode: true,
                     success: function (data) {
-                        console.log(data);
                         document.cookie = "name = " + $("#username").val();
                         var tmp='';
                         var tmp1='';

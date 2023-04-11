@@ -146,7 +146,6 @@ if (strlen($user) == 0) {
             })
         }
         function writeData(content) {
-            console.log(content);
             increment = content.new_incident_increment;
             var tmp='';
             
