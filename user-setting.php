@@ -337,6 +337,14 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
+                    var inputs = document.querySelectorAll('.custom-control-input');
+                    inputs.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    var inputs = document.querySelectorAll('.form-control');
+                    inputs.forEach(element => {
+                        element.setAttribute("readOnly", true);
+                    });
                 }
             })
         }
