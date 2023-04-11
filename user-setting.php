@@ -90,7 +90,7 @@ $agency_id = $_COOKIE['agency_id'];
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
+                                            <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Agency Register ID</label>
                                                 <input type="text" class="form-control form-control-user"
                                                     id="registerID" aria-describedby="emailHelp"
@@ -106,7 +106,7 @@ $agency_id = $_COOKIE['agency_id'];
                                     <div class="card-body">
                                         <div class="form-group d-flex align-items-end">
                                             <h6 class="m-0 font-weight-bold mb-2">User@</h6>
-                                            <div class="custom-control custom-checkbox small">
+                                            <div class="custom-control custom-checkbox small flex-grow-1">
                                                 <label>Email Domain</label>
                                                 <input type="text" class="form-control form-control-user"
                                                     id="emailDomain" aria-describedby="emailHelp"
@@ -147,7 +147,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
+                                            <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Custom</label>
                                                 <input type="text" class="form-control form-control-user"
                                                     id="userStatus" aria-describedby="emailHelp"
@@ -188,7 +188,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
+                                            <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Custom</label>
                                                 <input type="text" class="form-control form-control-user"
                                                     id="userTypes" aria-describedby="emailHelp"
@@ -283,6 +283,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
+                    console.log(res);
                     user_setting_info = res.agencies_users[1];
                     writeData();
                     // To hide the loader
@@ -333,7 +334,7 @@ $agency_id = $_COOKIE['agency_id'];
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType:'application/json',
-                success: function (res) {
+                success: function (res) {                    
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
@@ -357,6 +358,7 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.removeAttribute("readOnly");
             });
+            document.getElementById("registerID").setAttribute("readOnly", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
@@ -376,7 +378,7 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("cancel-btn").classList.add("d-none");
         }
         function writeData() {
-            document.getElementById('registerID').value = user_setting_info.id;
+            document.getElementById('registerID').value = init_id;
             if(user_setting_info.status == 'Available') {
                 document.getElementById('availableCheck').checked = true;
             }
