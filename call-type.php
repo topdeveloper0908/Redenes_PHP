@@ -130,7 +130,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             $call_active = explode('$$', $_COOKIE['agencies_call_types_4']);
                                             for ($i=0; $i < count($call_ids)-1; $i++) { ?>
                                         <tr>
-                                            <td><?php echo $call_ids[$i];?></td>
+                                            <td class="col-id"><?php echo $call_ids[$i];?></td>
                                             <td>
                                                 <input type="text" class="form-control bg-light border-0 small"
                                                 placeholder="Search for..." readOnly value="<?php echo $call_types[$i]?>">
@@ -278,19 +278,29 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
+                inputs = trElement.querySelectorAll('.form-control');
+                checkbox = trElement.querySelector('.custom-control-input');
+
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
+                var authorization = "<?php echo $authorization;?>";
+                var formData = {
+                    authorization: authorization.toString(),
+                    agency_id: init_id.toString(),
+                    id: trElement.querySelector('.col-id').innerHTML,
+                    call_type: inputs[0].value,
+                    call_abbreviation: inputs[1].value,
+                    active: checkbox.value,
+                }
                 document.getElementById("my-loader-element").classList.add("loader");                
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/agency-settings/",
-                    data: {
-                        agency_id: agency_id,
-                        authorization: "<?php echo $authorization;?>"
-                    },
+                    url: "https://api.redenes.org/dev/v1/agency-call-types/",
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    contentType:'application/json',
                     success: function (res) {
-                        agency_setting_info = res.agencies_settings[0];
                         // To hide the loader
                         document.getElementById("my-loader-element").classList.remove("loader");                
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
