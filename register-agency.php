@@ -85,7 +85,7 @@ $authorization = $_COOKIE['authorization'];
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-unit" placeholder="Enter Agency Unit..." required>
+                                                id="agency-unit" placeholder="Enter Agency Unit..." >
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
@@ -142,7 +142,7 @@ $authorization = $_COOKIE['authorization'];
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-unit" placeholder="Enter Unit..." required>
+                                                id="agency-P-unit" placeholder="Enter Unit..." >
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
