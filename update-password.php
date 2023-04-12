@@ -1,3 +1,9 @@
+<?php  
+$cell_number = $_COOKIE['cell_number'];
+if (strlen($cell_number) == 0) {
+    header('location:login');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,6 +93,7 @@
             $("form").submit(function (event) {
                 var formData = {
                     password: $("#password").val(),
+                    cell_number: "<?php echo $cell_number;?>"
                 };
                 $.ajax({
                     type: "POST",
@@ -95,7 +102,8 @@
                     dataType: "json",
                     contentType:'application/json',
                     success: function (data) {
-                        // window.location.replace("login");
+                        document.cookie = "cell_number = ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                        window.location.replace("login");
                     }
                 })
                 event.preventDefault();

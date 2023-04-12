@@ -102,6 +102,7 @@
                             document.getElementById('danger-txt').classList.remove('d-none');
                         }
                         else if(data.status == 200) {
+                            document.cookie = "cell_number = " + formData.cell_number;
                             window.location.replace("one-password");
                         }
                     }
