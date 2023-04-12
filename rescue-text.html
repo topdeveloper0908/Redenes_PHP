@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Locations</title>
+    <style>
+        body{
+            text-align: center;
+            background-color: red;
+        }
+        .mheading{
+            line-height: 140px;
+            font-size: 35px;
+        }
+        .sheading{
+            line-height: 80px;
+            font-size: 30px;
+        }
+        .pdiv{
+            margin: 50px 0px;
+        }
+        .sub_text span{
+color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+
+<h1 class="mheading">GPS LOCATION</h1>
+
+    <div class="sub_text">Latitude:  <span id="latitude"></span> </div>
+    <div class="sub_text">Longitude: <span id="longitude"></span> </div>
+    <h2 class="sheading">Data</h2>
+    <div class="fdiv">
+    <div class="sub_text">Status: <span id="status"></span> </div>
+    <div  class="sub_text">Response Code: <span id="response_code"></span> </div>
+    <div  class="sub_text">Rescue Text: <span id="rescue_text"></span> </div>
+</div>
+
+<div class="pdiv">
+    <div class="sub_text">Web Browser: <span id="browser_name"></span> </div>
+    <div  class="sub_text">Web Brwoser Version: <span id="browser_version"></span> </div>
+</div>
+
+<div class="pdiv">
+    <div  class="sub_text">Phone Operating System:  <span id="phone_name"></span> </div>
+    <div  class="sub_text">Phone Version: <span id="phone_version"></span> </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+var slatitude=document.getElementById("latitude");
+var slongitude=document.getElementById("longitude");
+
+var sbrowser_name=document.getElementById("browser_name");
+var sbrowser_version=document.getElementById("browser_version");
+
+
+var sphone_model=document.getElementById("phone_name");
+var sphone_version=document.getElementById("phone_version");
+
+
+var api_status=document.getElementById("status");
+var response_code=document.getElementById("response_code");
+var api_rescue_text=document.getElementById("rescue_text");
+
+
+
+ api_status.innerHTML="Gathering data to send to Server";
+
+
+
+        // Get the user's location
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      //show the page
+      slatitude.innerHTML=latitude;
+      slongitude.innerHTML=longitude;
+
+
+      // Get the user's browser information
+      const browserName = navigator.userAgent.toLowerCase().match(/(chrome|firefox|safari|edge|opera|msie)/)[1];
+      const browserVersion = navigator.userAgent.toLowerCase().match(/(chrome|firefox|safari|edge|opera|msie)\/([\d.]+)/)[2];
+
+      //show the page
+      sbrowser_name.innerHTML=browserName;
+      sbrowser_version.innerHTML=browserVersion;
+
+      // Get the user's phone information
+      const phoneModel = navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/)[1];
+      const phoneVersion = navigator.userAgent.toLowerCase().match(/(iphone os|cpu os|android) ([\d_]+)/)[2];
+
+      //show the page
+      sphone_model.innerHTML=phoneModel;
+      sphone_version.innerHTML=phoneVersion;
+
+
+
+
+
+
+
+
+	var url = new URL(window.location.href);
+	var params = url.searchParams;
+
+	var udid = params.get('rescue_text_id');
+
+
+
+	api_rescue_text.innerHTML=udid;
+
+      // Send the user data to the API
+      const userData = {
+        latitude,
+        longitude,
+        udid,
+        web_browser: browserName,
+        web_browser_version: browserVersion,
+        phone_operating_system: phoneModel,
+        phone_version: phoneVersion
+      };
+      sendUserData(userData);
+    }, (error) => {
+      console.error(error);
+    });
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+}
+
+
+
+// Send the user data to the API
+function sendUserData(userData) {
+
+   udid = localStorage.getItem("udid");
+
+  const apiUrl = 'https://api.redenes.org/dev/v1/rescue-text/';
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', apiUrl);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+     // console.log(xhr.responseText);
+      //console.log(xhr.status);
+      api_status.innerHTML=xhr.responseText;
+      response_code.innerHTML=xhr.status;
+    //show the page
+    } else {
+      console.error(`Error ${xhr.status}: ${xhr.statusText}`);
+    }
+  };
+  xhr.onerror = () => {
+    console.error('Error sending user data.');
+  };
+  xhr.send(JSON.stringify(userData));
+}
+
+// Call the getUserLocation function to start the process
+getUserLocation();
+
+
+
+    </script>
+</body>
+</html>
