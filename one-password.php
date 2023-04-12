@@ -50,7 +50,7 @@
                                                 id="password" name="password" aria-describedby="emailHelp"
                                                 placeholder="Enter Password..." required>
                                         </div>
-                                        <p id="danger-txt" class="d-none text-danger text-center">Sorry, try to use another code</p>
+                                        <p id="danger-txt" class="d-none text-danger text-center">Incorrect Code</p>
                                         <button class="btn btn-primary btn-user btn-block">
                                             Send Code
     </button>
@@ -100,7 +100,7 @@
                             document.getElementById('danger-txt').classList.remove('d-none');
                         }
                         else if(data.status == 200) {
-                            window.location.replace("login");
+                            window.location.replace("update-password");
                         }
                     }
                 })
