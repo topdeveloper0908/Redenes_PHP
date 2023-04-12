@@ -140,7 +140,7 @@ session_start();
                         if(data.status == 404) {
                             document.getElementById('danger-txt').classList.remove('d-none');
                         }
-                        else if(data.status == 203) {
+                        else  {
                             window.location.replace("new-incident");
                         }
                     }

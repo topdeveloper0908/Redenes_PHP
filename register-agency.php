@@ -43,7 +43,7 @@ $authorization = $_COOKIE['authorization'];
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form action="">
+                    <form id="myform">
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
                             <h1 class="h3 mt-5 mb-4 text-gray-800">Register Agency</h1>
@@ -62,12 +62,12 @@ $authorization = $_COOKIE['authorization'];
                                         <div class="form-group">
                                             <label>Agency Name</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-name" placeholder="Enter Agency Name...">
+                                                id="agency-name" placeholder="Enter Agency Name..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Abbreviation</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-abbreviation" placeholder="Enter Agency Abbreviation...">
+                                                id="agency-abbreviation" placeholder="Enter Agency Abbreviation..." required>
                                         </div>
                                     </div>
                                 </div>
@@ -80,28 +80,28 @@ $authorization = $_COOKIE['authorization'];
                                         <div class="form-group">
                                             <label>Street</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-street" placeholder="Enter Agency Street...">
+                                                id="agency-street" placeholder="Enter Agency Street..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-unit" placeholder="Enter Agency Unit...">
+                                                id="agency-unit" placeholder="Enter Agency Unit..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-city"
-                                                placeholder="Enter Agency City...">
+                                                placeholder="Enter Agency City..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-state" placeholder="Enter Agency State...">
+                                                id="agency-state" placeholder="Enter Agency State..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Zip Code</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-zipcode" placeholder="Enter Agency Zip Code...">
+                                                id="agency-zipcode" placeholder="Enter Agency Zip Code..." required>
                                         </div>
                                     </div>
                                 </div>
@@ -118,12 +118,12 @@ $authorization = $_COOKIE['authorization'];
                                             <label>Agency Phone Number</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-phone"
-                                                placeholder="Enter Phone Number...">
+                                                placeholder="Enter Phone Number..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Email Address</label>
                                             <input type="email" class="form-control form-control-user"
-                                                id="agency-email" placeholder="Enter Agency Email...">
+                                                id="agency-email" placeholder="Enter Agency Email..." required>
                                         </div>
                                     </div>
                                 </div>
@@ -137,35 +137,35 @@ $authorization = $_COOKIE['authorization'];
                                             <label>Street</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-P-street"
-                                                placeholder="Enter Street...">
+                                                placeholder="Enter Street..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-unit" placeholder="Enter Unit...">
+                                                id="agency-P-unit" placeholder="Enter Unit..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-city" placeholder="Enter City...">
+                                                id="agency-P-city" placeholder="Enter City..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-P-state"
-                                                placeholder="Enter State...">
+                                                placeholder="Enter State..." required>
                                         </div>
                                         <div class="form-group">
                                             <label>Zip Code</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-zipcode" placeholder="Enter Zip Code...">
+                                                id="agency-P-zipcode" placeholder="Enter Zip Code..." required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-5">
-                            <button id="save-btn" type="button" onClick="saveData()" class="btn btn-success btn-icon-split my-1 mr-2">
+                            <button id="save-btn" type="submit" class="btn btn-success btn-icon-split my-1 mr-2">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-check"></i>
                                 </span>
@@ -213,7 +213,8 @@ $authorization = $_COOKIE['authorization'];
         // document.getElementById("my-loader-element").classList.add("loader");
         document.getElementById("my-loader-element").classList.remove("loader");                
         document.getElementById("my-loader-wrapper").classList.add("d-none");
-        function saveData() {
+        document.getElementById('myform').addEventListener('submit', function(e) {
+            e.preventDefault(); //to prevent form submission
             document.getElementById("my-loader-element").classList.add("loader");
             var authorization = "<?php echo $authorization;?>";
             var formData = {
@@ -260,6 +261,7 @@ $authorization = $_COOKIE['authorization'];
                 dataType: "json",
                 contentType:'application/json',
                 success: function (data) {
+                    console.log(data);
                     var tmp='';
                     var tmp1='';
                     var index = 0;
@@ -281,7 +283,7 @@ $authorization = $_COOKIE['authorization'];
                     window.location.replace("new-incident");
                 }
             })
-        }    
+        });
     </script>
 
 </body>
