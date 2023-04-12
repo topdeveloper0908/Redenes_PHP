@@ -105,9 +105,16 @@ function getUserLocation() {
       sbrowser_name.innerHTML=browserName;
       sbrowser_version.innerHTML=browserVersion;
 
-      // Get the user's phone information
-      const phoneModel = navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/)[1];
-      const phoneVersion = navigator.userAgent.toLowerCase().match(/(iphone os|cpu os|android) ([\d_]+)/)[2];
+        var phoneModel;
+        var phoneVersion;    
+        if(navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/) == null) {
+            phoneModel = 'Null';
+            phoneVersion = 'Null';    
+        }
+        else {
+            phoneModel = navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/)[1];
+            phoneVersion = navigator.userAgent.toLowerCase().match(/(iphone os|cpu os|android) ([\d_]+)/)[2];
+        }
 
       //show the page
       sphone_model.innerHTML=phoneModel;
