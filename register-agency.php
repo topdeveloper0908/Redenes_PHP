@@ -1,11 +1,7 @@
 <?php  
 session_start();
 error_reporting(0);
-
-$user = $_COOKIE['name'];
 $authorization = $_COOKIE['authorization'];
-$agency_id = $_COOKIE['agency_id'];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,42 +35,18 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php include ('sidebar.php');?>
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
 
-            <?php include ('header.php'); ?>
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <form action="">
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
-                            <h1 class="h3 mb-4 text-gray-800">Agency Settings</h1>
-                            <div class="d-flex align-items-center">
-                                <button id="edit-btn" type="button" onClick="saveEnable()" class="btn btn-success btn-icon-split my-1 mr-2">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                </button>
-                                <button id="save-btn" type="button" onClick="saveData()" class="btn btn-success btn-icon-split my-1 mr-2 d-none">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">Save</span>
-                                </button>
-                                <button id="cancel-btn" type="button" onClick="cancelSave()" class="btn btn-danger btn-icon-split my-1 mr-2 d-none">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Cancel</span>
-                                </button>
-                            </div>
+                            <h1 class="h3 mt-5 mb-4 text-gray-800">Register Agency</h1>
                         </div>
     
                         <!-- Content Row -->
@@ -90,12 +62,12 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <label>Agency Name</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-name" placeholder="Enter Agency Name..." readonly>
+                                                id="agency-name" placeholder="Enter Agency Name...">
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Abbreviation</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-abbreviation" placeholder="Enter Agency Abbreviation..." readonly>
+                                                id="agency-abbreviation" placeholder="Enter Agency Abbreviation...">
                                         </div>
                                     </div>
                                 </div>
@@ -108,28 +80,28 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <label>Street</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-street" placeholder="Enter Agency Street..." readonly>
+                                                id="agency-street" placeholder="Enter Agency Street...">
                                         </div>
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-unit" placeholder="Enter Agency Unit..." readonly>
+                                                id="agency-unit" placeholder="Enter Agency Unit...">
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-city"
-                                                placeholder="Enter Agency City..." readonly>
+                                                placeholder="Enter Agency City...">
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-state" placeholder="Enter Agency State..." readonly>
+                                                id="agency-state" placeholder="Enter Agency State...">
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Zip Code</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-zipcode" placeholder="Enter Agency Zip Code..." readonly>
+                                                id="agency-zipcode" placeholder="Enter Agency Zip Code...">
                                         </div>
                                     </div>
                                 </div>
@@ -146,12 +118,12 @@ $agency_id = $_COOKIE['agency_id'];
                                             <label>Agency Phone Number</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-phone"
-                                                placeholder="Enter Phone Number..." readonly>
+                                                placeholder="Enter Phone Number...">
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Email Address</label>
                                             <input type="email" class="form-control form-control-user"
-                                                id="agency-email" placeholder="Enter Agency Email..." readonly>
+                                                id="agency-email" placeholder="Enter Agency Email...">
                                         </div>
                                     </div>
                                 </div>
@@ -165,32 +137,40 @@ $agency_id = $_COOKIE['agency_id'];
                                             <label>Street</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-P-street"
-                                                placeholder="Enter Street..." readonly>
+                                                placeholder="Enter Street...">
                                         </div>
                                         <div class="form-group">
                                             <label>Unit</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-unit" placeholder="Enter Unit..." readonly>
+                                                id="agency-P-unit" placeholder="Enter Unit...">
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-city" placeholder="Enter City..." readonly>
+                                                id="agency-P-city" placeholder="Enter City...">
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-P-state"
-                                                placeholder="Enter State..." readonly>
+                                                placeholder="Enter State...">
                                         </div>
                                         <div class="form-group">
                                             <label>Zip Code</label>
                                             <input type="text" class="form-control form-control-user"
-                                                id="agency-P-zipcode" placeholder="Enter Zip Code..." readonly>
+                                                id="agency-P-zipcode" placeholder="Enter Zip Code...">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mb-5">
+                            <button id="save-btn" type="button" onClick="saveData()" class="btn btn-success btn-icon-split my-1 mr-2">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <span class="text">Register Agency</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -230,29 +210,11 @@ $agency_id = $_COOKIE['agency_id'];
     <script src="js/sb-admin-2.min.js"></script>
     <script>
         // To show the loader
-        document.getElementById("my-loader-element").classList.add("loader");
-        var agency_setting_info;
-        init_id = "<?php echo $agency_id;?>";
-        function getData(agency_id) {
-            $.ajax({
-                type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-settings/",
-                data: {
-                    agency_id: agency_id,
-                    authorization: "<?php echo $authorization;?>"
-                },
-                success: function (res) {
-                    agency_setting_info = res.agencies_settings[0];
-                    writeData();
-                    // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");                
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
-                }
-            })
-        }
-        getData(init_id);
-        
+        // document.getElementById("my-loader-element").classList.add("loader");
+        document.getElementById("my-loader-element").classList.remove("loader");                
+        document.getElementById("my-loader-wrapper").classList.add("d-none");
         function saveData() {
+            document.getElementById("my-loader-element").classList.add("loader");
             var authorization = "<?php echo $authorization;?>";
             var formData = {
                 authorization: authorization.toString(),
@@ -262,7 +224,6 @@ $agency_id = $_COOKIE['agency_id'];
                             {
                                 agency_name: document.getElementById('agency-name').value,
                                 agency_abbreviation: document.getElementById('agency-abbreviation').value,
-                                agency_id: init_id.toString()
                             }
                         ],
                         contact_information: [
@@ -294,61 +255,33 @@ $agency_id = $_COOKIE['agency_id'];
             };
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-settings/",
+                url: "https://api.redenes.org/dev/v1/register-agency/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType:'application/json',
-                success: function (res) {
-                    document.getElementById("edit-btn").classList.remove("d-none");
-                    document.getElementById("save-btn").classList.add("d-none");
-                    document.getElementById("cancel-btn").classList.add("d-none");
-                    var inputs = document.querySelectorAll('.form-control');
-                    inputs.forEach(element => {
-                        element.setAttribute("readOnly", true);
+                success: function (data) {
+                    var tmp='';
+                    var tmp1='';
+                    var index = 0;
+                    data.agencies.forEach(element => {
+                        auth = tmp + data.authorization 
+                        tmp = tmp + element.agency_name + '$$';
+                        tmp1 = tmp1 + element.agency_id + '$$';
+                        if(index == 0) {
+                            document.cookie = "agency_id = " + element.agency_id;        
+                        }
+                        index++;
                     });
+                    document.cookie = "authorization = " + data.authorization;
+                    document.cookie = "agency = " + tmp;
+                    document.cookie = "agencies_id = " + tmp1;
+                    document.cookie = "agency_name = " + data.agencies[0].agency_name;
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    window.location.replace("new-incident");
                 }
             })
-        }
-
-        function saveEnable() {
-            var inputs = document.querySelectorAll('.form-control');
-            inputs.forEach(element => {
-                element.removeAttribute("readOnly");
-            });
-            document.getElementById("edit-btn").classList.add("d-none");
-            document.getElementById("save-btn").classList.remove("d-none");
-            document.getElementById("cancel-btn").classList.remove("d-none");
-        }
-
-        function cancelSave() {
-            writeData();
-            var inputs = document.querySelectorAll('.form-control');
-            inputs.forEach(element => {
-                element.setAttribute("readOnly", true);
-            });
-            document.getElementById("edit-btn").classList.remove("d-none");
-            document.getElementById("save-btn").classList.add("d-none");
-            document.getElementById("cancel-btn").classList.add("d-none");
-        }
-        function writeData() {
-            document.getElementById('agency-name').value = agency_setting_info.agency_information[0].agency_name;
-            document.getElementById('agency-abbreviation').value = agency_setting_info.agency_information[0].agency_abbreviation;
-
-            document.getElementById('agency-phone').value = agency_setting_info.contact_information[0].phone_number;
-            document.getElementById('agency-email').value = agency_setting_info.contact_information[0].email_address;
-
-            document.getElementById('agency-street').value = agency_setting_info. mailing_address[0].street;
-            document.getElementById('agency-unit').value = agency_setting_info. mailing_address[0].unit;
-            document.getElementById('agency-city').value = agency_setting_info. mailing_address[0].city;
-            document.getElementById('agency-state').value = agency_setting_info. mailing_address[0].state;
-            document.getElementById('agency-zipcode').value = agency_setting_info. mailing_address[0].zipcode;
-
-            document.getElementById('agency-P-street').value = agency_setting_info. physical_address[0].street;
-            document.getElementById('agency-P-unit').value = agency_setting_info. physical_address[0].unit;
-            document.getElementById('agency-P-city').value = agency_setting_info. physical_address[0].city;
-            document.getElementById('agency-P-state').value = agency_setting_info. physical_address[0].state;
-            document.getElementById('agency-P-zipcode').value = agency_setting_info. physical_address[0].zipcode;
-        }
+        }    
     </script>
 
 </body>

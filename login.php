@@ -118,6 +118,10 @@ session_start();
                         var tmp='';
                         var tmp1='';
                         var index = 0;
+                        if(data.agencies.length == 0) {
+                            document.cookie = "authorization = " + data.authorization;
+                            window.location.replace("register-agency");
+                        }
                         data.agencies.forEach(element => {
                             auth = tmp + data.authorization 
                             tmp = tmp + element.agency_name + '$$';
@@ -136,7 +140,7 @@ session_start();
                         if(data.status == 404) {
                             document.getElementById('danger-txt').classList.remove('d-none');
                         }
-                        else if(data.status == 200) {
+                        else if(data.status == 203) {
                             window.location.replace("new-incident");
                         }
                     }
