@@ -462,6 +462,9 @@ if (strlen($user) == 0) {
                     document.getElementById('mailing-state').innerHTML = 'State: ' + agency_info.mailing_address[0].state;
                     document.getElementById('mailing-zipcode').innerHTML = 'Zipcode: ' + agency_info.mailing_address[0].zipcode;
 
+                    document.getElementById('agency-phone-number').innerHTML = agency_info.phone_number;
+                    document.getElementById('agency-email-address').innerHTML = agency_info.email_address;
+
                     document.getElementById('trial-end-date').innerHTML = agency_info.trial_end_date;
                     document.getElementById('subscription-expires').innerHTML = agency_info.subscription_expires;
 
