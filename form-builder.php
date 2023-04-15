@@ -141,14 +141,13 @@ if (strlen($user) == 0) {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
 <script>
-        // To show the loader
-        document.getElementById("my-loader-element").classList.add("loader");
-        
-        document.getElementById("my-loader-element").classList.remove("loader");                
-        document.getElementById("my-loader-wrapper").classList.add("d-none");
-    </script>
+    // To show the loader
+    document.getElementById("my-loader-element").classList.add("loader");
+    
+    document.getElementById("my-loader-element").classList.remove("loader");                
+    document.getElementById("my-loader-wrapper").classList.add("d-none");
+</script>
 </body>
 
 </html>

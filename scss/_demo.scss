@@ -98,3 +98,50 @@
         color: black;
     }
 }
+.well {
+    .well-sm {
+        max-width: 1400px;
+    }
+    .formbuilder-icon-autocomplete,
+    .formbuilder-icon-date,
+    .formbuilder-icon-file,
+    .formbuilder-icon-hidden,
+    .formbuilder-icon-number,
+    .formbuilder-icon-paragraph,
+    .formbuilder-icon-radio-group,
+    .formbuilder-icon-textarea {
+        display: none;
+    }
+    .select-field {
+        &.form-field {
+            .subtype-wrap,
+            .style-wrap,
+            .className-wrap,
+            .name-wrap,
+            .textColor-wrap,
+            .required-wrap,
+            .description-wrap,
+            .buttonColor-wrap,
+            .multiple-wrap,
+            .option-value,
+            .toggle-wrap,
+            .inline-wrap,
+            .other-wrap,
+            .access-wrap {
+                display: none !important;
+            }
+            .option-label {
+                width: 100% !important;
+            }
+        }
+    }
+    .checkbox-group-field {
+        .option-value,
+        .option-actions {
+            display: none !important;
+        }
+        .option-label {
+            width: 100% !important;
+        }
+    }
+}
