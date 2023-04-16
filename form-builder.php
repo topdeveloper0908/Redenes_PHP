@@ -73,7 +73,7 @@ if (strlen($user) == 0) {
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800">REDENES Form Builder</h1>
                     <div class="well well-sm">
-                        <div id="build-wrap" style="padding: .5rem; background-color: lightgrey;">
+                        <div id="build-wrap">
                         </div>
                         <div id="build-preview" style="display: none;">
                             <form action="#"></form>
