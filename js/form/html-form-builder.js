@@ -94,12 +94,8 @@ $(document).ready(function (e) {
             else if(element.type == 'checkbox-group') {
                 var object = {
                     type: 'checkbox',
-                    values: [
-                        {
-                            label: $(element).find('.option-label')[0].value,
-                            selected: $(element).find('.option-selected')[0].value,
-                        }
-                    ]
+                    label: $(element).find('.option-label')[0].value,
+                    selected: $(element).find('.option-selected')[0].value,
                 };
                 array.push(object);
             }
