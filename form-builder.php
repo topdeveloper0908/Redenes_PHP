@@ -69,7 +69,7 @@ if (strlen($user) == 0) {
                         <div class="mb-4">  
                             <h4 class="mb-2">Module: <span id="module"></span></h4>
                             <h4>Form Name: <span id="form"></span></h4>
-                            <div class="d-flex align-items-center">
+                            <div class="d-md-flex align-items-center">
                                 <div class="btn-group align-items-center mt-2" role="group">
                                     <button type="button" id="preview" class="btn btn-info">Preview</button>
                                     <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
@@ -78,7 +78,7 @@ if (strlen($user) == 0) {
                                     <button type="button" id="getJSON" class="btn btn-success mx-2">Save</button>
                                     <button type="button" id="clear" class="btn btn-danger">Cancel</button>
                                 </div>
-                                <div id="alert" class="card mb-0 ml-5 mt-2 d-none">
+                                <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                     <div class="card-header py-2">
                                         <h6 id="alert-title" class="m-0 font-weight-bold text-danger">asfdafdsfaf</h6>
                                     </div>
