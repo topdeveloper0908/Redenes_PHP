@@ -186,11 +186,11 @@ if (strlen($user) == 0) {
                         tmp = tmp + "<div class='form-group'><label>"+object[j].text_box+"</label><input id='incident_ob"+i.toString()+"_text"+j.toString()+"' type='text' class='form-control form-control-user' placeholder='' aria-label='Search' aria-describedby='basic-addon2' value='"+ object[j].pre_filled +"'></div>";
                     }
                     else if(Object.keys(object[j])[0] == 'check_box') {
-                        tmp = tmp + "<div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' id='incident_ob"+i.toString()+"_check"+j.toString()+"'";
+                        tmp = tmp + "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' id='incident_ob"+i.toString()+"_check"+j.toString()+"'";
                         if(object[j].pre_filled == 'true') {
                             tmp = tmp + "checked";
                         }
-                        tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div>";
+                        tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div></div>";
                     }
                     else if(Object.keys(object[j])[0] == 'drop_down') {
                         tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
