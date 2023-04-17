@@ -128,7 +128,7 @@ if (strlen($user) == 0) {
                 }
                 tmp = tmp + "<div class='font-weight-bold text-uppercase mt-2 mb-0' style='color:"+object[0].color+"'>"+object[0].incident_id+"</div>";
                 tmp = tmp + "</div>"
-                tmp = tmp + "<div class='col-auto'><img src='img/"+object[0].icon+".png'></div>";
+                tmp = tmp + "<div class='col-auto'><img src='"+object[0].icon+"'></div>";
                 tmp = tmp + "</div></div></a></div>";
             }
             document.getElementById("incident-content").innerHTML = tmp;

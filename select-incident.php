@@ -137,6 +137,7 @@ if (strlen($user) == 0) {
                     incident_id: "<?php echo $incident_id;?>"
                 },
                 success: function (res) {
+                    console.log(res);
                     writeData(res);
                     formData = res;
                     // To hide the loader
@@ -148,14 +149,6 @@ if (strlen($user) == 0) {
         function writeData(content) {
             increment = content.new_incident_increment;
             var tmp='';
-            
-            if(content.buttons) {
-               tmp = tmp + "<div class='d-flex'>";
-               for (var i = 0; i < content.buttons.length; i++) {
-                   tmp = tmp + "<button type='button' onclick='saveData("+i+")' class='btn mb-4 mr-2' style='background-color:"+content.buttons[i].background+";color:"+content.buttons[i].text+"'></span><span class='text'>"+content.buttons[i].button+"</span></button>";
-               }
-               tmp = tmp + "</div>"
-            }
             for (var i = 0; i < content.objects.length; i++) {
                 object = content.objects[i];
                 tmp = tmp + "<div class='card shadow mb-4'><div class='card-header py-3'><label class='m-0 font-weight-bold text-primary'>" + object[0].title + "</label></div><div class='card-body'>";    
@@ -177,7 +170,7 @@ if (strlen($user) == 0) {
                         }
                         tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div>";
                     }
-                    if(Object.keys(object[j])[0] == 'drop_down') {
+                    else if(Object.keys(object[j])[0] == 'drop_down') {
                         tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
                         tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm mb-4'";
                         if(content.status == 'false') {
@@ -193,6 +186,13 @@ if (strlen($user) == 0) {
                         }
                         tmp = tmp + "</select></div>";
                     }
+                    else if(Object.keys(object[j])[0] == 'buttons') {
+                        tmp = tmp + "<div class='d-flex justify-content-center'>";
+                        for (let index = 0; index < object[j].buttons.length; index++) {
+                            tmp = tmp + "<button type='button' onclick='saveData("+i+','+j+','+index+")' class='btn my-1 mr-2' style='background-color:"+object[j].buttons[index].background+";color:"+object[j].buttons[index].text+"'></span><span class='text'>"+object[j].buttons[index].button+"</span></button>";
+                        }
+                        tmp = tmp + "</div>"
+                    }
                 }
                 tmp = tmp + "</div></div>";
             }   
@@ -203,7 +203,7 @@ if (strlen($user) == 0) {
             document.cookie = "agency_id = " + agency_id;
             window.location.replace("overview");
         }
-        function saveData(index) {
+        function saveData(a,b,c) {
             for (var i = 0; i < formData.objects.length; i++) {
                 for (var j = 0; j < formData.objects[i].length; j++) {
                     if(Object.keys(formData.objects[i][j])[0] == 'text_box') {
@@ -220,8 +220,8 @@ if (strlen($user) == 0) {
                     }
                 }     
             }
-            if(formData.buttons) {
-                formData.buttons[index].clicked = 'true';
+            if(formData.objects[a][b].buttons[c]) {
+                formData.objects[a][b].buttons[c].clicked = 'true';
             }
             $.ajax({
                 type: "POST",
