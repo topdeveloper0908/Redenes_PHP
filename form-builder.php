@@ -70,7 +70,7 @@ if (strlen($user) == 0) {
                             <h4 class="mb-2">Module: <span id="module"></span></h4>
                             <h4>Form Name: <span id="form"></span></h4>
                             <div class="d-md-flex align-items-center">
-                                <div class="btn-group align-items-center mt-2" role="group">
+                                <div class="align-items-center mt-2" role="group">
                                     <button type="button" id="preview" class="btn btn-info">Preview</button>
                                     <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
                                     <button type="button" id="getXML" class="btn btn-success">Get XML</button>
@@ -231,7 +231,7 @@ if (strlen($user) == 0) {
                 array.push(object);
             }
         }
-        formData.form_Data = array;
+        formData.form_data = array;
         formData.button = 'save';
         document.getElementById("my-loader-element").classList.add("loader");
         $.ajax({
