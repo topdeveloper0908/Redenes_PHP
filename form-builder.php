@@ -69,13 +69,20 @@ if (strlen($user) == 0) {
                         <div class="mb-4">  
                             <h4 class="mb-2">Module: <span id="module"></span></h4>
                             <h4>Form Name: <span id="form"></span></h4>
-                            <div class="btn-group" style="margin-top: 10px;" role="group">
-                                <button type="button" id="preview" class="btn btn-info">Preview</button>
-                                <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
-                                <button type="button" id="getXML" class="btn btn-success">Get XML</button>
-                                <button type="button" id="getJSON" class="btn btn-success">Get JSON</button> -->
-                                <button type="button" id="getJSON" class="btn btn-success">Save</button>
-                                <button type="button" id="clear" class="btn btn-danger">Cancel</button>
+                            <div class="d-flex align-items-center">
+                                <div class="btn-group align-items-center mt-2" role="group">
+                                    <button type="button" id="preview" class="btn btn-info">Preview</button>
+                                    <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
+                                    <button type="button" id="getXML" class="btn btn-success">Get XML</button>
+                                    <button type="button" id="getJSON" class="btn btn-success">Get JSON</button> -->
+                                    <button type="button" id="getJSON" class="btn btn-success mx-2">Save</button>
+                                    <button type="button" id="clear" class="btn btn-danger">Cancel</button>
+                                </div>
+                                <div id="alert" class="card mb-0 ml-5 mt-2 d-none">
+                                    <div class="card-header py-2">
+                                        <h6 id="alert-title" class="m-0 font-weight-bold text-danger">asfdafdsfaf</h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div id="build-wrap" class="mb-4">
@@ -139,6 +146,7 @@ if (strlen($user) == 0) {
     // To show the loader
     document.getElementById("my-loader-element").classList.add("loader");
     var actions = [];
+    var formData;
     async function getFormData() {
         await $.ajax({
             type: "GET",
@@ -150,6 +158,7 @@ if (strlen($user) == 0) {
             },
             success: function (res) {
                 console.log(res);
+                formData = res;
                 actions.push(res.action_one);
                 actions.push(res.action_two);
                 actions.push(res.action_three);
@@ -163,6 +172,84 @@ if (strlen($user) == 0) {
         })
     }
     getFormData();
+    $("#getJSON").click(function (e) {
+        e.preventDefault();
+        elements = $('.frmb').children();
+        array = [];
+        for (let index = 0; index < elements.length; index++) {
+            const element = elements[index];
+            if(element.type == 'button') {
+                var object = {
+                    type: 'button',
+                    label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                    textColor: $(element).find('.textColor-wrap .fld-textColor')[0].value,
+                    buttonColor: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value,
+                    action1: $(element).find('.action1-wrap .custom-select')[0].value,
+                    action2: $(element).find('.action2-wrap .custom-select')[0].value,
+                    action3: $(element).find('.action3-wrap .custom-select')[0].value,
+                    action4: $(element).find('.action4-wrap .custom-select')[0].value,
+                };
+                array.push(object);
+            }
+            else if(element.type == 'checkbox-group') {
+                var object = {
+                    type: 'checkbox',
+                    label: $(element).find('.option-label')[0].value,
+                    selected: $(element).find('.option-selected')[0].value,
+                };
+                array.push(object);
+            }
+            else if(element.type == 'header') {
+                var object = {
+                    type: 'header',
+                    label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                };
+                array.push(object);
+            }
+            else if(element.type == 'text') {
+                var object = {
+                    type: 'text',
+                    label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                    prefiled: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                };
+                array.push(object);
+            }
+            else if(element.type == 'select') {
+                var object = {
+                    type: 'dropdown',
+                    label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                    multiple: $(element).find('.input-wrap .fld-multiple')[0].checked,
+                    values: []
+                };
+                subelements = $(element).find('.form-group .sortable-options').children();
+                for (let j = 0; j < subelements.length; j++) {
+                    object.values.push({
+                        label: $(subelements[j]).find('.option-label')[0].value,
+                        selected: $(subelements[j]).find('.option-selected')[0].value
+                    });
+                }
+                array.push(object);
+            }
+        }
+        formData.form_Data = array;
+        formData.button = 'save';
+        document.getElementById("my-loader-element").classList.add("loader");
+        $.ajax({
+            type: "POST",
+            url: "https://api.redenes.org/dev/v1/form-builder/",
+            data: JSON.stringify(formData),
+            dataType: "json",
+            contentType:'application/json',
+            success: function (res) {
+                console.log(res.form);
+                document.getElementById("alert").classList.remove("d-none");    
+                document.getElementById("alert-title").innerHTML = res.form;    
+
+                document.getElementById("my-loader-element").classList.remove("loader");                
+                document.getElementById("my-loader-wrapper").classList.add("d-none");
+            }
+        })
+    });
 </script>
 <!-- Form Builder JavaScript-->
 <script src="js/form/vkbeautify.min.js"></script>
