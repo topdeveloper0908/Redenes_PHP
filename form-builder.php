@@ -10,7 +10,7 @@ if (strlen($user) == 0) {
     $_SESSION['user']= $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
     $agency_id = $_COOKIE['agency_id'];
-    $agencies = explode("$$", $_COOKIE['agency']);
+    $form_id = $_REQUEST['incident_id'];
 ?>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -19,13 +19,6 @@ if (strlen($user) == 0) {
 <!-- Core plugin JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-<!-- Form Builder JavaScript-->
-<script src="js/form/vkbeautify.min.js"></script>
-<script src="js/form/beauty.js"></script>
-<script src="js/form/html-beauty.js"></script>
-<script src="js/form/form-builder.min.js"></script>
-<script src="js/form/form-render.min.js"></script>
-<script src="js/form/html-form-builder.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,14 +64,11 @@ if (strlen($user) == 0) {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800">REDENES Form Builder</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Form Builder</h1>
                     <div class="well well-sm">
-                        <div id="build-wrap">
-                        </div>
-                        <div id="build-preview" style="display: none;">
-                            <form action="#"></form>
-                        </div>
-                        <div class="text-center mb-4">
+                        <div class="mb-4">  
+                            <h4 class="mb-2">Module: <span id="module"></span></h4>
+                            <h4>Form Name: <span id="form"></span></h4>
                             <div class="btn-group" style="margin-top: 10px;" role="group">
                                 <button type="button" id="preview" class="btn btn-info">Preview</button>
                                 <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
@@ -86,6 +76,11 @@ if (strlen($user) == 0) {
                                 <button type="button" id="getJSON" class="btn btn-success">Get JSON</button>
                                 <button type="button" id="clear" class="btn btn-danger">Clear</button>
                             </div>
+                        </div>
+                        <div id="build-wrap" class="mb-4">
+                        </div>
+                        <div id="build-preview" style="display: none;">
+                            <form action="#"></form>
                         </div>
                     </div>
                     <div class="well well-sm" id="outDiv" style="display:none;">
@@ -137,17 +132,44 @@ if (strlen($user) == 0) {
             </div>
         </div>
     </div>
-
-
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 <script>
     // To show the loader
     document.getElementById("my-loader-element").classList.add("loader");
-    
-    document.getElementById("my-loader-element").classList.remove("loader");                
-    document.getElementById("my-loader-wrapper").classList.add("d-none");
+    var actions = [];
+    async function getFormData() {
+        await $.ajax({
+            type: "GET",
+            url: "https://api.redenes.org/dev/v1/form-builder/",
+            data: {
+                agency_id: "<?php echo $agency_id;?>",
+                authorization: "<?php echo $authorization;?>",
+                form_id: "<?php echo $incident_id;?>"
+            },
+            success: function (res) {
+                console.log(res);
+                actions.push(res.action_one);
+                actions.push(res.action_two);
+                actions.push(res.action_three);
+                actions.push(res.action_four);
+                // To hide the loader
+                document.getElementById("module").innerHTML = res.module;
+                document.getElementById("form").innerHTML = res.form_name;
+                document.getElementById("my-loader-element").classList.remove("loader");                
+                document.getElementById("my-loader-wrapper").classList.add("d-none");
+            }
+        })
+    }
+    getFormData();
 </script>
+<!-- Form Builder JavaScript-->
+<script src="js/form/vkbeautify.min.js"></script>
+<script src="js/form/beauty.js"></script>
+<script src="js/form/html-beauty.js"></script>
+<script src="js/form/form-builder.min.js"></script>
+<script src="js/form/form-render.min.js"></script>
+<script src="js/form/html-form-builder.js"></script>
 </body>
 
 </html>

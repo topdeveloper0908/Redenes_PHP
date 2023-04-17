@@ -1,3 +1,9 @@
+<?php  
+$phone = $_COOKIE['cell_number'];
+if (strlen($phone) == 0) {
+    header('location:forgot-password');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,6 +94,7 @@
             $("form").submit(function (event) {
                 var formData = {
                     one_time_password: $("#password").val(),
+                    cell_number: <?php echo $phone;?>
                 };
                 $.ajax({
                     type: "POST",
