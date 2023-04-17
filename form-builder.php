@@ -10,7 +10,7 @@ if (strlen($user) == 0) {
     $_SESSION['user']= $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
     $agency_id = $_COOKIE['agency_id'];
-    $form_id = $_REQUEST['incident_id'];
+    $form_id = $_REQUEST['form_id'];
 ?>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -71,10 +71,11 @@ if (strlen($user) == 0) {
                             <h4>Form Name: <span id="form"></span></h4>
                             <div class="btn-group" style="margin-top: 10px;" role="group">
                                 <button type="button" id="preview" class="btn btn-info">Preview</button>
-                                <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
+                                <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
                                 <button type="button" id="getXML" class="btn btn-success">Get XML</button>
-                                <button type="button" id="getJSON" class="btn btn-success">Get JSON</button>
-                                <button type="button" id="clear" class="btn btn-danger">Clear</button>
+                                <button type="button" id="getJSON" class="btn btn-success">Get JSON</button> -->
+                                <button type="button" id="getJSON" class="btn btn-success">Save</button>
+                                <button type="button" id="clear" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
                         <div id="build-wrap" class="mb-4">
@@ -145,7 +146,7 @@ if (strlen($user) == 0) {
             data: {
                 agency_id: "<?php echo $agency_id;?>",
                 authorization: "<?php echo $authorization;?>",
-                form_id: "<?php echo $incident_id;?>"
+                form_id: "<?php echo $form_id;?>"
             },
             success: function (res) {
                 console.log(res);
