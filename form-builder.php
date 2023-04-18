@@ -143,7 +143,7 @@ if (strlen($user) == 0) {
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 <script>
-    // To show the loader
+    // To show the loader    
     document.getElementById("my-loader-element").classList.add("loader");
     var actions = [];
     var formData;
@@ -158,12 +158,19 @@ if (strlen($user) == 0) {
             },
             success: function (res) {
                 console.log(res);
+                // id = $('.frmb').attr('id');
+                var mainTemp = '';
+                if(res.form_html != '') {
+                    $('.frmb').removeClass('empty');
+                }
                 formData = res;
                 actions.push(res.action_one);
                 actions.push(res.action_two);
                 actions.push(res.action_three);
                 actions.push(res.action_four);
                 // To hide the loader
+
+                $('.frmb').html(mainTemp);
                 document.getElementById("module").innerHTML = res.module;
                 document.getElementById("form").innerHTML = res.form_name;
                 document.getElementById("my-loader-element").classList.remove("loader");                
@@ -231,9 +238,11 @@ if (strlen($user) == 0) {
                 array.push(object);
             }
         }
-        formData.form_data = array;
+        formData.form_data_html = $.parseHTML($('.frmb').html());
+        formData.form_data_json = array;
         formData.button = 'save';
         document.getElementById("my-loader-element").classList.add("loader");
+        console.log(formData);
         $.ajax({
             type: "POST",
             url: "https://api.redenes.org/dev/v1/form-builder/",
