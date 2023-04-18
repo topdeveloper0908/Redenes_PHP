@@ -7,23 +7,23 @@ $(document).ready(function (e) {
 
     var formBuilder = $("#build-wrap").formBuilder(formBuilderOptions);
 
-    $("#preview").click(function (e) {
-        e.preventDefault();
-        if ($("#build-wrap").is(":visible")) {
-            $("#build-wrap").hide();
-            $("#build-preview").show();
-            $(this).text("Edit");
+    // $("#preview").click(function (e) {
+    //     e.preventDefault();
+    //     if ($("#build-wrap").is(":visible")) {
+    //         $("#build-wrap").hide();
+    //         $("#build-preview").show();
+    //         $(this).text("Edit");
 
-            $("form", $("#build-preview")).formRender({
-                formData: formBuilder.formData
-            });
-        }
-        else {
-            $("#build-preview").hide();
-            $("#build-wrap").show();
-            $(this).text("Preview");
-        }
-    });
+    //         $("form", $("#build-preview")).formRender({
+    //             formData: formBuilder.formData
+    //         });
+    //     }
+    //     else {
+    //         $("#build-preview").hide();
+    //         $("#build-wrap").show();
+    //         $(this).text("Preview");
+    //     }
+    // });
 
     $("#getHTML").click(function (e) {
         e.preventDefault();
