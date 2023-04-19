@@ -144,8 +144,8 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='formatType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
-                                <option value="Display">Display</option>
+                            <select name='formatType' id='formatType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                                <option value="Display" selected>Display</option>
                                 <option value="Form">Form</option>
                             </select>
                         </div>
@@ -157,9 +157,8 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='formatType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
-                            Status, Schedule, Supplies, Training, Daily, Vehicles, Equipment, Resources, New Incident, Audio, Mutual Aid, Locations, Maps, Communications, Internal, Incident Types, ICS, Personal Profile, Agency Profile, App Settings, Certifications, Connect Settings
-                                <option value="Status">Status</option>
+                            <select id="formatModule" name='formatModule' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                                <option value="Status" selected>Status</option>
                                 <option value="Schedule">Schedule</option>
                                 <option value="Supplies">Supplies</option>
                                 <option value="Training">Training</option>
@@ -191,7 +190,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <input type='text' class='form-control small' name="formatName"/>
+                            <input type='text' class='form-control small' name="formatName" id="formatName" required />
                         </div>
                     </div>
                 </div>
@@ -265,13 +264,37 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp +=  "<td>"+element.created_by+"</td>";
                 tmp +=  "<td>"+element.last_edit+"</td>";
                 tmp +=  "<td>"+element.status+"</td>";
-                tmp += "<td><a href='' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
+                tmp += "<td><a href='form-builder?form_id="+element.format_id+"' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "</tr>";
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
         } 
+        $('#createModuleForm').submit(function(e){
+            document.getElementById("my-loader-element").classList.add("loader");                
+            e.preventDefault();
+            var authorization = "<?php echo $authorization;?>";
+            var formData = {
+                authorization: authorization.toString(),
+                format_type: $('#formatType').val(),
+                module: $('#formatModule').val(),
+                format_name: $('#formatName').val()
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-modules/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                success: function (res) {
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    window.location.replace('form-builder?form_id='+res.format_id);
+                }
+            })
+            console.log('error');
+        })
 
         var modal = document.getElementById("myModal");
         // Get the button that opens the modal
