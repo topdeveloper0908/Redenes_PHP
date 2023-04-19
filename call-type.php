@@ -29,12 +29,6 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-
 </head>
 
 <body id="page-top">
@@ -122,16 +116,19 @@ $agency_id = $_COOKIE['agency_id'];
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    
+    <script>
+        // To show the loader
+        document.getElementById("my-loader-element").classList.add("loader");
+    </script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    
     <script>
-        // To show the loader
-        // To show the loader
-        document.getElementById("my-loader-element").classList.add("loader");
         var mainData;
         init_id = "<?php echo $agency_id;?>";
         function getData(agency_id) {
@@ -156,7 +153,7 @@ $agency_id = $_COOKIE['agency_id'];
         function writeData(mainData) {
             var tmp = '';
             mainData.forEach(element => {
-                tmp += "<tr><td>" + element.id + "</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_type + "' readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_abbreviation + "' readOnly></td><td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='check'" + (element.active == "false" ? "" : "checked") + " disabled><label class='custom-control-label' for='check'></label></div></td><td><button type='button' class='btn btn-success btn-icon-split my-1 mr-2 btn-save'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='btn btn-danger btn-icon-split my-1 mr-2 d-none btn-cancel'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td></tr>";
+                tmp += "<tr><td>" + element.id + "</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_type + "' readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_abbreviation + "' readOnly></td><td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='check'" + (element.active == "false" ? "" : "checked") + " disabled><label class='custom-control-label' for='check'></label></div></td><td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td></tr>";
             });
             document.getElementById('table-content').innerHTML = tmp;
         }
@@ -259,6 +256,9 @@ $agency_id = $_COOKIE['agency_id'];
         });
     </script>
     
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
@@ -267,9 +267,6 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/main.js"></script>f
 </body>
 
 </html>

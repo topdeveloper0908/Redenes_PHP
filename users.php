@@ -133,6 +133,10 @@ $agency_id = $_COOKIE['agency_id'];
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <script>        
+
+        document.getElementById("my-loader-element").classList.add("loader");
+    </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -158,7 +162,6 @@ $agency_id = $_COOKIE['agency_id'];
 
     <script>        
 
-        document.getElementById("my-loader-element").classList.add("loader");
         init_id = "<?php echo $agency_id;?>";
         function getData(agency_id) {
             $.ajax({
@@ -179,53 +182,75 @@ $agency_id = $_COOKIE['agency_id'];
         }
         getData(init_id);
         function writeData(mainData) {
-            console.log(mainData);
             var tmp = '';
+            var index = 0;
             mainData.forEach(element => {
-                tmp += "<tr><td class='col-id'>"+element.id+"</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value='"+element.name+"'></td><td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled><option value='Available" +element.status=='Available'?'selected':''+ ">Available</option><option value='On Call" +element.status=='On Call'?'selected':''+ ">On Call</option><option value='On Duty" +element.status=='On Duty'?'selected':''+ ">On Duty</option><option value='Off Duty" +element.status=='Off Duty'?'selected':''+ ">Off Duty</option></select></td><td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled><option value='Chief'"+element.status=='Chief'?'selected':''+">Chief</option>
-                            <option value="Operations Leader" <?php if($users_type[$i] == 'Operations Leader') {echo 'selected';}?>>Operations Leader</option>
-                            <option value="Member" <?php if($users_type[$i] == 'Member') {echo 'selected';}?>>Member</option>
-                            <option value="Support Member" <?php if($users_type[$i] == 'Support Member') {echo 'selected';}?>>Support Member</option>
-                        </select>
-                    </td>
-                    <td>
-                    <select name="dataTable_length" aria-controls="dataTable" class="custom-select form-control form-control-sm" disabled>
-                        <option value="EMT" <?php if($users_meidcal[$i] == 'EMT') {echo 'selected';}?>>EMT</option>
-                        <option value="Paramedic" <?php if($users_meidcal[$i] == 'Paramedic') {echo 'selected';}?>>Paramedic</option>
-                        <option value="Nurse" <?php if($users_meidcal[$i] == 'Nurse') {echo 'selected';}?>>Nurse</option>
-                        <option value="Doctor" <?php if($users_meidcal[$i] == 'Doctor') {echo 'selected';}?>>Doctor</option>
-                    </select>
-                    </td>
-                    <td><?php echo $users_join[$i];?></td>
-                    <td><?php echo $users_last_login[$i];?></td>
-                    <td>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="onCallCheck<?php echo $i;?>" disabled <?php if($users_admin[$i] == 'true'){echo 'checked';}?>>
-                            <label class="custom-control-label" for="onCallCheck<?php echo $i;?>"></label>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="save-btn btn btn-success btn-icon-split my-1 mr-2 d-none">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Save</span>
-                        </button>
-                        <button type="button" class="edit-btn btn btn-success btn-icon-split my-1 mr-2">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Edit</span>
-                        </button>
-                        <button type="button" class="cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                            <span class="text">Cancel</span>
-                        </button>
-                    </td>
-                </tr>
-                // tmp += "<tr><td>" + element.id + "</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_type + "' readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' value='" + element.call_abbreviation + "' readOnly></td><td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='check'" + (element.active == "false" ? "" : "checked") + " disabled><label class='custom-control-label' for='check'></label></div></td><td><button type='button' class='btn btn-success btn-icon-split my-1 mr-2 btn-save'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='btn btn-danger btn-icon-split my-1 mr-2 d-none btn-cancel'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td></tr>";
+                tmp += "<tr>";
+                tmp += "<td class='col-id'>"+element.id+"</td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value="+element.name+"></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp +="<option value='Available'";
+                if(element.status == 'Available')
+                    tmp +="selected";
+                tmp += ">Available</option>"
+                tmp +="<option value='On Call'";
+                if(element.status == 'On Call')
+                    tmp +="selected";
+                tmp += ">On Call</option>"
+                tmp +="<option value='On Duty'";
+                if(element.status == 'On Duty')
+                    tmp +="selected";
+                tmp += ">On Duty</option>"
+                tmp +="<option value='Off Duty'";
+                if(element.status == 'Off Duty')
+                    tmp +="selected";
+                tmp += ">Off Duty</option>"
+                tmp += "</select></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp +="<option value='Chief'";
+                if(element.type == 'Chief')
+                    tmp +="selected";
+                tmp += ">Chief</option>"
+                tmp +="<option value='Operations Leader'";
+                if(element.type == 'Operations Leader')
+                    tmp +="selected";
+                tmp += ">Operations Leader</option>"
+                tmp +="<option value='Member'";
+                if(element.type == 'Member')
+                    tmp +="selected";
+                tmp += ">Member</option>"
+                tmp +="<option value='Support Member'";
+                if(element.type == 'Support Member')
+                    tmp +="selected";
+                tmp += ">Support Member</option>"
+                tmp += "</select></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp +="<option value='EMT'";
+                if(element.medical == 'EMT')
+                    tmp +="selected";
+                tmp += ">EMT</option>"
+                tmp +="<option value='Paramedic'";
+                if(element.medical == 'Paramedic')
+                    tmp +="selected";
+                tmp += ">Paramedic</option>"
+                tmp +="<option value='Nurse'";
+                if(element.medical == 'Nurse')
+                    tmp +="selected";
+                tmp += ">Nurse</option>"
+                tmp +="<option value='Doctor'";
+                if(element.medical == 'Doctor')
+                    tmp +="selected";
+                tmp += ">Doctor</option>"
+                tmp += "</select></td>";
+                tmp +=  "<td>"+element.join_date+"</td>";
+                tmp +=  "<td>"+element.last_login+"</td>";
+                tmp +=  "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='onCallCheck"    +index+"' disabled ";
+                if(element.admin=='true')
+                    tmp +='checked';
+                tmp +="><label class='custom-control-label' for='onCallCheck"+index+"'></label></div></td>";
+                tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                tmp += "</tr>";
+                index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
         }

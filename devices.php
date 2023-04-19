@@ -32,9 +32,6 @@ $agency_id = $_COOKIE['agency_id'];
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
@@ -43,39 +40,6 @@ $agency_id = $_COOKIE['agency_id'];
     <div id="my-loader-wrapper"></div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-    <script>
-        // To show the loader
-        document.getElementById("my-loader-element").classList.add("loader");
-        var mainData;
-        init_id = "<?php echo $agency_id;?>";
-        async function getData(agency_id) {
-            await $.ajax({
-                type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-devices/",
-                data: {
-                    agency_id: agency_id,
-                    authorization: "<?php echo $authorization;?>"
-                },
-                success: function (res) {
-                    var tmp = '', tmp1 = '', tmp2 = '', tmp3 = '';
-                    var data = res.agencies_devices;
-                    data.forEach(element => {
-                        tmp = tmp + element.id + '$$';
-                        tmp1 = tmp1 + element.name + '$$';
-                        tmp2 = tmp2 + element.device_type + '$$';
-                        tmp3 = tmp3 + element.operating_system + '$$';
-                    });
-                    document.cookie = "agencies_devices_1 = " + tmp;
-                    document.cookie = "agencies_devices_2 = " + tmp1;
-                    document.cookie = "agencies_devices_3 = " + tmp2;
-                    document.cookie = "agencies_devices_4 = " + tmp3;
-                    document.getElementById("my-loader-element").classList.remove("loader");                
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
-                }
-            })
-        }
-        getData(init_id);
-    </script>
         <!-- Sidebar -->
         <?php include ('sidebar.php');?>
         <!-- End of Sidebar -->
@@ -121,38 +85,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             <th style="width: 12rem;">Test Notification</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                    <?php
-                                        $devices_ids = explode('$$', $_COOKIE['agencies_devices_1']);
-                                        $devices_names = explode('$$', $_COOKIE['agencies_devices_2']);
-                                        $devices_type = explode('$$', $_COOKIE['agencies_devices_3']);
-                                        $devices_system = explode('$$', $_COOKIE['agencies_devices_4']);
-                                        for ($i=0; $i < count($devices_ids)-1; $i++) { ?>
-                                        <tr>
-                                            <td class='col-id'><?php echo $devices_ids[$i];?></td>
-                                            <td>
-                                                <input type="text" class="form-control bg-light border-0 small"
-                                                placeholder="Search for..." aria-label="Search"
-                                                aria-describedby="basic-addon2" value=<?php echo $devices_names[$i];?> readOnly>
-                                            </td>
-                                            <td><input type="text" class="form-control bg-light border-0 small"
-                                                placeholder="Search for..." aria-label="Search"
-                                                aria-describedby="basic-addon2" value=<?php echo $devices_type[$i];?> readOnly>
-                                            </td>
-                                            <td><input type="text" class="form-control bg-light border-0 small"
-                                                placeholder="Search for..." aria-label="Search"
-                                                aria-describedby="basic-addon2" value=<?php echo $devices_system[$i];?> readOnly>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-icon-split btn-notification">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-flag"></i>
-                                                    </span>
-                                                    <span class="text">Send Notification</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <?php }?>
+                                    <tbody id="table-content">
                                     </tbody>
                                 </table>
                             </div>
@@ -187,6 +120,13 @@ $agency_id = $_COOKIE['agency_id'];
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <script>
+        // To show the loader
+        document.getElementById("my-loader-element").classList.add("loader");
+    </script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
@@ -207,6 +147,33 @@ $agency_id = $_COOKIE['agency_id'];
     <script src="js/main.js"></script>
 
     <script>
+        // To show the loader
+        init_id = "<?php echo $agency_id;?>";
+        async function getData(agency_id) {
+            await $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/agency-devices/",
+                async:false,
+                data: {
+                    agency_id: agency_id,
+                    authorization: "<?php echo $authorization;?>"
+                },
+                success: function (res) {
+                    var data = res.agencies_devices;
+                    writeData(data);
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        }
+        getData(init_id);
+        function writeData(mainData) {
+            var tmp = '';
+            mainData.forEach(element => {
+                tmp += "<tr><td class='col-id'>"+element.id+"</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.name+" readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.device_type+" readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.operating_system+" readOnly></td><td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Send Notification</span></button></td></tr>";
+            });
+            document.getElementById('table-content').innerHTML = tmp;
+        }
         const saveButtons = document.querySelectorAll('.btn-notification');
         saveButtons.forEach(element => {
             element.addEventListener('click', function(e) {
@@ -230,6 +197,7 @@ $agency_id = $_COOKIE['agency_id'];
                     dataType: "json",
                     contentType:'application/json',
                     success: function (res) {
+                        console.log(res);
                         // To hide the loader
                         document.getElementById("my-loader-element").classList.remove("loader");                
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
