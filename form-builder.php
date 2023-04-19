@@ -67,6 +67,7 @@ if (strlen($user) == 0) {
                     <h1 class="h3 mb-4 text-gray-800">Form Builder</h1>
                     <div class="well well-sm">
                         <div class="mb-4">  
+                            <h4 class="mb-2">Format Type: <span id="formType"></span></h4>
                             <h4 class="mb-2">Module: <span id="module"></span></h4>
                             <h4>Form Name: <span id="form"></span></h4>
                             <div class="d-md-flex align-items-center">
@@ -171,8 +172,15 @@ if (strlen($user) == 0) {
                     $('.frmb').html(mainHeader+res.form_data_html);
                 else 
                     $('.frmb').html(mainHeader);
+                if(res.format_type == 'Display') {
+                    $(".formbuilder-icon-checkbox-group").addClass("d-none");    
+                    $(".formbuilder-icon-button").addClass("d-none");    
+                    $(".formbuilder-icon-header").addClass("d-none");    
+                    $(".formbuilder-icon-select").addClass("d-none");    
+                }
                 document.getElementById("module").innerHTML = res.module;
-                document.getElementById("form").innerHTML = res.form_name;
+                document.getElementById("form").innerHTML = res.format_name;
+                document.getElementById("formType").innerHTML = res.format_type;
                 document.getElementById("my-loader-element").classList.remove("loader");                
                 document.getElementById("my-loader-wrapper").classList.add("d-none");
             }
