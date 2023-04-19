@@ -81,6 +81,12 @@
         <span>Call Types</span>
     </a>
 </li>
+<li id="module_format_item" class="nav-item">
+    <a class="nav-link" href="module-format">
+        <i class="fas fa-fw fa-fan"></i>
+        <span>Module Format</span>
+    </a>
+</li>
 <li id="users_item" class="nav-item">
     <a class="nav-link" href="users">
         <i class="fas fa-fw fa-user-friends"></i>
@@ -133,6 +139,9 @@
     }
     else if(currentUrl.includes('call-type')) {
         document.getElementById('call_item').classList.add('active');
+    }
+    else if(currentUrl.includes('module-format')) {
+        document.getElementById('module_format_item').classList.add('active');
     }
     else if(currentUrl.includes('users')) {
         document.getElementById('users_item').classList.add('active');
