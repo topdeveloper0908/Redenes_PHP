@@ -51,7 +51,7 @@ if (strlen($user) == 0) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include ('dashboard-sidebar.php');?>
+        <?php include ('sidebar.php');?>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -77,7 +77,7 @@ if (strlen($user) == 0) {
                                     <button type="button" id="getXML" class="btn btn-success">Get XML</button>
                                     <button type="button" id="getJSON" class="btn btn-success">Get JSON</button> -->
                                     <button type="button" id="getJSON" class="btn btn-success mx-2">Save</button>
-                                    <button type="button" id="clear" class="btn btn-danger">Cancel</button>
+                                    <a href="module-format" class="btn btn-danger">Cancel</a>
                                 </div>
                                 <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                     <div class="card-header py-2">
