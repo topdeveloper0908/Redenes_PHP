@@ -97,6 +97,15 @@ $agency_id = $_COOKIE['agency_id'];
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-abbreviation" placeholder="Enter Agency Abbreviation..." readonly>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Agency ID</label>
+                                            <input type="text" class="form-control form-control-user"
+                                                id="agency-id" placeholder="Enter Agency ID..." readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Agency Type</label>
+                                            <select id="account-type" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                        </div>
                                     </div>
                                 </div>
     
@@ -152,6 +161,16 @@ $agency_id = $_COOKIE['agency_id'];
                                             <label>Agency Email Address</label>
                                             <input type="email" class="form-control form-control-user"
                                                 id="agency-email" placeholder="Enter Agency Email..." readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Website</label>
+                                            <input type="email" class="form-control form-control-user"
+                                                id="agency-website" placeholder="Enter Website..." readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>SAR Topo Account ID</label>
+                                            <input type="email" class="form-control form-control-user"
+                                                id="agency-accountID" placeholder="Enter Account ID..." readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -262,13 +281,17 @@ $agency_id = $_COOKIE['agency_id'];
                             {
                                 agency_name: document.getElementById('agency-name').value,
                                 agency_abbreviation: document.getElementById('agency-abbreviation').value,
+                                agency_id: document.getElementById('agency-id').value,
+                                account_type: document.getElementById('account-type').value,
                                 agency_id: init_id.toString()
                             }
                         ],
                         contact_information: [
                             {
                                 phone_number: document.getElementById('agency-phone').value,
-                                email_address: document.getElementById('agency-email').value
+                                email_address: document.getElementById('agency-email').value,
+                                website: document.getElementById('agency-email').value,
+                                sar_topo_account_id: document.getElementById('agency-accountID').value
                             }
                         ],
                         physical_address: [
@@ -315,6 +338,10 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.removeAttribute("readOnly");
             });
+            var selects = document.querySelectorAll('.custom-select');
+            selects.forEach(element => {
+                element.removeAttribute("disabled");
+            });
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
@@ -333,9 +360,21 @@ $agency_id = $_COOKIE['agency_id'];
         function writeData() {
             document.getElementById('agency-name').value = agency_setting_info.agency_information[0].agency_name;
             document.getElementById('agency-abbreviation').value = agency_setting_info.agency_information[0].agency_abbreviation;
+            document.getElementById('agency-id').value = agency_setting_info.agency_information[0].agency_id;
+            var tmp = '';
+            for (let index = 0; index < agency_setting_info.agency_information[0].account_type.length; index++) {
+                const element = agency_setting_info.agency_information[0].account_type[index];
+                tmp +="<option value='"+element+"'";
+                if(element == agency_setting_info.agency_information[0].account_type_selected)
+                tmp +="selected";
+                tmp += ">"+element+"</option>"
+            }
+            document.getElementById('account-type').innerHTML = tmp;
 
             document.getElementById('agency-phone').value = agency_setting_info.contact_information[0].phone_number;
             document.getElementById('agency-email').value = agency_setting_info.contact_information[0].email_address;
+            document.getElementById('agency-website').value = agency_setting_info.contact_information[0].website;
+            document.getElementById('agency-accountID').value = agency_setting_info.contact_information[0].sar_topo_account_id;
 
             document.getElementById('agency-street').value = agency_setting_info. mailing_address[0].street;
             document.getElementById('agency-unit').value = agency_setting_info. mailing_address[0].unit;
