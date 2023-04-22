@@ -113,6 +113,114 @@ $agency_id = $_COOKIE['agency_id'];
                                                     placeholder="Enter Email Domain..." readOnly>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <h6 class="m-0 font-weight-bold mt-4 mb-2">Auto Add User to Rank</h6>
+                                            <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
+                                                <select id="userRankDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <h6 class="m-0 font-weight-bold mt-4 mb-2">Auto Add User to Group</h6>
+                                            <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
+                                                <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="px-2">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">User Ranks</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="userRanksGroup">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="Operation LeaderCheck" onchange="addRankToList(event)" disabled>
+                                                    <label class="custom-control-label" for="Operation LeaderCheck">Opeartions Leader</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="CaptainCheck" onchange="addRankToList(event)" disabled>
+                                                    <label class="custom-control-label" for="CaptainCheck">Captain</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="OfficerCheck" onchange="addRankToList(event)" disabled>
+                                                    <label class="custom-control-label" for="OfficerCheck">Officer</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small pl-0">
+                                                <label>Custom</label>
+                                                <div class="d-flex">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="userRanks" aria-describedby="emailHelp"
+                                                        placeholder="Enter User Rank...">
+                                                    <button type="button" onClick="addRank()" class="btn btn-success btn-icon-split mx-2" style="min-width: 5.5rem">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
+                                                        <span class="text">Add</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="px-2">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">User Groups</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="userGroupWrapper">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="fullMemberCheck" onchange="addGroupToList(event)" disabled>
+                                                    <label class="custom-control-label" for="fullMemberCheck">Full Member</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="supportMemberCheck" onchange="addGroupToList(event)" disabled>
+                                                    <label class="custom-control-label" for="supportMemberCheck">Support Member</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="spouceCheck" onchange="addGroupToList(event)" disabled>
+                                                    <label class="custom-control-label" for="spouceCheck">Spouce</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="applicantCheck"  onchange="addGroupToList(event)" disabled>
+                                                    <label class="custom-control-label" for="applicantCheck">Applicant</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small pl-0">
+                                                <label>Custom</label>
+                                                <div class="d-flex">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="userGroup" aria-describedby="emailHelp"
+                                                        placeholder="Enter User Group..." readOnly>
+                                                    <button type="button" onClick="addGroup()" class="btn btn-success btn-icon-split mx-2" style="min-width: 5.5rem">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
+                                                        <span class="text">Add</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>    
                             </div>
@@ -152,80 +260,6 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <input type="text" class="form-control form-control-user"
                                                     id="userStatus" aria-describedby="emailHelp"
                                                     placeholder="Enter User Status..." readOnly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">User Types</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="chiefCheck" disabled>
-                                                <label class="custom-control-label" for="chiefCheck">Chief</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="operationLeaderCheck" disabled>
-                                                <label class="custom-control-label" for="operationLeaderCheck">Opeartions Leader</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="memberCheck" disabled>
-                                                <label class="custom-control-label" for="memberCheck">Member</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="supportMemberCheck" disabled>
-                                                <label class="custom-control-label" for="supportMemberCheck">Support Member</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small pl-0">
-                                                <label>Custom</label>
-                                                <input type="text" class="form-control form-control-user"
-                                                    id="userTypes" aria-describedby="emailHelp"
-                                                    placeholder="Enter User Types..." readOnly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">User Medical Level</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="emtCheck" disabled>
-                                                <label class="custom-control-label" for="emtCheck">EMT</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="paramedicCheck" disabled>
-                                                <label class="custom-control-label" for="paramedicCheck">Paramedic</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="nurseCheck" disabled>
-                                                <label class="custom-control-label" for="nurseCheck">Nurse</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="doctorCheck" disabled>
-                                                <label class="custom-control-label" for="doctorCheck">Doctor</label>
                                             </div>
                                         </div>
                                     </div>
@@ -283,6 +317,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
+                    console.log(res);
                     user_setting_info = res.agencies_user_settings[0];
                     writeData();
                     // To hide the loader
@@ -308,20 +343,19 @@ $agency_id = $_COOKIE['agency_id'];
                                 "Off Duty": document.getElementById('offDutyCheck').checked 
                             }
                         ],
-                        user_types: [
+                        user_rank: [
                             {
-                                Chief: document.getElementById('chiefCheck').checked,
-                                OperationsLeader: document.getElementById('operationLeaderCheck').checked,
-                                Member: document.getElementById('memberCheck').checked,
-                                SupportMember: document.getElementById('supportMemberCheck').checked
+                                OperationsLeader: document.getElementById('Operation LeaderCheck').checked,
+                                Captain: document.getElementById('CaptainCheck').checked,
+                                Officer: document.getElementById('OfficerCheck').checked
                             }
                         ],
-                        user_medical_level: [
+                        user_groups: [
                             {
-                                EMT: document.getElementById('emtCheck').checked,
-                                Paramedic: document.getElementById('paramedicCheck').checked,
-                                Nurse: document.getElementById('nurseCheck').checked,
-                                Doctor: document.getElementById('doctorCheck').checked
+                                FullMember: document.getElementById('fullMemberCheck').checked,
+                                SupportMemberLeader: document.getElementById('supportMemberCheck').checked,
+                                Spouce: document.getElementById('spouceCheck').checked,
+                                Applicant : document.getElementById('applicantCheck').checked
                             }
                         ]
                     }
@@ -333,7 +367,8 @@ $agency_id = $_COOKIE['agency_id'];
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType:'application/json',
-                success: function (res) {            
+                success: function (res) {     
+                    console.log(res);       
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
@@ -349,13 +384,17 @@ $agency_id = $_COOKIE['agency_id'];
             })
         }
         function saveEnable() {
-            var inputs = document.querySelectorAll('.custom-control-input');
-            inputs.forEach(element => {
+            var checks = document.querySelectorAll('.custom-control-input');
+            checks.forEach(element => {
                 element.removeAttribute("disabled");
             });
             var inputs = document.querySelectorAll('.form-control');
             inputs.forEach(element => {
                 element.removeAttribute("readOnly");
+            });
+            var selects = document.querySelectorAll('.custom-select');
+            selects.forEach(element => {
+                element.removeAttribute("disabled");
             });
             document.getElementById("registerID").setAttribute("readOnly", true);
             document.getElementById("edit-btn").classList.add("d-none");
@@ -386,15 +425,135 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById('onDutyCheck').checked = user_setting_info.user_status[0]['On Duty'] == 'true'?true:false;
             document.getElementById('offDutyCheck').checked = user_setting_info.user_status[0]['Off Duty'] == 'true'?true:false;
 
-            document.getElementById('chiefCheck').checked = user_setting_info.user_types[0]['Chief'] == 'true'?true:false;
-            document.getElementById('operationLeaderCheck').checked = user_setting_info.user_types[0]['Member'] == 'true'?true:false;
-            document.getElementById('memberCheck').checked = user_setting_info.user_types[0]['Operations Leader'] == 'true'?true:false;
-            document.getElementById('supportMemberCheck').checked = user_setting_info.user_types[0]['Support Member'] == 'true'?true:false;
+            document.getElementById('Operation LeaderCheck').checked = user_setting_info.user_rank[0]['Operations Leader'] == 'true'?true:false;
+            document.getElementById('CaptainCheck').checked = user_setting_info.user_rank[0]['Captain'] == 'true'?true:false;
+            document.getElementById('OfficerCheck').checked = user_setting_info.user_rank[0]['Officer'] == 'true'?true:false;
+            writeUserRank(user_setting_info.user_rank[0], 'read');
 
-            document.getElementById('emtCheck').checked = user_setting_info.user_medical_level[0]['EMT'] == 'true'?true:false;
-            document.getElementById('paramedicCheck').checked = user_setting_info.user_medical_level[0]['Paramedic'] == 'true'?true:false;
-            document.getElementById('nurseCheck').checked = user_setting_info.user_medical_level[0]['Nurse'] == 'true'?true:false;
-            document.getElementById('doctorCheck').checked = user_setting_info.user_medical_level[0]['Doctor'] == 'true'?true:false;
+            document.getElementById('fullMemberCheck').checked = user_setting_info.user_groups[0]['Full Member'] == 'true'?true:false;
+            document.getElementById('supportMemberCheck').checked = user_setting_info.user_groups[0]['Support Member Leader'] == 'true'?true:false;
+            document.getElementById('spouceCheck').checked = user_setting_info.user_groups[0]['Spouce'] == 'true'?true:false;
+            document.getElementById('applicantCheck').checked = user_setting_info.user_groups[0]['Applicant'] == 'true'?true:false;
+            writeUserGroup(user_setting_info.user_groups[0], 'read');
+        }
+        function writeUserRank(data, method) {
+            var tmp = '';
+            if(method == 'read') {
+                Object.keys(data).forEach(key => {
+                    if(data[key] == 'true') {
+                        console.log(data, data[key]);
+                        tmp += "<option value='"+ key +"'>"+key+"</option>";
+                    }
+                });
+            }
+            document.getElementById('userRankDropdown').innerHTML = tmp;
+        }
+        function addRank() {
+            var tmp;
+            var value = document.getElementById('userRanks').value;
+            if( value == '' ) {
+                window.alert('Empty value should not be added')
+            }
+            else {
+                group = document.getElementById('userRanksGroup');
+                inputs = $(group).find('.custom-control-input');
+                status = false;
+                for (let index = 0; index < inputs.length; index++) {
+                    const element = inputs[index];  
+                    if(element.id == value+'Check') {
+                        status = true;
+                    }
+                }
+                if(status == true) {
+                    window.alert('The same name is exist')
+                }
+                else {
+                    group = document.getElementById('userRanksGroup');
+                    inputs = $(group).find('.custom-control-input');
+                    tmp = document.getElementById('userRanksGroup').innerHTML;
+                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+value+"Check'";
+                    if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                        tmp += " disabled";
+                    tmp += "><label class='custom-control-label' for='"+value+"Check'>"+value+"</label></div></div>";
+                    document.getElementById('userRanksGroup').innerHTML = tmp;
+                    inputs1 = $(group).find('.custom-control-input');
+                    for (let index = 0; index < inputs1.length-1; index++) {
+                        inputs1[index].checked = inputs[index].checked;  
+                    }
+                }
+            }
+        }
+        function addRankToList(e) {
+            var tmp = '';
+            group = document.getElementById('userRanksGroup');
+            inputs = $(group).find('.custom-control-input');
+            for (let index = 0; index < inputs.length; index++) {
+                if(inputs[index].checked == true) {
+                    let str = inputs[index].id;
+                    str = str.substring(0, str.length - 5);
+                    tmp += "<option value='"+ str +"'>"+str+"</option>";
+                }   
+            }
+            document.getElementById('userRankDropdown').innerHTML = tmp;
+        }
+        function writeUserGroup(data, method) {
+            var tmp = '';
+            if(method == 'read') {
+                Object.keys(data).forEach(key => {
+                    if(data[key] == 'true') {
+                        tmp += "<option value='"+ key +"'>"+key+"</option>";
+                    }
+                });
+            }
+            document.getElementById('userGroupDropdown').innerHTML = tmp;
+        }
+        function addGroup() {
+            var tmp;
+            var value = document.getElementById('userGroup').value;
+            if( value == '' ) {
+                window.alert('Empty value should not be added')
+            }
+            else {
+                group = document.getElementById('userGroupWrapper');
+                inputs = $(group).find('.custom-control-input');
+                status = false;
+                for (let index = 0; index < inputs.length; index++) {
+                    const element = inputs[index];  
+                    if(element.id == value+'Check') {
+                        status = true;
+                    }
+                }
+                if(status == true) {
+                    window.alert('The same name is exist')
+                }
+                else {
+                    group = document.getElementById('userGroupWrapper');
+                    inputs = $(group).find('.custom-control-input');
+                    tmp = document.getElementById('userGroupWrapper').innerHTML;
+                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='"+value+"Check'";
+                    if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                        tmp += " disabled";
+                    tmp += "><label class='custom-control-label' for='"+value+"Check'>"+value+"</label></div></div>";
+                    document.getElementById('userGroupWrapper').innerHTML = tmp;
+                    inputs1 = $(group).find('.custom-control-input');
+                    for (let index = 0; index < inputs1.length-1; index++) {
+                        inputs1[index].checked = inputs[index].checked;  
+                    }
+                }
+            }
+        }
+        function addGroupToList(e) {
+            var tmp = '';
+            group = document.getElementById('userGroupWrapper');
+            inputs = $(group).find('.custom-control-input');
+            for (let index = 0; index < inputs.length; index++) {
+                if(inputs[index].checked == true) {
+                    let str = inputs[index].id;
+                    str = str.substring(0, str.length - 5);
+                    tmp += "<option value='"+ str +"'>"+str+"</option>";
+                }   
+            }
+            document.getElementById('userGroupDropdown').innerHTML = tmp;
         }
     </script>
 </body>

@@ -88,6 +88,11 @@ $agency_id = $_COOKIE['agency_id'];
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
+                                            <label>Agency ID</label>
+                                            <input type="text" class="form-control form-control-user"
+                                                id="agency-id" placeholder="Enter Agency ID..." readonly>
+                                        </div>
+                                        <div class="form-group">
                                             <label>Agency Name</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-name" placeholder="Enter Agency Name..." readonly>
@@ -96,11 +101,6 @@ $agency_id = $_COOKIE['agency_id'];
                                             <label>Agency Abbreviation</label>
                                             <input type="text" class="form-control form-control-user"
                                                 id="agency-abbreviation" placeholder="Enter Agency Abbreviation..." readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Agency ID</label>
-                                            <input type="text" class="form-control form-control-user"
-                                                id="agency-id" placeholder="Enter Agency ID..." readonly>
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Type</label>
@@ -342,6 +342,7 @@ $agency_id = $_COOKIE['agency_id'];
             selects.forEach(element => {
                 element.removeAttribute("disabled");
             });
+            document.getElementById("agency-id").setAttribute("readOnly", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
