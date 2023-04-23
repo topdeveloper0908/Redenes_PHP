@@ -167,7 +167,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                     <input type="text" class="form-control form-control-user"
                                                         id="userRanks" aria-describedby="emailHelp"
                                                         placeholder="Enter User Rank..." readOnly>
-                                                    <button type="button" onClick="addRank()" class="btn btn-success btn-icon-split mx-2" style="min-width: 5.5rem">
+                                                    <button type="button" onClick="addRank()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -218,7 +218,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                     <input type="text" class="form-control form-control-user"
                                                         id="userGroup" aria-describedby="emailHelp"
                                                         placeholder="Enter User Group..." readOnly>
-                                                    <button type="button" onClick="addGroup()" class="btn btn-success btn-icon-split mx-2" style="min-width: 5.5rem">
+                                                    <button type="button" onClick="addGroup()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -275,7 +275,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                     <input type="text" class="form-control form-control-user"
                                                         id="userStatus" aria-describedby="emailHelp"
                                                         placeholder="Enter User Status..." readOnly>
-                                                    <button type="button" onClick="addStatus()" class="btn btn-success btn-icon-split mx-2" style="min-width: 5.5rem">
+                                                    <button type="button" onClick="addStatus()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -339,7 +339,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
-                    user_setting_info = res.agencies_user_settings[0];
+                    user_setting_info   = res.agencies_user_settings[0];
                     writeData();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");                
@@ -356,9 +356,6 @@ $agency_id = $_COOKIE['agency_id'];
                 agency_user_settings: [
                     {
                         auto_add_email_domain: document.getElementById('emailDomain').value,
-                        user_status: [],
-                        user_rank: [],
-                        user_groups: []
                     }
                 ]
             };
@@ -368,21 +365,21 @@ $agency_id = $_COOKIE['agency_id'];
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings.user_status = tmp;
+            formData.agency_user_settings[1] = tmp;
             elements = $('#userGroupWrapper').children();
-            tmp = {}
+            tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings.user_groups = tmp;
+            formData.agency_user_settings[2] = tmp;
             elements = $('#userRanksGroup').children();
-            tmp = {}
+            tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings.user_rank = tmp;
+            formData.agency_user_settings[3] = tmp;
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-user-settings/",
@@ -390,12 +387,15 @@ $agency_id = $_COOKIE['agency_id'];
                 dataType: "json",
                 contentType:'application/json',
                 success: function (res) {   
-                    console.log(formData);        
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
                     var inputs = document.querySelectorAll('.custom-control-input');
                     inputs.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    var buttons = document.querySelectorAll('.add-button');
+                    buttons.forEach(element => {
                         element.setAttribute("disabled", true);
                     });
                     var inputs = document.querySelectorAll('.form-control');
@@ -416,6 +416,10 @@ $agency_id = $_COOKIE['agency_id'];
             });
             var selects = document.querySelectorAll('.custom-select');
             selects.forEach(element => {
+                element.removeAttribute("disabled");
+            });
+            var buttons = document.querySelectorAll('.add-button');
+            buttons.forEach(element => {
                 element.removeAttribute("disabled");
             });
             document.getElementById("registerID").setAttribute("readOnly", true);

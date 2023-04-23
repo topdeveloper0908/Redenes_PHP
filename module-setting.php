@@ -452,6 +452,7 @@ $agency_id = $_COOKIE['agency_id'];
                     }
                 ]
             };
+            console.log(JSON.stringify(formData));
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
