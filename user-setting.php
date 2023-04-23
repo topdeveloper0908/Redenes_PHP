@@ -385,11 +385,12 @@ $agency_id = $_COOKIE['agency_id'];
             formData.agency_user_settings.user_rank = [tmp];
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType:'application/json',
-                success: function (res) {           
+                success: function (res) {   
+                    console.log(formData);        
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
