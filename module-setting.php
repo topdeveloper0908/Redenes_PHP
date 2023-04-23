@@ -379,6 +379,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
+                    console.log(res);
                     agency_module_info = res.agencies_module_settings[0];
                     writeData();
 
