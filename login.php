@@ -96,7 +96,8 @@ session_start();
                 var formData = {
                     email_address: $("#username").val(),
                     password: $("#password").val(),
-                    platform: "Website"
+                    platform: "Website",
+		    device_id: "null"
                 };
                 $.ajax({
                     type: "POST",
