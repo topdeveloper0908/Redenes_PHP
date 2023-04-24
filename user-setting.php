@@ -141,24 +141,6 @@ $agency_id = $_COOKIE['agency_id'];
                                     </div>
                                     <div class="card-body">
                                         <div id="userRanksGroup">
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="Operation LeaderCheck" onchange="addRankToList(event)" disabled>
-                                                    <label class="custom-control-label" for="Operation LeaderCheck">Opeartions Leader</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="CaptainCheck" onchange="addRankToList(event)" disabled>
-                                                    <label class="custom-control-label" for="CaptainCheck">Captain</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="OfficerCheck" onchange="addRankToList(event)" disabled>
-                                                    <label class="custom-control-label" for="OfficerCheck">Officer</label>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small pl-0">
@@ -186,30 +168,6 @@ $agency_id = $_COOKIE['agency_id'];
                                     </div>
                                     <div class="card-body">
                                         <div id="userGroupWrapper">
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="Full MemberCheck" onchange="addGroupToList(event)" disabled>
-                                                    <label class="custom-control-label" for="Full MemberCheck">Full Member</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="Support MemberCheck" onchange="addGroupToList(event)" disabled>
-                                                    <label class="custom-control-label" for="Support MemberCheck">Support Member</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="SpouceCheck" onchange="addGroupToList(event)" disabled>
-                                                    <label class="custom-control-label" for="SpouceCheck">Spouce</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="ApplicantCheck"  onchange="addGroupToList(event)" disabled>
-                                                    <label class="custom-control-label" for="ApplicantCheck">Applicant</label>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small pl-0">
@@ -237,36 +195,6 @@ $agency_id = $_COOKIE['agency_id'];
                                     </div>
                                     <div class="card-body">
                                         <div id="userStatusWrapper">
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="AvaiableCheck" onchange="addStatusToList(event)" disabled>
-                                                    <label class="custom-control-label" for="AvaiableCheck">Avaiable</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="On CallCheck" onchange="addStatusToList(event)" disabled>
-                                                    <label class="custom-control-label" for="On CallCheck">On Call</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="Off CallCheck" onchange="addStatusToList(event)" disabled>
-                                                    <label class="custom-control-label" for="Off CallCheck">Off Call</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="On DutyCheck" onchange="addStatusToList(event)" disabled>
-                                                    <label class="custom-control-label" for="On DutyCheck">On Duty</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="Off DutyCheck" onchange="addStatusToList(event)" disabled>
-                                                    <label class="custom-control-label" for="Off DutyCheck">Off Duty</label>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small pl-0">
@@ -339,6 +267,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
+                    console.log(res);
                     user_setting_info   = res.agencies_user_settings[0];
                     writeData();
                     // To hide the loader
@@ -365,21 +294,25 @@ $agency_id = $_COOKIE['agency_id'];
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.user_status = tmp;
+            formData.agency_user_settings[0].user_status = [tmp];
             elements = $('#userGroupWrapper').children();
             tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.user_rank = tmp;
+            formData.agency_user_settings[0].user_rank = [tmp];
             elements = $('#userRanksGroup').children();
             tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.user_group = tmp;
+            formData.agency_user_settings[0].user_group = [tmp];
+            formData.agency_user_settings[0].auto_add_user_to_group = document.getElementById("userGroupDropdown").value;
+            formData.agency_user_settings[0].auto_add_user_to_status = document.getElementById("userStatusDropdown").value;
+            formData.agency_user_settings[0].auto_add_user_to_rank = document.getElementById("userRankDropdown").value;
+            console.log(JSON.stringify(formData));
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-user-settings/",
@@ -446,31 +379,63 @@ $agency_id = $_COOKIE['agency_id'];
             if(user_setting_info.auto_add_email_domain) {
                 document.getElementById('emailDomain').value = user_setting_info.auto_add_email_domain;
             }
-            document.getElementById('AvaiableCheck').checked = user_setting_info.user_status[0]['Available'] == 'true'?true:false;
-            document.getElementById('On CallCheck').checked = user_setting_info.user_status[0]['On Call'] == 'true'?true:false;
-            document.getElementById('Off CallCheck').checked = user_setting_info.user_status[0]['Off call'] == 'true'?true:false;
-            document.getElementById('On DutyCheck').checked = user_setting_info.user_status[0]['On Duty'] == 'true'?true:false;
-            document.getElementById('Off DutyCheck').checked = user_setting_info.user_status[0]['Off Duty'] == 'true'?true:false;
-            writeUserStatus(user_setting_info.user_status[0], 'read');
+            ranks = user_setting_info.user_ranks[0];
+            tmp = '';
+            group = document.getElementById('userRanksGroup');
+            for (const key in ranks) {
+                console.log(ranks[key]);
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
+                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += " disabled";
+                if(ranks[key] == 'true') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+            }
+            document.getElementById('userRanksGroup').innerHTML = tmp;
+            writeUserRank(ranks, 'read');
 
-            document.getElementById('Operation LeaderCheck').checked = user_setting_info.user_rank[0]['Operations Leader'] == 'true'?true:false;
-            document.getElementById('CaptainCheck').checked = user_setting_info.user_rank[0]['Captain'] == 'true'?true:false;
-            document.getElementById('OfficerCheck').checked = user_setting_info.user_rank[0]['Officer'] == 'true'?true:false;
-            writeUserRank(user_setting_info.user_rank[0], 'read');
+            groups = user_setting_info.user_groups[0];
+            tmp = '';
+            group = document.getElementById('userGroupWrapper');
+            for (const key in groups) {
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
+                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += " disabled";
+                if(groups[key] == 'true') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+            }
+            document.getElementById('userGroupWrapper').innerHTML = tmp;
+            writeUserGroup(groups, 'read');
 
-            document.getElementById('Full MemberCheck').checked = user_setting_info.user_groups[0]['Full Member'] == 'true'?true:false;
-            document.getElementById('Support MemberCheck').checked = user_setting_info.user_groups[0]['Support Member Leader'] == 'true'?true:false;
-            document.getElementById('SpouceCheck').checked = user_setting_info.user_groups[0]['Spouce'] == 'true'?true:false;
-            document.getElementById('ApplicantCheck').checked = user_setting_info.user_groups[0]['Applicant'] == 'true'?true:false;
-            writeUserGroup(user_setting_info.user_groups[0], 'read');
+            statuses = user_setting_info.user_status[0];
+            tmp = '';
+            group = document.getElementById('userStatusWrapper');
+            for (const key in statuses) {
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
+                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += " disabled";
+                if(statuses[key] == 'true') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+            }
+            document.getElementById('userStatusWrapper').innerHTML = tmp;
+            writeUserStatus(statuses, 'read');
         }
         function writeUserRank(data, method) {
             var tmp = '';
             if(method == 'read') {
                 Object.keys(data).forEach(key => {
                     if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'>"+key+"</option>";
+                        tmp += "<option value='"+ key +"'";
                     }
+                    if(key == user_setting_info.auto_add_user_to_rank) {
+                        tmp += " selected";
+                    }
+                    tmp += ">"+key+"</option>";
                 });
             }
             document.getElementById('userRankDropdown').innerHTML = tmp;
@@ -528,8 +493,12 @@ $agency_id = $_COOKIE['agency_id'];
             if(method == 'read') {
                 Object.keys(data).forEach(key => {
                     if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'>"+key+"</option>";
+                        tmp += "<option value='"+ key +"'";
                     }
+                    if(key == user_setting_info.auto_add_user_to_group) {
+                        tmp += " selected";
+                    }
+                    tmp += ">"+key+"</option>";
                 });
             }
             document.getElementById('userGroupDropdown').innerHTML = tmp;
@@ -569,7 +538,7 @@ $agency_id = $_COOKIE['agency_id'];
                 }
             }
         }
-        function addGroupToList(e) {
+        function addGroupToList() {
             var tmp = '';
             group = document.getElementById('userGroupWrapper');
             inputs = $(group).find('.custom-control-input');
@@ -587,8 +556,12 @@ $agency_id = $_COOKIE['agency_id'];
             if(method == 'read') {
                 Object.keys(data).forEach(key => {
                     if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'>"+key+"</option>";
+                        tmp += "<option value='"+ key +"'";
                     }
+                    if(key == user_setting_info.auto_add_user_to_status) {
+                        tmp += " selected";
+                    }
+                    tmp += ">"+key+"</option>";
                 });
             }
             document.getElementById('userStatusDropdown').innerHTML = tmp;
