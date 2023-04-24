@@ -58,273 +58,82 @@ $agency_id = $_COOKIE['agency_id'];
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
                             <h1 class="h3 mb-4 text-gray-800">Module Settings</h1>
-                            <div>
-                                <button id="edit-btn" type="button" onClick="saveEnable()" class="btn btn-success btn-icon-split my-1 mr-2">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                </button>
-                                <button id="save-btn" type="button" onClick="saveData()" class="btn btn-success btn-icon-split my-1 mr-2 d-none">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">Save</span>
-                                </button>
-                                <button id="cancel-btn" type="button" onClick="cancelSave()" class="btn btn-danger btn-icon-split my-1 mr-2 d-none">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    <span class="text">Cancel</span>
-                                </button>
-                            </div>
                         </div>
-    
-                        <!-- Content Row -->
-                        <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-sm-2 row-cols-1">
-    
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Home</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="directoryCheck" disabled>
-                                                <label class="custom-control-label" for="directoryCheck">Directory</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="statusCheck" disabled>
-                                                <label class="custom-control-label" for="statusCheck">Status</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="scheduleCheck" disabled>
-                                                <label class="custom-control-label" for="scheduleCheck">Schedule</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="weatherCheck" disabled>
-                                                <label class="custom-control-label" for="weatherCheck">Weather</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="gpsCheck" disabled>
-                                                <label class="custom-control-label" for="gpsCheck">GPS</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
+                        <div class="card shadow mb-4" style="max-width: 1400px">
+                            <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mr-3 mb-0" style="white-space:nowrap">User Group</h6>
+                                    <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
+                                    </select>
+                                </div>
+                                <div>
+                                    <button id="edit-btn" type="button" onClick="saveEnable()" class="btn btn-success btn-icon-split my-0 mr-2">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Edit</span>
+                                    </button>
+                                    <button id="save-btn" type="button" onClick="saveData()" class="btn btn-success btn-icon-split my-0 mr-2 d-none">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Save</span>
+                                    </button>
+                                    <button id="cancel-btn" type="button" onClick="cancelSave()" class="btn btn-danger btn-icon-split my-0 mr-2 d-none">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                        <span class="text">Cancel</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Logs</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="suppliesCheck" disabled>
-                                                <label class="custom-control-label" for="suppliesCheck">Supplies</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="vehicleCheck" disabled>
-                                                <label class="custom-control-label" for="vehicleCheck">Vehicles</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="dailyCheck" disabled>
-                                                <label class="custom-control-label" for="dailyCheck">Daily</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="maintenanceCheck" disabled>
-                                                <label class="custom-control-label" for="maintenanceCheck">Maintenance</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="trainingCheck" disabled>
-                                                <label class="custom-control-label" for="trainingCheck">Training</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="icsCheck" disabled>
-                                                <label class="custom-control-label" for="icsCheck">ICS</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="equipmentCheck" disabled>
-                                                <label class="custom-control-label" for="equipmentCheck">Equipment</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="resourceCheck" disabled>
-                                                <label class="custom-control-label" for="resourceCheck">Resources</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Alerts</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="emergencyCheck" disabled>
-                                                <label class="custom-control-label" for="emergencyCheck">Emergency</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="newIncidentCheck" disabled>
-                                                <label class="custom-control-label" for="newIncidentCheck">New Incident</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="closedIncidentCheck" disabled>
-                                                <label class="custom-control-label" for="closedIncidentCheck">Closed Incidents</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="activeIncidentCheck" disabled>
-                                                <label class="custom-control-label" for="activeIncidentCheck">Active Incidents</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="audioCheck" disabled>
-                                                <label class="custom-control-label" for="audioCheck">Audio</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="neighboringCheck" disabled>
-                                                <label class="custom-control-label" for="neighboringCheck">Neighboring</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="phoneCheck" disabled>
-                                                <label class="custom-control-label" for="phoneCheck">Phone</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="msgCheck" disabled>
-                                                <label class="custom-control-label" for="msgCheck">Messages</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">References</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="locationCheck" disabled>
-                                                <label class="custom-control-label" for="locationCheck">Location</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="mapsCheck" disabled>
-                                                <label class="custom-control-label" for="mapsCheck">Maps</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="communicationsCheck" disabled>
-                                                <label class="custom-control-label" for="communicationsCheck">Communications</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="internalCheck" disabled>
-                                                <label class="custom-control-label" for="internalCheck">Internal</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="incidentListCheck" disabled>
-                                                <label class="custom-control-label" for="incidentListCheck">Incident Checklist</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </div>
-                            <div class="px-2">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Account</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="personProfileCheck" disabled>
-                                                <label class="custom-control-label" for="personProfileCheck">Personal Profile</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="agencyProfileCheck" disabled>
-                                                <label class="custom-control-label" for="agencyProfileCheck">Agency Profile</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="notificationsCheck" disabled>
-                                                <label class="custom-control-label" for="notificationsCheck">Notifications</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="appSettingsCheck" disabled>
-                                                <label class="custom-control-label" for="appSettingsCheck">App Settings</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="certificationsCheck" disabled>
-                                                <label class="custom-control-label" for="certificationsCheck">Certifications</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="paymentCheck" disabled>
-                                                <label class="custom-control-label" for="paymentCheck">Payments</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="connectSettingsCheck" disabled>
-                                                <label class="custom-control-label" for="connectSettingsCheck">Connect Settings</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>    
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" name="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Screen</th>
+                                                <th>Module</th>
+                                                <th style="width: 8rem;">View</th>
+                                                <th style="width: 8rem;">Edit</th>
+                                                <th style="width: 8rem;">Add</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Screen</th>
+                                                <th>Module</th>
+                                                <th style="width: 8rem;">View</th>
+                                                <th style="width: 8rem;">Edit</th>
+                                                <th style="width: 8rem;">Add</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody id="table-content">
+                                            <tr>
+                                                <td>Home</td>
+                                                <td>Directory</td>
+                                                <td>
+                                                    <div class="custom-control custom-checkbox small">
+                                                        <input type="checkbox" class="custom-control-input" id="DirectoryCheck1" disabled>
+                                                        <label class="custom-control-label" for="DirectoryCheck1"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="custom-control custom-checkbox small">
+                                                        <input type="checkbox" class="custom-control-input" id="DirectoryCheck2" disabled>
+                                                        <label class="custom-control-label" for="DirectoryCheck2"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="custom-control custom-checkbox small">
+                                                        <input type="checkbox" class="custom-control-input" id="DirectoryCheck3" disabled>
+                                                        <label class="custom-control-label" for="DirectoryCheck3"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -381,8 +190,8 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function (res) {
                     console.log(res);
                     agency_module_info = res.agencies_module_settings[0];
-                    writeData();
-
+                    writeDropdown(res.user_group_selected, res.user_groups);
+                    writeTable(res.agencies_module_settings[0]);
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -489,43 +298,42 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
         }
-        function writeData(){
-            document.getElementById('directoryCheck').checked = agency_module_info.home[0].directory == 'false' ? false:true;
-            document.getElementById('statusCheck').checked = agency_module_info.home[0].status == 'false' ? false:true;
-            document.getElementById('scheduleCheck').checked = agency_module_info.home[0].schedule == 'false' ? false:true;
-            document.getElementById('weatherCheck').checked = agency_module_info.home[0].weather == 'false' ? false:true;
-            document.getElementById('gpsCheck').checked = agency_module_info.home[0].calendar == 'false' ? false:true;
-
-            document.getElementById('suppliesCheck').checked = agency_module_info.logs[0].supplies == 'false' ? false:true;
-            document.getElementById('vehicleCheck').checked = agency_module_info.logs[0].vehicles == 'false' ? false:true;
-            document.getElementById('dailyCheck').checked = agency_module_info.logs[0].daily == 'false' ? false:true;
-            document.getElementById('maintenanceCheck').checked = agency_module_info.logs[0].maintenance == 'false' ? false:true;
-            document.getElementById('trainingCheck').checked = agency_module_info.logs[0].training == 'false' ? false:true;
-            document.getElementById('icsCheck').checked = agency_module_info.logs[0].ics == 'false' ? false:true;
-            document.getElementById('equipmentCheck').checked = agency_module_info.logs[0].equipment == 'false' ? false:true;
-            document.getElementById('resourceCheck').checked = agency_module_info.logs[0].resources == 'false' ? false:true;
-
-            document.getElementById('emergencyCheck').checked = agency_module_info.alerts[0].emergency == 'false' ? false:true;
-            document.getElementById('newIncidentCheck').checked = agency_module_info.alerts[0].new_incident == 'false' ? false:true;
-            document.getElementById('closedIncidentCheck').checked = agency_module_info.alerts[0].closed_incident == 'false' ? false:true;
-            document.getElementById('activeIncidentCheck').checked = agency_module_info.alerts[0].active_incident == 'false' ? false:true;
-            document.getElementById('audioCheck').checked = agency_module_info.alerts[0].audio == 'false' ? false:true;
-            document.getElementById('neighboringCheck').checked = agency_module_info.alerts[0].neighboring == 'false' ? false:true;
-            document.getElementById('phoneCheck').checked = agency_module_info.alerts[0].phone == 'false' ? false:true;
-            document.getElementById('msgCheck').checked = agency_module_info.alerts[0].messages == 'false' ? false:true;
-
-            document.getElementById('locationCheck').checked = agency_module_info.references[0].location == 'false' ? false:true;
-            document.getElementById('mapsCheck').checked = agency_module_info.references[0].maps == 'false' ? false:true;
-            document.getElementById('communicationsCheck').checked = agency_module_info.references[0].communications == 'false' ? false:true;
-            document.getElementById('internalCheck').checked = agency_module_info.references[0].internal == 'false' ? false:true;
-            document.getElementById('incidentListCheck').checked = agency_module_info.references[0].incident_checklist == 'false' ? false:true;
-
-            document.getElementById('personProfileCheck').checked = agency_module_info.account[0].personal_profile == 'false' ? false:true;
-            document.getElementById('agencyProfileCheck').checked = agency_module_info.account[0].agency_profile == 'false' ? false:true;
-            document.getElementById('notificationsCheck').checked = agency_module_info.account[0].notifications == 'false' ? false:true;
-            document.getElementById('appSettingsCheck').checked = agency_module_info.account[0].app_settings == 'false' ? false:true;
-            document.getElementById('certificationsCheck').checked = agency_module_info.account[0].certifications == 'false' ? false:true;
-            document.getElementById('paymentCheck').checked = agency_module_info.account[0].payments == 'false' ? false:true;
+        function writeTable(data){
+            tmp = '';
+            for (let key in data) {
+                for(let subkey in data[key][0]) {
+                    tmp += "<tr>";
+                    tmp += "<td style='text-transform:capitalize;'>"+key+"</td>";
+                    tmp += "<td style='text-transform:capitalize;'>"+subkey.replace('_', ' ')+"</td>";
+                    for (let i = 0; i < 3; i++) {
+                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='"+subkey+"Check"+i+"' disabled ";
+                        console.log(data[key][0][subkey][0].add);
+                        if(data[key][0][subkey][0].add != 'false' && i == 0) {
+                            tmp +=" checked";    
+                        }
+                        if(data[key][0][subkey][0].edit != 'false' && i == 1) {
+                            tmp +=" checked";    
+                        }
+                        if(data[key][0][subkey][0].view != 'false' && i == 2) {
+                            tmp +=" checked";    
+                        }
+                        tmp +="><label class='custom-control-label' for='"+subkey+"Check"+i+"'></label></div></td>";
+                    }
+                    tmp += "</tr>";
+                }
+            }
+            document.getElementById('table-content').innerHTML = tmp;
+        }
+        function writeDropdown(selected, options){
+            tmp = '';
+            for (let index = 0; index < options.length; index++) {
+                const element = options[index];
+                tmp +="<option value='"+options[index]+"'";
+                if(options[index] == selected) 
+                    tmp +=" selected";
+                tmp += ">"+options[index]+"</option>";
+            }       
+            document.getElementById('userGroupDropdown').innerHTML = tmp;
         }
     </script>
 </body>
