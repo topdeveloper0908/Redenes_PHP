@@ -365,21 +365,21 @@ $agency_id = $_COOKIE['agency_id'];
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings[1] = tmp;
+            formData.user_status = tmp;
             elements = $('#userGroupWrapper').children();
             tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings[2] = tmp;
+            formData.user_rank = tmp;
             elements = $('#userRanksGroup').children();
             tmp = {};
             for (let index = 0; index < elements.length; index++) {
                 const element = $(elements[index]).find('.custom-control-input');
                 tmp[element[0].id.slice(0, -5)] = element[0].checked;
             }
-            formData.agency_user_settings[3] = tmp;
+            formData.user_group = tmp;
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-user-settings/",
