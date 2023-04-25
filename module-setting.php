@@ -63,7 +63,7 @@ $agency_id = $_COOKIE['agency_id'];
                             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
                                     <h6 class="mr-3 mb-0" style="white-space:nowrap">User Group</h6>
-                                    <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
+                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
                                     </select>
                                 </div>
                                 <div>
@@ -177,7 +177,7 @@ $agency_id = $_COOKIE['agency_id'];
     <script>
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
-        var module_setting_info;
+        var module_setting;
         init_id = "<?php echo $agency_id;?>";
         function getData(agency_id) {
             $.ajax({
@@ -188,8 +188,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization;?>"
                 },
                 success: function (res) {
-                    console.log(res);
-                    agency_module_info = res.agencies_module_settings[0];
+                    module_setting = res.agencies_module_settings[0];
                     writeDropdown(res.user_group_selected, res.user_groups);
                     writeTable(res.agencies_module_settings[0]);
                     // To hide the loader
@@ -201,67 +200,26 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
         function saveData() {
             var authorization = "<?php echo $authorization;?>";
+            for(let key in module_setting) {
+                for(let subkey in module_setting[key][0]) {
+                    for (let i = 0; i < 3; i++) {
+                        if(i == 0) {
+                            module_setting[key][0][subkey][0].view = document.getElementById(subkey+'Check'+i).checked?'true':'false';
+                        }
+                        else if(i == 1) {
+                            module_setting[key][0][subkey][0].view = document.getElementById(subkey+'Check'+i).checked?'true':'false';
+                        }
+                        else {
+                            module_setting[key][0][subkey][0].view = document.getElementById(subkey+'Check'+i).checked?'true':'false';
+                        }
+                    }
+                }
+            }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
-                agency_module_settings: [
-                    {
-                        home: [
-                            {
-                                directory: document.getElementById('directoryCheck').checked,
-                                calendar: document.getElementById('statusCheck').checked,
-                                status: document.getElementById('scheduleCheck').checked,
-                                schedule: document.getElementById('weatherCheck').checked,
-                                gps: document.getElementById('gpsCheck').checked,
-                            }
-                        ],
-                        logs: [
-                            {
-                                supplies: document.getElementById('suppliesCheck').checked,
-                                vehicles: document.getElementById('vehicleCheck').checked,
-                                daily: document.getElementById('dailyCheck').checked,
-                                maintenance: document.getElementById('maintenanceCheck').checked,
-                                training: document.getElementById('trainingCheck').checked,
-                                ics: document.getElementById('icsCheck').checked,
-                                equipment: document.getElementById('equipmentCheck').checked,
-                                resources: document.getElementById('resourceCheck').checked,
-                            }
-                        ],
-                        alerts: [
-                            {
-                                emergency: document.getElementById('emergencyCheck').checked,
-                                new_incident: document.getElementById('newIncidentCheck').checked,
-                                closed_incidents: document.getElementById('closedIncidentCheck').checked,
-                                active_incidents: document.getElementById('activeIncidentCheck').checked,
-                                audio: document.getElementById('audioCheck').checked,
-                                neighboring: document.getElementById('neighboringCheck').checked,
-                                phone: document.getElementById('phoneCheck').checked,
-                                messages: document.getElementById('msgCheck').checked,
-                            }
-                        ],
-                        references: [
-                            {
-                                locatins: document.getElementById('locationCheck').checked,
-                                maps: document.getElementById('mapsCheck').checked,
-                                communications: document.getElementById('communicationsCheck').checked,
-                                internal: document.getElementById('internalCheck').checked,
-                                incident_checklist: document.getElementById('incidentListCheck').checked,
-                            }
-                        ],
-                        account: [
-                            {
-                                personal_profile: document.getElementById('personProfileCheck').checked,
-                                agency_profile: document.getElementById('agencyProfileCheck').checked,
-                                notifications: document.getElementById('notificationsCheck').checked,
-                                app_settings: document.getElementById('appSettingsCheck').checked,
-                                certifications: document.getElementById('certificationsCheck').checked,
-                                payments: document.getElementById('paymentCheck').checked,
-                            }
-                        ]
-                    }
-                ]
+                agency_module_settings: [module_setting]
             };
-            console.log(JSON.stringify(formData));
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
@@ -272,6 +230,7 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
+                    document.getElementById('userGroupDropdown').removeAttribute("disabled");
                     var inputs = document.querySelectorAll('.custom-control-input');
                     inputs.forEach(element => {
                         element.setAttribute("disabled", true);
@@ -284,6 +243,7 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.removeAttribute("disabled");
             });
+            document.getElementById('userGroupDropdown').setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
@@ -294,6 +254,7 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
+            document.getElementById('userGroupDropdown').removeAttribute("disabled");
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
@@ -301,13 +262,17 @@ $agency_id = $_COOKIE['agency_id'];
         function writeTable(data){
             tmp = '';
             for (let key in data) {
+                new_item = 0;
                 for(let subkey in data[key][0]) {
+                    if(new_item == 0 && key !='home') {
+                        tmp += "<tr><td></td><td></td><td></td><td></td><td></td></tr>";    
+                        new_item++;
+                    }
                     tmp += "<tr>";
                     tmp += "<td style='text-transform:capitalize;'>"+key+"</td>";
                     tmp += "<td style='text-transform:capitalize;'>"+subkey.replace('_', ' ')+"</td>";
                     for (let i = 0; i < 3; i++) {
                         tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='"+subkey+"Check"+i+"' disabled ";
-                        console.log(data[key][0][subkey][0].add);
                         if(data[key][0][subkey][0].add != 'false' && i == 0) {
                             tmp +=" checked";    
                         }
@@ -334,6 +299,22 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += ">"+options[index]+"</option>";
             }       
             document.getElementById('userGroupDropdown').innerHTML = tmp;
+        }
+        function changeUserGroup(e) {
+            $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                data: {
+                    agency_id: init_id,
+                    authorization: "<?php echo $authorization;?>",
+                    user_groups: e.target.value
+                },
+                success: function (res) {
+                    module_setting = res.agencies_module_settings[0];
+                    writeDropdown(res.user_group_selected, res.user_groups);
+                    writeTable(res.agencies_module_settings[0]);
+                }
+            })
         }
     </script>
 </body>
