@@ -241,7 +241,9 @@ $agency_id = $_COOKIE['agency_id'];
         function saveEnable() {
             var inputs = document.querySelectorAll('.custom-control-input');
             inputs.forEach(element => {
-                element.removeAttribute("disabled");
+                if(element.classList.contains('always-check') == false) {
+                    element.removeAttribute("disabled");
+                }
             });
             document.getElementById('userGroupDropdown').setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
@@ -249,15 +251,15 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("cancel-btn").classList.remove("d-none");
         }
         function cancelSave() {
-            writeData();
+            writeTable(module_setting);
+            document.getElementById("edit-btn").classList.remove("d-none");
+            document.getElementById("save-btn").classList.add("d-none");
+            document.getElementById("cancel-btn").classList.add("d-none");
+            document.getElementById('userGroupDropdown').removeAttribute("disabled");
             var inputs = document.querySelectorAll('.custom-control-input');
             inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
-            document.getElementById('userGroupDropdown').removeAttribute("disabled");
-            document.getElementById("edit-btn").classList.remove("d-none");
-            document.getElementById("save-btn").classList.add("d-none");
-            document.getElementById("cancel-btn").classList.add("d-none");
         }
         function writeTable(data){
             tmp = '';
@@ -272,7 +274,11 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += "<td style='text-transform:capitalize;'>"+key+"</td>";
                     tmp += "<td style='text-transform:capitalize;'>"+subkey.replace('_', ' ')+"</td>";
                     for (let i = 0; i < 3; i++) {
-                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='"+subkey+"Check"+i+"' disabled ";
+                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input";
+                        if(data[key][0][subkey][0].add == 'always') {
+                            tmp += " always-check";    
+                        }
+                        tmp += "' id='"+subkey+"Check"+i+"' disabled ";
                         if(data[key][0][subkey][0].add != 'false' && i == 0) {
                             tmp +=" checked";    
                         }
