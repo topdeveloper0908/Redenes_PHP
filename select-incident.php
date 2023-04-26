@@ -136,6 +136,7 @@ if (strlen($user) == 0) {
                     authorization: "<?php echo $authorization;?>",
                     incident_id: "<?php echo $incident_id;?>"
                 },
+                async = false,
                 success: function (res) {
                     console.log(res);
                     writeData(res);
@@ -172,15 +173,25 @@ if (strlen($user) == 0) {
                     }
                     else if(Object.keys(object[j])[0] == 'drop_down') {
                         tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
-                        tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm mb-4'";
+                        tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'";
+                        if(object[j].multiple == 'true') {
+                            tmp += " multiple"
+                        }
                         if(content.status == 'false') {
                             tmp = tmp + " disabled";
                         }
                         tmp = tmp + ">";
                         for (var k = 0; k < object[j].pre_filled.length; k++) {
                             tmp = tmp + "<option value='"+object[j].pre_filled[k]+"'";
-                            if(object[j].pre_filled_selected && object[j].pre_filled_selected == object[j].pre_filled[k]) {
-                                tmp = tmp + "selected";
+                            if(object[j].multiple == 'true') {
+                                if(object[j].pre_filled_selected.indexOf(object[j].pre_filled[k]) !== -1) {
+                                    tmp = tmp + " selected";
+                                }
+                            }
+                            else {
+                                if(object[j].pre_filledfilled_selected && object[j].pre_filled_selected == object[j].pre_filled[k]) {
+                                tmp = tmp + " selected";
+                                }
                             }
                             tmp = tmp + ">"+object[j].pre_filled[k]+"</option>";
                         }
@@ -192,6 +203,9 @@ if (strlen($user) == 0) {
                             tmp = tmp + "<button type='button' onclick='saveData("+i+','+j+','+index+")' class='btn my-1 mr-2' style='background-color:"+object[j].buttons[index].background+";color:"+object[j].buttons[index].text+"'></span><span class='text'>"+object[j].buttons[index].button+"</span></button>";
                         }
                         tmp = tmp + "</div>"
+                    }
+                    else if(Object.keys(object[j])[0] == 'divider') {
+                        tmp += "<div class='custom-control custom-border mt-4' style='border-color: #"+object[j].divider+"'/></div>";
                     }
                 }
                 tmp = tmp + "</div></div>";
