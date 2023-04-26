@@ -60,6 +60,9 @@ $agency_id = $_COOKIE['agency_id'];
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
                             <h1 class="h3 mb-4 text-gray-800">Devices</h1>
+                            <div class="nav-item dropdown no-arrow">
+                                <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add Device</span></button>
+                            </div>
                         </div>
     
                         <!-- DataTales Example -->
@@ -72,8 +75,13 @@ $agency_id = $_COOKIE['agency_id'];
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Device Type</th>
+                                            <th>Device Model</th>
                                             <th>Operating System</th>
-                                            <th style="width: 12rem;">Test Notification</th>
+                                            <th>Carrier</th>
+                                            <th>First Login</th>
+                                            <th>Last Login</th>
+                                            <th>App Version</th>
+                                            <th style="width: 13rem;">Test Notification</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -81,8 +89,13 @@ $agency_id = $_COOKIE['agency_id'];
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Device Type</th>
+                                            <th>Device Model</th>
                                             <th>Operating System</th>
-                                            <th style="width: 12rem;">Test Notification</th>
+                                            <th>Carrier</th>
+                                            <th>First Login</th>
+                                            <th>Last Login</th>
+                                            <th>App Version</th>
+                                            <th style="width: 13rem;">Test Notification</th>
                                         </tr>
                                     </tfoot>
                                     <tbody id="table-content">
@@ -114,7 +127,29 @@ $agency_id = $_COOKIE['agency_id'];
 
     </div>
     <!-- End of Page Wrapper -->
-
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="createDeviceForm">
+                <div class="row align-items-center mb-4">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Select User</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <select name='selectedUser' id='selectedUser' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -170,7 +205,16 @@ $agency_id = $_COOKIE['agency_id'];
         function writeData(mainData) {
             var tmp = '';
             mainData.forEach(element => {
-                tmp += "<tr><td class='col-id'>"+element.id+"</td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.name+" readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.device_type+" readOnly></td><td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' value="+element.operating_system+" readOnly></td><td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Send Notification</span></button></td></tr>";
+                tmp += "<tr><td class='col-id'>"+element.id+"</td>";
+                tmp += "<td>"+element.name+"</td>";
+                tmp += "<td>"+element.device_type+"</td>";
+                tmp += "<td>"+element.operating_system+"</td>";
+                tmp += "<td class='col-id'>"+element.carrier+"</td>";
+                tmp += "<td class='col-id'>"+element.first_login+"</td>";
+                tmp += "<td class='col-id'>"+element.last_login+"</td>";
+                tmp += "<td class='col-id'>"+element.name+"</td>";
+                tmp += "<td class='col-id'>"+element.app_version+"</td>";
+                tmp += "<td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Send Notification</span></button></td></tr>";
             });
             document.getElementById('table-content').innerHTML = tmp;
         }
@@ -197,7 +241,6 @@ $agency_id = $_COOKIE['agency_id'];
                     dataType: "json",
                     contentType:'application/json',
                     success: function (res) {
-                        console.log(res);
                         // To hide the loader
                         document.getElementById("my-loader-element").classList.remove("loader");                
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -205,6 +248,71 @@ $agency_id = $_COOKIE['agency_id'];
                 })
             });
         });
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var modalBtn = document.getElementById("openModal");
+        // Get the <span> element that closes the modal
+        var closeBtn = document.getElementsByClassName("close")[0];
+        modalBtn.onclick = function() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/agency-devices/",
+                async:false,
+                data: {
+                    agency_id: init_id,
+                    authorization: "<?php echo $authorization;?>",
+                    get_users: true
+                },
+                success: function (res) {
+                    // var data = res.agencies_devices;
+                    console.log(res);
+                    writeModal(res.users);
+                    // document.getElementById("my-loader-element").classList.remove("loader");                
+                    // document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        }
+        function writeModal(data) {
+            var tmp = '';
+            for (var i = 0; i < data.length; i++) {
+                tmp += "<option value='" + data[i] + "'>" + data[i] + "</option>";
+            }
+            document.getElementById('selectedUser').innerHTML = tmp;
+            modal.style.display = "block";
+        }
+        $('#createDeviceForm').submit(function(e){
+            document.getElementById("my-loader-element").classList.add("loader");                
+            e.preventDefault();
+            user = document.getElementById("selectedUser").value;                
+            var authorization = "<?php echo $authorization;?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                user: user
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-devices/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                success: function (res) {
+                    modal.style.display = "none";
+                    var data = res.agencies_devices;
+                    writeData(data);
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        })
+        closeBtn.onclick = function() {
+           modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </body>
 

@@ -64,6 +64,9 @@ $agency_id = $_COOKIE['agency_id'];
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
                             <h1 class="h3 mb-4 text-gray-800">Users</h1>
+                            <div class="nav-item dropdown no-arrow">
+                                <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add User</span></button>
+                            </div>
                         </div>
     
                         <!-- DataTales Example -->
@@ -75,9 +78,9 @@ $agency_id = $_COOKIE['agency_id'];
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Rank</th>
+                                            <th>Group</th>
                                             <th>Status</th>
-                                            <th>Type</th>
-                                            <th>Medical</th>
                                             <th>Join Date</th>
                                             <th>Last Login</th>
                                             <th style="width:1px">Admin</th>
@@ -88,9 +91,9 @@ $agency_id = $_COOKIE['agency_id'];
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
+                                            <th>Rank</th>
+                                            <th>Group</th>
                                             <th>Status</th>
-                                            <th>Type</th>
-                                            <th>Medical</th>
                                             <th>Join Date</th>
                                             <th>Last Login</th>
                                             <th style="width:1px">Admin</th>
@@ -127,7 +130,61 @@ $agency_id = $_COOKIE['agency_id'];
 
     </div>
     <!-- End of Page Wrapper -->
-
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="createUserForm">
+                <div class="row align-items-center mb-4">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Rank</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <select name='rankType' id='rankType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center mb-4">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Group</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <select name='groupType' id='groupType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center mb-4">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Status</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <select name='statusType' id='statusType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">User Email</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <input type='text' class='form-control small' name="userEmail" id="userEmail" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -173,15 +230,16 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async:false,
                 success: function (res) {
+                    console.log(res);
                     var data = res.agencies_users;
-                    writeData(data);
+                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
         getData(init_id);
-        function writeData(mainData) {
+        function writeData(mainData, groups, ranks, statuses) {
             var tmp = '';
             var index = 0;
             mainData.forEach(element => {
@@ -189,58 +247,31 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td class='col-id'>"+element.id+"</td>";
                 tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value="+element.name+"></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                tmp +="<option value='Available'";
-                if(element.status == 'Available')
-                    tmp +="selected";
-                tmp += ">Available</option>"
-                tmp +="<option value='On Call'";
-                if(element.status == 'On Call')
-                    tmp +="selected";
-                tmp += ">On Call</option>"
-                tmp +="<option value='On Duty'";
-                if(element.status == 'On Duty')
-                    tmp +="selected";
-                tmp += ">On Duty</option>"
-                tmp +="<option value='Off Duty'";
-                if(element.status == 'Off Duty')
-                    tmp +="selected";
-                tmp += ">Off Duty</option>"
+                for (let index = 0; index < ranks.length; index++) {
+                    tmp +="<option value='"+ranks[index]+"'";
+                    if(element.user_ranks == ranks[index]) {
+                        tmp +=" selected";
+                    }
+                    tmp += ">"+ranks[index]+"</option>"
+                } 
                 tmp += "</select></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                tmp +="<option value='Chief'";
-                if(element.type == 'Chief')
-                    tmp +="selected";
-                tmp += ">Chief</option>"
-                tmp +="<option value='Operations Leader'";
-                if(element.type == 'Operations Leader')
-                    tmp +="selected";
-                tmp += ">Operations Leader</option>"
-                tmp +="<option value='Member'";
-                if(element.type == 'Member')
-                    tmp +="selected";
-                tmp += ">Member</option>"
-                tmp +="<option value='Support Member'";
-                if(element.type == 'Support Member')
-                    tmp +="selected";
-                tmp += ">Support Member</option>"
+                for (let index = 0; index < groups.length; index++) {
+                    tmp +="<option value='"+groups[index]+"'";
+                    if(element.user_groups == groups[index]) {
+                        tmp +=" selected";
+                    }
+                    tmp += ">"+groups[index]+"</option>"
+                } 
                 tmp += "</select></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                tmp +="<option value='EMT'";
-                if(element.medical == 'EMT')
-                    tmp +="selected";
-                tmp += ">EMT</option>"
-                tmp +="<option value='Paramedic'";
-                if(element.medical == 'Paramedic')
-                    tmp +="selected";
-                tmp += ">Paramedic</option>"
-                tmp +="<option value='Nurse'";
-                if(element.medical == 'Nurse')
-                    tmp +="selected";
-                tmp += ">Nurse</option>"
-                tmp +="<option value='Doctor'";
-                if(element.medical == 'Doctor')
-                    tmp +="selected";
-                tmp += ">Doctor</option>"
+                for (let index = 0; index < statuses.length; index++) {
+                    tmp +="<option value='"+statuses[index]+"'";
+                    if(element.user_status == statuses[index]) {
+                        tmp +=" selected";
+                    }
+                    tmp += ">"+statuses[index]+"</option>"
+                } 
                 tmp += "</select></td>";
                 tmp +=  "<td>"+element.join_date+"</td>";
                 tmp +=  "<td>"+element.last_login+"</td>";
@@ -336,9 +367,9 @@ $agency_id = $_COOKIE['agency_id'];
                     agency_id: init_id.toString(),
                     id: trElement.querySelector('.col-id').innerHTML,
                     name: input.value,
-                    status: selects[0].value,
-                    type: selects[1].value,
-                    medical: selects[2].value,
+                    rank: selects[0].value,
+                    group: selects[1].value,
+                    status: selects[2].value,
                     admin: checkbox.checked
                 }
                 $.ajax({
@@ -361,6 +392,22 @@ $agency_id = $_COOKIE['agency_id'];
                 });
             });
         });
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var modalBtn = document.getElementById("openModal");
+        // Get the <span> element that closes the modal
+        var closeBtn = document.getElementsByClassName("close")[0];
+        modalBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+        closeBtn.onclick = function() {
+           modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </body>
 

@@ -81,7 +81,7 @@ if (strlen($user) == 0) {
                                 </div>
                                 <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                     <div class="card-header py-2">
-                                        <h6 id="alert-title" class="m-0 font-weight-bold text-danger">asfdafdsfaf</h6>
+                                        <h6 id="alert-title" class="m-0 font-weight-bold text-danger"></h6>
                                     </div>
                                 </div>
                             </div>
@@ -311,6 +311,14 @@ if (strlen($user) == 0) {
                     };
                     array.push(object);
                 }
+                else if(element.type == 'hidden') {
+                    var object = {
+                        type: 'hidden',
+                        label: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
+                        lineColor: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                    };
+                    array.push(object);
+                }
                 else if(element.type == 'select') {
                     var object = {
                         type: 'dropdown',
@@ -388,6 +396,9 @@ if (strlen($user) == 0) {
                                     tmp = tmp + "<button type='button' onclick='saveData("+i+','+j+','+index+")' class='btn my-1 mr-2' style='background-color:"+object[j].buttons[index].background+";color:"+object[j].buttons[index].text+"'></span><span class='text'>"+object[j].buttons[index].button+"</span></button>";
                                 }
                                 tmp = tmp + "</div>"
+                            }
+                            else if(Object.keys(object[j])[0] == 'divider') {
+                                tmp = tmp + "<div class='form-group'><div class='custom-control custom-border small'></div></div>";
                             }
                         }
                         tmp = tmp + "</div></div>";

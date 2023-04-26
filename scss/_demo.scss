@@ -105,7 +105,6 @@
     .formbuilder-icon-autocomplete,
     .formbuilder-icon-date,
     .formbuilder-icon-file,
-    .formbuilder-icon-hidden,
     .formbuilder-icon-number,
     .formbuilder-icon-paragraph,
     .formbuilder-icon-radio-group,
@@ -145,6 +144,12 @@
             width: 100% !important;
         }
     }
+}
+.custom-control.custom-border {
+    border-top: 3x solid;
+}
+.form-wrap.form-builder .frmb li.hidden-field {
+    background-color: white !important;
 }
 #build-wrap {
     padding: 0.5rem;

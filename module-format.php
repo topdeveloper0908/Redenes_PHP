@@ -293,7 +293,6 @@ $agency_id = $_COOKIE['agency_id'];
                     window.location.replace('form-builder?form_id='+res.format_id);
                 }
             })
-            console.log('error');
         })
 
         var modal = document.getElementById("myModal");
