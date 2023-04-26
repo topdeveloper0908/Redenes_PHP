@@ -125,7 +125,12 @@ if (strlen($user) == 0) {
                 object = content[i];
                 tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #"+object[0].color+";'><a class='incident-link' href='select-incident?incident_id="+object[0].incident_id+"'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
                 for(var j = 1; j < object.length; j++) {
-                   tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>"+object[j].field + ": "+object[j].value+"</div>"; 
+                    if(object[j].divider) {
+                        tmp += "<div class='custom-control custom-border mt-4' style='border-color: #"+object[j].divider+"'/></div>";
+                    }
+                    else {
+                        tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>"+object[j].field + ": "+object[j].value+"</div>"; 
+                    }
                 }
                 tmp = tmp + "<div class='font-weight-bold text-uppercase mt-2 mb-0' style='color:"+object[0].color+"'>"+object[0].incident_id+"</div>";
                 tmp = tmp + "</div>"

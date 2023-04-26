@@ -443,16 +443,18 @@ $agency_id = $_COOKIE['agency_id'];
                 url: "https://api.redenes.org/dev/v1/agency-users/",
                 data: JSON.stringify(formData),
                 dataType: "json",
+                async: false,
                 contentType:'application/json',
                 success: function (res) {
                     modal.style.display = "none";
-                    console.log(res);
-                    // var data = res.agencies_devices;
-                    // writeData(data);
+                    var data = res.agencies_users;
+                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    writeModal(res.user_groups, res.user_ranks, res.user_status);
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
+            $('#dataTable').dataTable();
         })
     </script>
 </body>

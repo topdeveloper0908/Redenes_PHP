@@ -214,6 +214,13 @@ if (strlen($user) == 0) {
                 };
                 array.push(object);
             }
+            else if(element.type == 'hidden') {
+                var object = {
+                    type: 'divider',
+                    dividerColor: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
+                };
+                array.push(object);
+            }
             else if(element.type == 'header') {
                 var object = {
                     type: 'header',
@@ -249,6 +256,7 @@ if (strlen($user) == 0) {
         formData.form_data_html = $('.frmb').html();
         formData.form_data_json = array;
         formData.button = 'save';
+        console.log(formData);
         document.getElementById("my-loader-element").classList.add("loader");
         $.ajax({
             type: "POST",
@@ -313,9 +321,8 @@ if (strlen($user) == 0) {
                 }
                 else if(element.type == 'hidden') {
                     var object = {
-                        type: 'hidden',
-                        label: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
-                        lineColor: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                        type: 'divider',
+                        dividerColor: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
                     };
                     array.push(object);
                 }
@@ -347,6 +354,7 @@ if (strlen($user) == 0) {
                 dataType: "json",
                 contentType:'application/json',
                 success: function (res) {
+                    console.log(res.objects);
                     mainData = res.objects
                     writeData();
                 }
@@ -398,7 +406,7 @@ if (strlen($user) == 0) {
                                 tmp = tmp + "</div>"
                             }
                             else if(Object.keys(object[j])[0] == 'divider') {
-                                tmp = tmp + "<div class='form-group'><div class='custom-control custom-border small'></div></div>";
+                                tmp = tmp + "<div class='form-group'><div class='custom-control custom-border small' style='border-color:#"+object[j].divider+"'></div></div>";
                             }
                         }
                         tmp = tmp + "</div></div>";
