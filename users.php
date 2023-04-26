@@ -65,7 +65,7 @@ $agency_id = $_COOKIE['agency_id'];
                             <!-- Page Heading -->
                             <h1 class="h3 mb-4 text-gray-800">Users</h1>
                             <div class="nav-item dropdown no-arrow">
-                                <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add User</span></button>
+                                <button type="button" id="openModal" class='nav-link dropdown-toggle btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add User</span></button>
                             </div>
                         </div>
     
@@ -180,7 +180,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4">
-                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create</span></button>
+                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Invite User</span></button>
                 </div>
             </form>
         </div>
@@ -230,9 +230,9 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async:false,
                 success: function (res) {
-                    console.log(res);
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    writeModal(res.user_groups, res.user_ranks, res.user_status);
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -284,6 +284,23 @@ $agency_id = $_COOKIE['agency_id'];
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
+        }
+        function writeModal(groups, ranks, statuses) {
+            var tmp = '';
+            for (var i = 0; i < groups.length; i++) {
+                tmp += "<option value='" + groups[i] + "'>" + groups[i] + "</option>";
+            }
+            document.getElementById('groupType').innerHTML = tmp;
+            tmp = '';
+            for (var i = 0; i < groups.length; i++) {
+                tmp += "<option value='" + ranks[i] + "'>" + ranks[i] + "</option>";
+            }
+            document.getElementById('rankType').innerHTML = tmp;
+            tmp = '';
+            for (var i = 0; i < statuses.length; i++) {
+                tmp += "<option value='" + statuses[i] + "'>" + statuses[i] + "</option>";
+            }
+            document.getElementById('statusType').innerHTML = tmp;
         }
 
         const editButtons = document.querySelectorAll('.edit-btn');
@@ -408,6 +425,35 @@ $agency_id = $_COOKIE['agency_id'];
                 modal.style.display = "none";
             }
         }
+        $('#createUserForm').submit(function(e){
+            document.getElementById("my-loader-element").classList.add("loader");                
+            e.preventDefault();
+            user = document.getElementById("userEmail").value;                
+            var authorization = "<?php echo $authorization;?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                rank: document.getElementById("rankType").value,
+                group: document.getElementById("groupType").value,
+                status: document.getElementById("statusType").value,
+                email: document.getElementById("userEmail").value
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-users/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                success: function (res) {
+                    modal.style.display = "none";
+                    console.log(res);
+                    // var data = res.agencies_devices;
+                    // writeData(data);
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        })
     </script>
 </body>
 
