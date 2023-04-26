@@ -136,9 +136,8 @@ if (strlen($user) == 0) {
                     authorization: "<?php echo $authorization;?>",
                     incident_id: "<?php echo $incident_id;?>"
                 },
-                async = false,
+                async:false,
                 success: function (res) {
-                    console.log(res);
                     writeData(res);
                     formData = res;
                     // To hide the loader
