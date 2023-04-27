@@ -43,7 +43,8 @@ Multiselect.prototype = {
         var first = false;
 
         $(document).on("click", that.selector + ".multiselect > .title", function(e) {
-            if($(e.target).parent()[0].classList.value.indexOf('active') < 0) {
+                        console.log(e);
+            if($(e.currentTarget).parent()[0].classList.value.indexOf('active') < 0) {
                 that.open();
             }
             else {
@@ -53,7 +54,7 @@ Multiselect.prototype = {
 
         $(document).on("click", that.selector + ".multiselect option", function(e) {
             var selection = $(this).attr("value");
-            var target = $(this).parent().parent().attr("data-target");
+            var target = $(this).parent().parent()  .attr("data-target");
 
             var io = that.selections.search(selection);
             if(io < 0) that.selections.push(selection);
