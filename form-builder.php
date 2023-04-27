@@ -72,12 +72,22 @@ if (strlen($user) == 0) {
                             <h4>Form Name: <span id="form"></span></h4>
                             <div class="d-md-flex align-items-center">
                                 <div class="align-items-center mt-2" role="group">
-                                    <button type="button" id="preview" class="btn btn-info">Preview</button>
+                                    <button class="btn btn-primary preview-btn btn-icon-split text" type="button" id="preview">Preview</button>
                                     <!-- <button type="button" id="getHTML" class="btn btn-success">Get HTML</button>
                                     <button type="button" id="getXML" class="btn btn-success">Get XML</button>
                                     <button type="button" id="getJSON" class="btn btn-success">Get JSON</button> -->
-                                    <button type="button" id="getJSON" class="btn btn-success mx-2">Save</button>
-                                    <a href="module-format" class="btn btn-danger">Cancel</a>
+                                    <button type="button" id="getJSON" class="btn btn-success btn-icon-split mx-2">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Save</span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">Cancel</span>
+                                    </a>
                                 </div>
                                 <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                     <div class="card-header py-2">
@@ -121,26 +131,6 @@ if (strlen($user) == 0) {
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script src="js/main.js"></script>

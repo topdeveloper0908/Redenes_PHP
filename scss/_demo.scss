@@ -68,7 +68,9 @@
         max-width: 6rem;
     }
 }
-
+.btn .icon i {
+    line-height: 1.5;
+}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -150,6 +152,21 @@
     border-left: none;
     border-right: none;
     border-bottom: none;
+}
+.preview-btn {
+    align-items: center;
+    padding-right: 0.8rem;
+    position: relative;
+    &::before {
+        content: '+';
+        background-color: rgba(0,0,0,0.15);
+        padding: 0.25rem 0.7rem;
+        margin-right: 0.8rem;
+        font-size: 1.8rem;
+        line-height: 1;
+        font-weight: 800;
+        color: rgba(255,255,255,0.55);
+    }
 }
 .form-wrap.form-builder .frmb li.hidden-field {
     background-color: white !important;

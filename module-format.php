@@ -231,7 +231,6 @@ $agency_id = $_COOKIE['agency_id'];
     <script src="js/main.js"></script>
 
     <script>        
-
         init_id = "<?php echo $agency_id;?>";
         function getData(agency_id) {
             $.ajax({
