@@ -119,6 +119,7 @@ if (strlen($user) == 0) {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/main.js"></script>
 
 <script>
         // To show the loader
@@ -171,30 +172,40 @@ if (strlen($user) == 0) {
                         tmp = tmp + "><label class='custom-control-label' for='incident_ob"+i.toString()+"_check"+j.toString()+"'>"+object[j].check_box+"</label></div></div>";
                     }
                     else if(Object.keys(object[j])[0] == 'drop_down') {
-                        tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
-                        tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'";
                         if(object[j].multiple == 'true') {
-                            tmp += " multiple"
+                            tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
+                            tmp += "<div class='multiselect mb-3' id='multi-dropdown"+j+"' multiple='multiple' data-target='multi-0'>";
+                            tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                            tmp += " <div class='dropdown-container'>"
+                            for (var k = 0; k < object[j].pre_filled.length; k++) {
+                                tmp += "<option value='"+object[j].pre_filled[k]+"'>"+object[j].pre_filled[k]+"</option>";
+                            }    
+                            tmp += "</div></div></div>";
+                            new Multiselect('#multi-dropdown'+j);
                         }
-                        if(content.status == 'false') {
-                            tmp = tmp + " disabled";
-                        }
-                        tmp = tmp + ">";
-                        for (var k = 0; k < object[j].pre_filled.length; k++) {
-                            tmp = tmp + "<option value='"+object[j].pre_filled[k]+"'";
-                            if(object[j].multiple == 'true') {
-                                if(object[j].pre_filled_selected.indexOf(object[j].pre_filled[k]) !== -1) {
+                        else {
+                            tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
+                            tmp = tmp + "<select id='incident_ob"+i.toString()+"_dropdown"+j.toString()+"' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'";
+                            if(content.status == 'false') {
+                                tmp = tmp + " disabled";
+                            }
+                            tmp = tmp + ">";
+                            for (var k = 0; k < object[j].pre_filled.length; k++) {
+                                tmp = tmp + "<option value='"+object[j].pre_filled[k]+"'";
+                                if(object[j].multiple == 'true') {
+                                    if(object[j].pre_filled_selected.indexOf(object[j].pre_filled[k]) !== -1) {
+                                        tmp = tmp + " selected";
+                                    }
+                                }
+                                else {
+                                    if(object[j].pre_filledfilled_selected && object[j].pre_filled_selected == object[j].pre_filled[k]) {
                                     tmp = tmp + " selected";
+                                    }
                                 }
+                                tmp = tmp + ">"+object[j].pre_filled[k]+"</option>";
                             }
-                            else {
-                                if(object[j].pre_filledfilled_selected && object[j].pre_filled_selected == object[j].pre_filled[k]) {
-                                tmp = tmp + " selected";
-                                }
-                            }
-                            tmp = tmp + ">"+object[j].pre_filled[k]+"</option>";
+                            tmp = tmp + "</select></div>";
                         }
-                        tmp = tmp + "</select></div>";
                     }
                     else if(Object.keys(object[j])[0] == 'buttons') {
                         tmp = tmp + "<div class='d-flex justify-content-center'>";
@@ -248,6 +259,11 @@ if (strlen($user) == 0) {
                 }
             })
         }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var multi = new Multiselect("#countries");
+        });
     </script>
 </body>
 
