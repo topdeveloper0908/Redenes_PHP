@@ -51,7 +51,9 @@ Multiselect.prototype = {
             var target = $(this).parent().parent().attr("data-target");
 
             var io = that.selections.search(selection);
-
+            console.log(io);
+            console.log(that);
+            console.log(that.selections);
             if(io < 0) that.selections.push(selection);
             else that.selections.splice(io, 1);
 

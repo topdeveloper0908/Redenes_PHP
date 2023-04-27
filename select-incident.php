@@ -141,6 +141,7 @@ if (strlen($user) == 0) {
                 success: function (res) {
                     writeData(res);
                     formData = res;
+                    console.log(res);
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -173,12 +174,23 @@ if (strlen($user) == 0) {
                     }
                     else if(Object.keys(object[j])[0] == 'drop_down') {
                         if(object[j].multiple == 'true') {
-                            tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
-                            tmp += "<div class='multiselect mb-3' id='multi-dropdown"+j+"' multiple='multiple' data-target='multi-0'>";
-                            tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                            if(object[j].pre_filled_selected !='' ) {
+                                tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
+                                tmp += "<div class='multiselect mb-3 selection' id='multi-dropdown"+j+"' multiple='multiple' data-target='multi-"+j+"'>";
+                                tmp += "<div class='title noselect' title='"+object[j].pre_filled_selected.join(',')+"'><span class='text'>"+object[j].pre_filled_selected.join(',')+"</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                            }
+                            else {
+                                tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";
+                                tmp += "<div class='multiselect mb-3' id='multi-dropdown"+j+"' multiple='multiple' data-target='multi-"+j+"'>";
+                                tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"   
+                            }
                             tmp += " <div class='dropdown-container'>"
                             for (var k = 0; k < object[j].pre_filled.length; k++) {
-                                tmp += "<option value='"+object[j].pre_filled[k]+"'>"+object[j].pre_filled[k]+"</option>";
+                                tmp += "<option value='"+object[j].pre_filled[k]+"'";
+                                if(object[j].pre_filled_selected.indexOf(object[j].pre_filled[k]) !=-1) {
+                                    tmp +="class='selected'"
+                                }
+                                tmp +=">"+object[j].pre_filled[k]+"</option>";
                             }    
                             tmp += "</div></div></div>";
                             new Multiselect('#multi-dropdown'+j);
