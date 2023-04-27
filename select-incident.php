@@ -186,14 +186,14 @@ if (strlen($user) == 0) {
                             }
                             tmp += " <div class='dropdown-container'>"
                             for (var k = 0; k < object[j].pre_filled.length; k++) {
-                                tmp += "<option value='"+object[j].pre_filled[k]+"'";
+                                tmp += "<option value='"+object[j].pre_filled[k]+"' class='option-item";
                                 if(object[j].pre_filled_selected.indexOf(object[j].pre_filled[k]) !=-1) {
-                                    tmp +="class='selected'"
+                                    tmp +=" selected"
                                 }
-                                tmp +=">"+object[j].pre_filled[k]+"</option>";
+                                tmp +="'>"+object[j].pre_filled[k]+"</option>";
                             }    
                             tmp += "</div></div></div>";
-                            new Multiselect('#multi-dropdown'+j);
+                            new Multiselect('#multi-dropdown'+j, object[j].pre_filled_selected);
                         }
                         else {
                             tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down +"</label>";

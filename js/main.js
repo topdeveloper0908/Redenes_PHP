@@ -6,14 +6,14 @@ Array.prototype.search = function(elem) {
     return -1;
 };
 
-var Multiselect = function(selector) {
+var Multiselect = function(selector, selections) {
     if(!$(selector)) {
         console.error("ERROR: Element %s does not exist.", selector);
         return;
     }
 
     this.selector = selector;
-    this.selections = [];
+    this.selections = selections;
 
     (function(that) {
         that.events();
@@ -29,8 +29,8 @@ Multiselect.prototype = {
         if(!this.selections) {
             this.selections = [ ];
         }
-
-        $(this.selector + ".multiselect").toggleClass("active");
+        $('.multiselect').removeClass('active');
+        $(this.selector + ".multiselect").addClass("active");
     },
 
     close: function() {
@@ -40,9 +40,14 @@ Multiselect.prototype = {
     events: function() {
         var that = this;
 
+        var first = false;
+
         $(document).on("click", that.selector + ".multiselect > .title", function(e) {
-            if(e.target.className.indexOf("close-icon") < 0) {
+            if($(e.target).parent()[0].classList.value.indexOf('active') < 0) {
                 that.open();
+            }
+            else {
+                that.close();   
             }
         });
 
@@ -51,9 +56,6 @@ Multiselect.prototype = {
             var target = $(this).parent().parent().attr("data-target");
 
             var io = that.selections.search(selection);
-            console.log(io);
-            console.log(that);
-            console.log(that.selections);
             if(io < 0) that.selections.push(selection);
             else that.selections.splice(io, 1);
 
@@ -69,7 +71,7 @@ Multiselect.prototype = {
             if(e.target.className.indexOf("title") < 0) {
                 if(e.target.className.indexOf("text") < 0) {
                     if(e.target.className.indexOf("-icon") < 0) {
-                        if(e.target.className.indexOf("selected") < 0 ||
+                        if(e.target.className.indexOf("option-item") < 0 ||
                            e.target.localName != "option") {
                             that.close();
                         }
