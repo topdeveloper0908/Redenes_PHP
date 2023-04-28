@@ -538,19 +538,19 @@ if (strlen($user) == 0) {
         }
         function cleanModal() {
             document.getElementById("nameAuction").value = '';
-            document.getElementById("modalDropdownName2").innerHTML = '';
+            document.getElementById("modalDropdownName2").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent2").innerHTML = '';
             document.getElementById("modalDropdownContent2").setAttribute('disabled', true);
-            document.getElementById("modalDropdownName3").innerHTML = '';
+            document.getElementById("modalDropdownName3").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent3").innerHTML = '';
             document.getElementById("modalDropdownContent3").setAttribute('disabled', true);
-            document.getElementById("modalDropdownName4").innerHTML = '';
+            document.getElementById("modalDropdownName4").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent4").innerHTML = '';
             document.getElementById("modalDropdownContent4").setAttribute('disabled', true);
-            document.getElementById("modalDropdownName5").innerHTML = '';
+            document.getElementById("modalDropdownName5").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent5").innerHTML = '';
             document.getElementById("modalDropdownContent5").setAttribute('disabled', true);
-            document.getElementById("modalDropdownName6").innerHTML = '';
+            document.getElementById("modalDropdownName6").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent6").innerHTML = '';
             document.getElementById("modalDropdownContent6").setAttribute('disabled', true);
         }
