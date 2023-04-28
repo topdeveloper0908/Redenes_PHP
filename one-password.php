@@ -92,9 +92,10 @@ if (strlen($phone) == 0) {
     <script>
         $(document).ready(function () {
             $("form").submit(function (event) {
+                cell_number = <?php echo $phone;?>;
                 var formData = {
                     one_time_password: $("#password").val(),
-                    cell_number: <?php echo $phone;?>
+                    cell_number: cell_number.toString()
                 };
                 $.ajax({
                     type: "POST",

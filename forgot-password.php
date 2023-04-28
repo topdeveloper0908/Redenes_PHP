@@ -89,7 +89,7 @@
         $(document).ready(function () {
             $("form").submit(function (event) {
                 var formData = {
-                    cell_number: $("#phone").val(),
+                    cell_number: $("#phone").val().toString(),
                 };
                 $.ajax({
                     type: "POST",
