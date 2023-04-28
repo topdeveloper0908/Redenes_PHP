@@ -264,7 +264,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp +=  "<td>"+element.last_edit+"</td>";
                 tmp +=  "<td>"+element.status+"</td>";
                 tmp += "<td><a href='form-builder?form_id="+element.format_id+"' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
-                tmp += "<td><a href='' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
+                tmp += "<td><a href='format-logic-builder?format_id="+element.format_id+"' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "</tr>";
                 index++;
             });
