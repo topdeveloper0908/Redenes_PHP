@@ -175,29 +175,85 @@ if (strlen($user) == 0) {
             <span class="close" onclick="closeModal()">&times;</span>
             <form id="createUserForm">
                 <div id="modalFromContent">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center mb-2">
                         <div class="col-4">
-                            <h6 class="ml-2 mb-0 text-right">User Email</h6>
+                            <h6 class="ml-2 mb-0 text-right">Name Action</h6>
                         </div>
                         <div class="col-8">
                             <div class="d-flex align-items-center">
-                                <input type='email' class='form-control small' name="userEmail" id="userEmail" required />
+                                <input type='text' class='form-control small' name="nameAuction" id="nameAuction" required />
                             </div>
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center mb-2">
                         <div class="col-4">
-                            <h6 class="ml-2 mb-0 text-right">Name</h6>
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName1">N/A</h6>
                         </div>
                         <div class="col-8">
                             <div class="d-flex align-items-center">
-                                <input type='text' class='form-control small' name="modalName" id="modalName" required />
+                                <select name='groupType' onchange='getNextDropdown(event, 2)' id='modalDropdownContent1' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName2">N/A</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <select name='groupType' onchange='getNextDropdown(event, 3)' id='modalDropdownContent2' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName3">N/A</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <select name='groupType' onchange='getNextDropdown(event, 4)' id='modalDropdownContent3' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName4">N/A</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <select name='groupType' onchange='getNextDropdown(event, 5)' id='modalDropdownContent4' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName5">N/A</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <select name='groupType' onchange='getNextDropdown(event, 6)' id='modalDropdownContent5' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right" id="modalDropdownName6">N/A</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <select name='groupType' id='modalDropdownContent6' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center mt-4">
-                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button>
+                <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                    <button type="submit" class='nav-link dropdown-toggle btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button>
                     <button type="submit" onclick="closeModal()" class='nav-link dropdown-toggle btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>
                 </div>
             </form>
@@ -220,7 +276,6 @@ if (strlen($user) == 0) {
                 url: "https://api.redenes.org/dev/v1/format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
                 async:false,
                 success: function (res) {
-                    console.log(res);
                     writeData(res);
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -232,7 +287,8 @@ if (strlen($user) == 0) {
         document.getElementById("my-loader-wrapper").classList.add("d-none");                   
         function writeData(data) {
             var tmp = '';
-            var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
+            row = 0;
+            // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
             writeMetaData(data.form_id, data.form_name, data.module, data.type);
             objects = data.objects;
             for (var i = 0; i < objects.length; i++) {
@@ -243,22 +299,25 @@ if (strlen($user) == 0) {
                         tmp +="<td>"+objects[i][j].title+"</td>";
                         tmp +="<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
+                        row++;
                     }
                     else if(Object.keys(objects[i][j])[0] == 'drop_down') {
                         tmp += "<tr>";
                         tmp += "<td>Drop Down</td>";
                         tmp += "<td>"+objects[i][j].drop_down+"</td>";
                         tmp += "<td>"+objects[i][j].pre_filled[0]+"</td>";
-                        tmp += "<td>"+button+"</td>";
+                        tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp += "</tr>";
+                        row++;
                         for (var k = 1; k < objects[i][j].pre_filled.length; k++) {
                             tmp += "<tr>";
                             tmp += "<td></td><td></td>";
                             tmp += "<td>"+objects[i][j].pre_filled[k]+"</td>";
-                            tmp += "<td>"+button+"</td>";
+                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row)+",0,"+k+")'>Add Action</button>"+"</td>";
                             tmp += "<td></td><td></td><td></td><td></td><td></td>";
                             tmp += "</tr>";
+                            row++;
                         }
                     }
                     else if(Object.keys(objects[i][j])[0] == 'buttons') {
@@ -267,9 +326,10 @@ if (strlen($user) == 0) {
                             tmp += "<td>Button</td>";
                             tmp += "<td>"+objects[i][j].buttons[k].button+"</td>";
                             tmp += "<td>True</td>";
-                            tmp += "<td>"+button+"</td>";
+                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                             tmp += "<td></td><td></td><td></td><td></td><td></td>";
                             tmp += "</tr>";
+                            row++;
                         }
                     }
                     else if(Object.keys(objects[i][j])[0] == 'button') {
@@ -277,34 +337,38 @@ if (strlen($user) == 0) {
                         tmp += "<td>Button</td>";
                         tmp += "<td>"+objects[i][j].button.button+"</td>";
                         tmp += "<td>True</td>";
-                        tmp += "<td>"+button+"</td>";
+                        tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
+                        row++;
                     }  
                     else if(Object.keys(objects[i][j])[0] == 'text_box') {
                         tmp += "<tr>";
                         tmp += "<td>Text Box</td>";
                         tmp += "<td>"+objects[i][j].text_box+"</td>";
                         tmp += "<td>"+objects[i][j].pre_filled+"</td>";
-                        tmp += "<td>"+button+"</td>";
+                        tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
+                        row++;
                     }
                     else if(Object.keys(objects[i][j])[0] == 'check_box') {
                         tmp += "<tr>";
                         tmp += "<td>Check Box</td>";
                         tmp += "<td>"+objects[i][j].check_box+"</td>";
                         tmp += "<td>True</td>";
-                        tmp += "<td>"+button+"</td>";
+                        tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
-                        tmp += "<tr><td></td><td></td><td>False</td><td>"+button+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        tmp += "<tr><td></td><td></td><td>False</td><td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row+1)+",0,1"+")'>Add Action</button>"+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        row+=2;
                     }
                     else if(Object.keys(objects[i][j])[0] == 'divider') {
                         tmp += "<tr>";
                         tmp += "<td>Divider</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
+                        row++;
                     }
 
                 }
@@ -332,11 +396,16 @@ if (strlen($user) == 0) {
         }
         var authorization = "<?php echo $authorization;?>";
         var agency_id = "<?php echo $agency_id;?>";     
-        function addAction(e) {
+        function addAction(e, row, col, item_number) {
             e.preventDefault();
             tdElement = e.currentTarget.parentNode;
             trElement = tdElement.parentNode;   
             action = trElement.firstChild.innerHTML.toLowerCase().replace(' ', '_');
+            if(action == '') {
+                console.log(row, item_number);
+                tableElement = trElement.parentNode;
+                action = tableElement.children[row-item_number].children[0].innerHTML.toLowerCase().replace(' ', '_');
+            }
             var formData = {
                 authorization: authorization,
                 agency_id: agency_id,
@@ -351,44 +420,56 @@ if (strlen($user) == 0) {
                 async:false,
                 success: function (res) {
                     console.log(res);
-                    writeModal(res.name, res.pre_filled, 0);
+                    writeModal(res.name, res.pre_filled, row, col, item_number);
                     // writeData(res);
                     // document.getElementById("my-loader-element").classList.remove("loader");                
                     // document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
-        function writeModal(name, content, method) {
+        function writeModal(name, content, row, col, item_number) {
             var tmp = '';
-            if(method == 0) {
-                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>User Email</h6></div><div class='col-8'><div class='d-flex align-items-center'><input type='email' class='form-control small' name='userEmail' id='userEmail' required /></div></div></div>";
-                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
-                tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
-                for (var i = 0; i < content.length; i++) {
-                    tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
-                }
-                tmp += "</select></div></div></div>";
-                document.getElementById('modalFromContent').innerHTML = tmp;
-                modal.style.display = "block";                
+            document.getElementById("modalDropdownName1").innerHTML = name;
+            for (let index = 0; index < content.length; index++) {
+                const element = content[index];
+                tmp += "<option value='"+content[index]+"'>"+content[index]+"</option>";
             }
-            if(method == 1) {
-                tmp = document.getElementById('modalFromContent').innerHTML;
-                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
-                tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
-                for (var i = 0; i < content.length; i++) {
-                    tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
-                }
-                tmp += "</select></div></div></div>";
-                document.getElementById('modalFromContent').innerHTML = tmp;
-                modal.style.display = "block";
-            }
-            actinoNumber++;
+            document.getElementById("modalDropdownContent1").innerHTML = tmp;
+            document.getElementById("modalDropdownContent1").removeAttribute('disabled');
+            document.getElementById("modal-btn-wrapper").innerHTML = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link dropdown-toggle btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button><button type='submit' onclick='closeModal()' class='nav-link dropdown-toggle btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>";
+            // if(method == 0) {
+            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>User Email</h6></div><div class='col-8'><div class='d-flex align-items-center'><input type='email' class='form-control small' name='userEmail' id='userEmail' required /></div></div></div>";
+            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
+            //     tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
+            //     for (var i = 0; i < content.length; i++) {
+            //         tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
+            //     }
+            //     tmp += "</select></div></div></div>";
+            //     document.getElementById('modalFromContent').innerHTML = tmp;
+            //     modal.style.display = "block";                
+            // }
+            // if(method == 1) {
+            //     tmp = document.getElementById('modalFromContent').innerHTML;
+            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
+            //     tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
+            //     for (var i = 0; i < content.length; i++) {
+            //         tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
+            //     }
+            //     tmp += "</select></div></div></div>";
+            //     document.getElementById('modalFromContent').innerHTML = tmp;
+            //     modal.style.display = "block";
+            // }
+            // actinoNumber++;
+            modal.style.display = "block";                
         }
-        function getNextDropdown(e) {
-            console.log(e.currentTarget.classList.value.indexOf('nextDisable'));
-            if(e.currentTarget.classList.value.indexOf('nextDisable')>-1)
-                return;
-            e.currentTarget.classList.add('nextDisable');
+        function getNextDropdown(e, i) {
+            if(i < 6) {
+                for (let index = i; index < 6; index++) {
+                    document.getElementById('modalDropdownName'+index.toString()).innerHTML = 'N/A';
+                    document.getElementById('modalDropdownContent'+index.toString()).innerHTML = '';
+                    document.getElementById('modalDropdownContent'+index.toString()).setAttribute('disabled', true);
+                }
+            }
             var formData = {
                 authorization: authorization,
                 agency_id: agency_id,
@@ -402,15 +483,15 @@ if (strlen($user) == 0) {
                 contentType:'application/json',
                 async:false,
                 success: function (res) {
-                    console.log(res);
-                    if(res.name == 'N/A') {
-
+                    if(res.name == 'N/A')
+                        return;
+                    tmp = '';
+                    document.getElementById("modalDropdownName"+i).innerHTML = res.name;
+                    for (let index = 0; index < res.pre_filled.length; index++) {   
+                        tmp += "<option value='"+res.pre_filled[index]+"'>"+res.pre_filled[index]+"</option>";
                     }
-                    else {
-                        writeModal(res.name, res.pre_filled, 1);
-                    }
-                    // writeModal(res.name, res.pre_filled);
-                    // writeData(res);
+                    document.getElementById("modalDropdownContent"+i).innerHTML = tmp;
+                    document.getElementById("modalDropdownContent"+i).removeAttribute('disabled');
                     // document.getElementById("my-loader-element").classList.remove("loader");                
                     // document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -418,6 +499,37 @@ if (strlen($user) == 0) {
         }
         function closeModal() {
            modal.style.display = "none";
+        }
+        function saveAction(e, row, col, item_number) {
+            auctionName = document.getElementById('nameAuction').value;
+            if(auctionName == '') {
+                window.alert('Name Auction should not be empty');
+                return;
+            }
+            names = [];
+            content = [];
+            for (let index=1; index < 7; index++) {
+                if((document.getElementById('modalDropdownName'+index)).innerHTML == 'N/A') {
+                    names.push('');    
+                }
+                else {
+                    names.push((document.getElementById('modalDropdownName'+index)).innerHTML);
+                }
+                if((document.getElementById('modalDropdownContent'+index)).value == 'Please Make a Selection') {
+                    content.push('');
+                }
+                else {
+                    content.push((document.getElementById('modalDropdownContent'+index)).value);
+                }
+            }
+            nextAction(row, col, item_number);
+        }
+        function nextAction(row, col, item_number) {
+            if(col<6) {
+                document.getElementById('table-content').children[row].children[col+3].innerHTML = '';
+                document.getElementById('table-content').children[row].children[col+4].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col+1)+","+item_number+")'>Add Action</button>";
+            }
+            closeModal();
         }
         //$('#dataTable').dataTable();
     </script>
