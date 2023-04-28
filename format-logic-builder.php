@@ -435,7 +435,7 @@ if (strlen($user) == 0) {
                 tmp += "<option value='"+content[index]+"'>"+content[index]+"</option>";
             }
             document.getElementById("modalDropdownContent1").innerHTML = tmp;
-            document.getElementById("modalDropdownContent1").removeAttribute('disabled');
+            document.getElementById("modalDropdownContent1").removeAttribute('disabled');            
             document.getElementById("modal-btn-wrapper").innerHTML = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link dropdown-toggle btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button><button type='submit' onclick='closeModal()' class='nav-link dropdown-toggle btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>";
             // if(method == 0) {
             //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>User Email</h6></div><div class='col-8'><div class='d-flex align-items-center'><input type='email' class='form-control small' name='userEmail' id='userEmail' required /></div></div></div>";
@@ -460,7 +460,7 @@ if (strlen($user) == 0) {
             //     modal.style.display = "block";
             // }
             // actinoNumber++;
-            modal.style.display = "block";                
+            openModal();
         }
         function getNextDropdown(e, i) {
             if(i < 6) {
@@ -497,8 +497,12 @@ if (strlen($user) == 0) {
                 }
             })
         }
+        function openModal() {
+           modal.style.display = "block";
+        }
         function closeModal() {
-           modal.style.display = "none";
+            cleanModal();
+            modal.style.display = "none";
         }
         function saveAction(e, row, col, item_number) {
             auctionName = document.getElementById('nameAuction').value;
@@ -529,7 +533,26 @@ if (strlen($user) == 0) {
                 document.getElementById('table-content').children[row].children[col+3].innerHTML = '';
                 document.getElementById('table-content').children[row].children[col+4].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col+1)+","+item_number+")'>Add Action</button>";
             }
+            cleanModal();
             closeModal();
+        }
+        function cleanModal() {
+            document.getElementById("nameAuction").value = '';
+            document.getElementById("modalDropdownName2").innerHTML = '';
+            document.getElementById("modalDropdownContent2").innerHTML = '';
+            document.getElementById("modalDropdownContent2").setAttribute('disabled', true);
+            document.getElementById("modalDropdownName3").innerHTML = '';
+            document.getElementById("modalDropdownContent3").innerHTML = '';
+            document.getElementById("modalDropdownContent3").setAttribute('disabled', true);
+            document.getElementById("modalDropdownName4").innerHTML = '';
+            document.getElementById("modalDropdownContent4").innerHTML = '';
+            document.getElementById("modalDropdownContent4").setAttribute('disabled', true);
+            document.getElementById("modalDropdownName5").innerHTML = '';
+            document.getElementById("modalDropdownContent5").innerHTML = '';
+            document.getElementById("modalDropdownContent5").setAttribute('disabled', true);
+            document.getElementById("modalDropdownName6").innerHTML = '';
+            document.getElementById("modalDropdownContent6").innerHTML = '';
+            document.getElementById("modalDropdownContent6").setAttribute('disabled', true);
         }
         //$('#dataTable').dataTable();
     </script>
