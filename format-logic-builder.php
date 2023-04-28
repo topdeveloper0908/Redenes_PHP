@@ -10,7 +10,7 @@ if (strlen($user) == 0) {
     $_SESSION['user']= $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
     $agency_id = $_COOKIE['agency_id'];
-    $form_id = $_REQUEST['form_id'];
+    $format_id = $_REQUEST['format_id'];
 ?>
 <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript-->
@@ -167,62 +167,42 @@ if (strlen($user) == 0) {
 
     </div>
     <!-- End of Page Wrapper -->
+
     <!-- The Modal -->
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
             <form id="createUserForm">
-                <div class="row align-items-center">
-                    <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Name Action</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <input type='text' class='form-control small' name="userEmail" id="userEmail" required />
+                <div id="modalFromContent">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right">User Email</h6>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <input type='email' class='form-control small' name="userEmail" id="userEmail" required />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Rank</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <select name='rankType' id='rankType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
-                            </select>
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <h6 class="ml-2 mb-0 text-right">Name</h6>
                         </div>
-                    </div>
-                </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Group</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <select name='groupType' id='groupType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Status</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <select name='statusType' id='statusType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
-                            </select>
+                        <div class="col-8">
+                            <div class="d-flex align-items-center">
+                                <input type='text' class='form-control small' name="modalName" id="modalName" required />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4">
-                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Invite User</span></button>
+                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button>
+                    <button type="submit" onclick="closeModal()" class='nav-link dropdown-toggle btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>
                 </div>
             </form>
         </div>
     </div>
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -233,6 +213,7 @@ if (strlen($user) == 0) {
 
     <script>
         init_id = "<?php echo $agency_id;?>";
+        actinoNumber = 0;
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
@@ -251,7 +232,7 @@ if (strlen($user) == 0) {
         document.getElementById("my-loader-wrapper").classList.add("d-none");                   
         function writeData(data) {
             var tmp = '';
-            var button = "<button class='btn btn-primary' onclick='openModal(e)'>Add Action</button>";
+            var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
             writeMetaData(data.form_id, data.form_name, data.module, data.type);
             objects = data.objects;
             for (var i = 0; i < objects.length; i++) {
@@ -317,7 +298,7 @@ if (strlen($user) == 0) {
                         tmp += "<td>"+button+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
-                        tmp += "<tr><td></td><td></td><td>False</td><td>"+button+"</td><td></td><td></td><td></td><td></td></tr>";
+                        tmp += "<tr><td></td><td></td><td>False</td><td>"+button+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
                     }
                     else if(Object.keys(objects[i][j])[0] == 'divider') {
                         tmp += "<tr>";
@@ -338,19 +319,105 @@ if (strlen($user) == 0) {
         }
         var modal = document.getElementById("myModal");
         // Get the button that opens the modal
-        var modalBtn = document.getElementById("openModal");
+        // var modalBtn = document.getElementById("openModal");
         // Get the <span> element that closes the modal
         var closeBtn = document.getElementsByClassName("close")[0];
         modalBtn.onclick = function() {
             modal.style.display = "block";
         }
-        closeBtn.onclick = function() {
-           modal.style.display = "none";
-        }
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+        var authorization = "<?php echo $authorization;?>";
+        var agency_id = "<?php echo $agency_id;?>";     
+        function addAction(e) {
+            e.preventDefault();
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;   
+            action = trElement.firstChild.innerHTML.toLowerCase().replace(' ', '_');
+            var formData = {
+                authorization: authorization,
+                agency_id: agency_id,
+                action: action
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                async:false,
+                success: function (res) {
+                    console.log(res);
+                    writeModal(res.name, res.pre_filled, 0);
+                    // writeData(res);
+                    // document.getElementById("my-loader-element").classList.remove("loader");                
+                    // document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        }
+        function writeModal(name, content, method) {
+            var tmp = '';
+            if(method == 0) {
+                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>User Email</h6></div><div class='col-8'><div class='d-flex align-items-center'><input type='email' class='form-control small' name='userEmail' id='userEmail' required /></div></div></div>";
+                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
+                tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
+                for (var i = 0; i < content.length; i++) {
+                    tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
+                }
+                tmp += "</select></div></div></div>";
+                document.getElementById('modalFromContent').innerHTML = tmp;
+                modal.style.display = "block";                
+            }
+            if(method == 1) {
+                tmp = document.getElementById('modalFromContent').innerHTML;
+                tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
+                tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
+                for (var i = 0; i < content.length; i++) {
+                    tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
+                }
+                tmp += "</select></div></div></div>";
+                document.getElementById('modalFromContent').innerHTML = tmp;
+                modal.style.display = "block";
+            }
+            actinoNumber++;
+        }
+        function getNextDropdown(e) {
+            console.log(e.currentTarget.classList.value.indexOf('nextDisable'));
+            if(e.currentTarget.classList.value.indexOf('nextDisable')>-1)
+                return;
+            e.currentTarget.classList.add('nextDisable');
+            var formData = {
+                authorization: authorization,
+                agency_id: agency_id,
+                action: e.currentTarget.value
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                async:false,
+                success: function (res) {
+                    console.log(res);
+                    if(res.name == 'N/A') {
+
+                    }
+                    else {
+                        writeModal(res.name, res.pre_filled, 1);
+                    }
+                    // writeModal(res.name, res.pre_filled);
+                    // writeData(res);
+                    // document.getElementById("my-loader-element").classList.remove("loader");                
+                    // document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        }
+        function closeModal() {
+           modal.style.display = "none";
         }
         //$('#dataTable').dataTable();
     </script>
