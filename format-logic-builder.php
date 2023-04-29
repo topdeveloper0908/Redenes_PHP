@@ -181,7 +181,7 @@ if (strlen($user) == 0) {
                         </div>
                         <div class="col-8">
                             <div class="d-flex align-items-center">
-                                <input type='text' class='form-control small' name="nameAuction" id="nameAuction" required />
+                                <input type='text' class='form-control small' name="nameAction" id="nameAction" required />
                             </div>
                         </div>
                     </div>
@@ -253,8 +253,8 @@ if (strlen($user) == 0) {
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
-                    <button type="submit" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button>
-                    <button type="submit" onclick="closeModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>
+                    <button type="submit" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button>
+                    <button type="submit" onclick="closeModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
                 </div>
             </form>
         </div>
@@ -402,7 +402,6 @@ if (strlen($user) == 0) {
             trElement = tdElement.parentNode;   
             action = trElement.firstChild.innerHTML.toLowerCase().replace(' ', '_');
             if(action == '') {
-                console.log(row, item_number);
                 tableElement = trElement.parentNode;
                 action = tableElement.children[row-item_number].children[0].innerHTML.toLowerCase().replace(' ', '_');
             }
@@ -419,7 +418,6 @@ if (strlen($user) == 0) {
                 contentType:'application/json',
                 async:false,
                 success: function (res) {
-                    console.log(res);
                     writeModal(res.name, res.pre_filled, row, col, item_number);
                     // writeData(res);
                     // document.getElementById("my-loader-element").classList.remove("loader");                
@@ -436,30 +434,7 @@ if (strlen($user) == 0) {
             }
             document.getElementById("modalDropdownContent1").innerHTML = tmp;
             document.getElementById("modalDropdownContent1").removeAttribute('disabled');            
-            document.getElementById("modal-btn-wrapper").innerHTML = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save Action</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel Action</span></button>";
-            // if(method == 0) {
-            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>User Email</h6></div><div class='col-8'><div class='d-flex align-items-center'><input type='email' class='form-control small' name='userEmail' id='userEmail' required /></div></div></div>";
-            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
-            //     tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
-            //     for (var i = 0; i < content.length; i++) {
-            //         tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
-            //     }
-            //     tmp += "</select></div></div></div>";
-            //     document.getElementById('modalFromContent').innerHTML = tmp;
-            //     modal.style.display = "block";                
-            // }
-            // if(method == 1) {
-            //     tmp = document.getElementById('modalFromContent').innerHTML;
-            //     tmp += "<div class='row align-items-center mb-4'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>"+name+"</h6></div><div class='col-8'><div class='d-flex align-items-center'>";
-            //     tmp += "<select name='groupType' id='action"+actinoNumber+"' aria-controls='dataTable' class='custom-select form-control form-control-sm' onchange='getNextDropdown(event)'>";
-            //     for (var i = 0; i < content.length; i++) {
-            //         tmp += "<option value='"+content[i]+"'>"+content[i]+"</option>";
-            //     }
-            //     tmp += "</select></div></div></div>";
-            //     document.getElementById('modalFromContent').innerHTML = tmp;
-            //     modal.style.display = "block";
-            // }
-            // actinoNumber++;
+            document.getElementById("modal-btn-wrapper").innerHTML = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>";
             openModal();
         }
         function getNextDropdown(e, i) {
@@ -492,8 +467,6 @@ if (strlen($user) == 0) {
                     }
                     document.getElementById("modalDropdownContent"+i).innerHTML = tmp;
                     document.getElementById("modalDropdownContent"+i).removeAttribute('disabled');
-                    // document.getElementById("my-loader-element").classList.remove("loader");                
-                    // document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
@@ -505,13 +478,27 @@ if (strlen($user) == 0) {
             modal.style.display = "none";
         }
         function saveAction(e, row, col, item_number) {
-            auctionName = document.getElementById('nameAuction').value;
-            if(auctionName == '') {
+            actionName = document.getElementById('nameAction').value;
+            if(actionName == '') {
                 window.alert('Name Auction should not be empty');
                 return;
             }
             names = [];
             content = [];
+            dropdowns = [];
+            for (let index=1; index < 7; index++) {
+                dropdown = document.getElementById('modalDropdownContent'+index);
+                if(dropdown.children.length > 0) {
+                    tmp = [];
+                    for (let j = 0; j < dropdown.children.length; j++) {
+                        tmp.push(dropdown.children[j].innerHTML);
+                    }
+                }
+                else {
+                    tmp = '';
+                }
+                dropdowns.push(tmp);
+            }
             for (let index=1; index < 7; index++) {
                 if((document.getElementById('modalDropdownName'+index)).innerHTML == 'N/A') {
                     names.push('');    
@@ -526,18 +513,62 @@ if (strlen($user) == 0) {
                     content.push((document.getElementById('modalDropdownContent'+index)).value);
                 }
             }
-            nextAction(row, col, item_number, auctionName);
+            var data = {
+                row: row,
+                col: col,
+                item_number: item_number,
+                names: names,
+                content: content,
+                actionName: actionName,
+                dropdowns: dropdowns 
+            }
+            localStorage.setItem("get_"+row.toString()+"_"+col.toString()+"_"+item_number.toString(), JSON.stringify(data));
+            nextAction(row, col, item_number, actionName);
         }
-        function nextAction(row, col, item_number, auctionName) {
+        function nextAction(row, col, item_number, actionName) {
+            tmp = "<a href='#' onclick='getAction(event, "+row+","+col+","+item_number+")'>"+actionName+"</a>";
+            document.getElementById('table-content').children[row].children[col+3].innerHTML = tmp;
             if(col<6) {
-                document.getElementById('table-content').children[row].children[col+3].innerHTML = auctionName;
                 document.getElementById('table-content').children[row].children[col+4].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col+1)+","+item_number+")'>Add Action</button>";
             }
             cleanModal();
             closeModal();
         }
+        function getAction(e, row, col, item_number) {
+            e.preventDefault();
+            data = localStorage.getItem("get_"+row.toString()+"_"+col.toString()+"_"+item_number.toString());
+            data = JSON.parse(data);
+
+            document.getElementById("nameAction").value = data.actionName;
+            names = data.names;
+            contents = data.content;
+            dropdowns = data.dropdowns;
+            for (let i = 0; i < 6; i++) {
+                if(content[i] != '') {
+                    tmp = '';
+                    for (let j = 0; j < dropdowns[i].length; j++) {
+                        tmp += "<option value='"+dropdowns[i][j]+"'";
+                        if(dropdowns[i][j] == contents[i]) {
+                            tmp += " selected";
+                        }
+                        tmp +=">"+dropdowns[i][j]+"</option>";
+                    }
+                    document.getElementById("modalDropdownContent"+(i+1)).removeAttribute('disabled');        
+                    document.getElementById("modalDropdownName"+(i+1)).innerHTML = names[i];
+                    document.getElementById("modalDropdownContent"+(i+1)).innerHTML = tmp;        
+                }
+                else {
+                    document.getElementById("modalDropdownName"+(i+1)).innerHTML = 'N/A';
+                    document.getElementById("modalDropdownContent"+(i+1)).innerHTML = '';
+                    document.getElementById("modalDropdownContent"+(i+1)).setAttribute('disabled', true);
+                }
+            }
+            tmp = document.getElementById("modal-btn-wrapper").innerHTML;
+            tmp += "<button type='button' onclick='deleteAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button>";
+            openModal();
+        }
         function cleanModal() {
-            document.getElementById("nameAuction").value = '';
+            document.getElementById("nameAction").value = '';
             document.getElementById("modalDropdownName2").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent2").innerHTML = '';
             document.getElementById("modalDropdownContent2").setAttribute('disabled', true);
