@@ -315,7 +315,7 @@ if (strlen($user) == 0) {
                             tmp += "<tr>";
                             tmp += "<td></td><td></td>";
                             tmp += "<td>"+objects[i][j].pre_filled[k]+"</td>";
-                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row)+",0,0)'>Add Action</button>"+"</td>";
+                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row)+",0,"+k+")'>Add Action</button>"+"</td>";
                             tmp += "<td></td><td></td><td></td><td></td><td></td>";
                             tmp += "</tr>";
                             row++;
@@ -361,7 +361,7 @@ if (strlen($user) == 0) {
                         tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
-                        tmp += "<tr><td></td><td></td><td>False</td><td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row+1)+",0,0"+")'>Add Action</button>"+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        tmp += "<tr><td></td><td></td><td>False</td><td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row+1)+",0,1"+")'>Add Action</button>"+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
                         row+=2;
                     }
                     else if(Object.keys(objects[i][j])[0] == 'divider') {
@@ -401,7 +401,6 @@ if (strlen($user) == 0) {
                         for (let k = 4; k < 9; k++) {
                             table.children[row].children[k].innerHTML = "";
                         }
-                        return;
                     }
                 }
             }
@@ -430,13 +429,21 @@ if (strlen($user) == 0) {
             action = trElement.firstChild.innerHTML.toLowerCase().replace(' ', '_');
             if(action == '') {
                 tableElement = trElement.parentNode;
-                action = tableElement.children[row-item_number].children[0].innerHTML.toLowerCase().replace(' ', '_');
+                for (let index = row; index > 0; index--) {
+                    if(tableElement.children[index].children[0].innerHTML != '') {
+                        action = tableElement.children[index].children[0].innerHTML.toLowerCase().replace(' ', '_');
+                        console.log(tableElement.children[index].children[0].innerHTML);
+                        console.log(action);
+                        break;
+                    }
+                }
             }
             var formData = {
                 authorization: authorization,
                 agency_id: agency_id,
                 action: action
             }
+            
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/format-logic-builder",
@@ -445,7 +452,7 @@ if (strlen($user) == 0) {
                 contentType:'application/json',
                 async:false,
                 success: function (res) {
-                    writeModal(res.name, res.pre_filled, row, col, item_number);
+                    writeModal(res.name, res.pre_filled, row, col, 0);
                     // writeData(res);
                     // document.getElementById("my-loader-element").classList.remove("loader");                
                     // document.getElementById("my-loader-wrapper").classList.add("d-none");
