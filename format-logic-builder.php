@@ -453,8 +453,6 @@ if (strlen($user) == 0) {
                 for (let index = row; index > 0; index--) {
                     if(tableElement.children[index].children[0].innerHTML != '') {
                         action = tableElement.children[index].children[0].innerHTML.toLowerCase().replace(' ', '_');
-                        console.log(tableElement.children[index].children[0].innerHTML);
-                        console.log(action);
                         break;
                     }
                 }
@@ -536,7 +534,6 @@ if (strlen($user) == 0) {
             deleteModal.style.display = "none";
         }
         function saveAction(e, row, col, item_number) {
-            console.log(col);
             actionName = document.getElementById('nameAction').value;
             if(actionName == '') {
                 window.alert('Name Auction should not be empty');
@@ -644,12 +641,12 @@ if (strlen($user) == 0) {
         }
         function deleteAction(row, col, item_number) {
             for (let index = col; index < 6; index++) {
-                next = localStorage.getItem('get_'+row+'_'+parseInt((index+1))+'_0');
+                next = localStorage.getItem('get_'+row+'_'+(parseInt(index)+1)+'_0');
                 if(next) {
-                    localStorage.setItem('get_'+row+'_'+index+'_0', next);
+                    localStorage.setItem('get_'+row+'_'+parseInt((index))+'_0', next);
                 }
                 else {
-                    localStorage.removeItem('get_'+row+'_'+index+'_0');
+                    localStorage.removeItem('get_'+row+'_'+parseInt((index))+'_0');
                 }
             }
             writeTable();
