@@ -581,7 +581,7 @@ if (strlen($user) == 0) {
             contents = data.content;
             dropdowns = data.dropdowns;
             for (let i = 0; i < 6; i++) {
-                if(content[i] != '') {
+                if(contents[i] != '') {
                     tmp = '';
                     for (let j = 0; j < dropdowns[i].length; j++) {
                         tmp += "<option value='"+dropdowns[i][j]+"'";
@@ -600,7 +600,7 @@ if (strlen($user) == 0) {
                     document.getElementById("modalDropdownContent"+(i+1)).setAttribute('disabled', true);
                 }
             }
-            tmp = "<button type='submit' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>";
+            tmp = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>";
             tmp += "<button type='button' onclick='deleteAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-danger btn-icon-split my-1 ml-2'><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></button>";
             document.getElementById("modal-btn-wrapper").innerHTML = tmp;
             openModal();
