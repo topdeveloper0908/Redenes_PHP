@@ -626,7 +626,6 @@ if (strlen($user) == 0) {
             localStorage.setItem('deleteRow', row);
             localStorage.setItem('deleteCol', col);
             deleteModal.style.display = "block";   
-            closeModal();
             // deleteAction(e, row, col, item_number);
         }
         function confirmDelete() {
@@ -636,9 +635,8 @@ if (strlen($user) == 0) {
             closeDeleteModal();
         }
         function confirmCancel() {
-            key = localStorage.getItem('deleteConfirm');
-            localStorage.remomveItem('deleteRow');
-            localStorage.remomveItem('deleteCol');
+            localStorage.removeItem('deleteRow');
+            localStorage.removeItem('deleteCol');
             closeDeleteModal();
             openModal();
         }
