@@ -631,6 +631,8 @@ if (strlen($user) == 0) {
         function confirmDelete() {
             row = localStorage.getItem('deleteRow');
             col = localStorage.getItem('deleteCol');
+            localStorage.removeItem('deleteRow');
+            localStorage.removeItem('deleteCol');
             deleteAction(row, col, 0);
             closeDeleteModal();
         }
@@ -642,12 +644,12 @@ if (strlen($user) == 0) {
         }
         function deleteAction(row, col, item_number) {
             for (let index = col; index < 6; index++) {
-                next = localStorage.getItem('get_'+row+'_'+(index+1)+'_'+item_number);
+                next = localStorage.getItem('get_'+row+'_'+parseInt((index+1))+'_0');
                 if(next) {
-                    localStorage.setItem('get_'+row+'_'+index+'_'+item_number, next);
+                    localStorage.setItem('get_'+row+'_'+index+'_0', next);
                 }
                 else {
-                    localStorage.removeItem('get_'+row+'_'+index+'_'+item_number);
+                    localStorage.removeItem('get_'+row+'_'+index+'_0');
                 }
             }
             writeTable();
