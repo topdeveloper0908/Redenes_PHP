@@ -259,6 +259,24 @@ if (strlen($user) == 0) {
             </form>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="deleteModal" class="modal" style="padding-top:20rem">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <form id="createUserForm">
+                <div id="modalFromContent">
+                    <div class="row align-items-center justify-content-center mb-2">
+                        <h6 class="ml-2 mb-0 text-right">Are you sure to delete this action?</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                    <button type="button" onclick="confirmDelete()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Delete</span></button>
+                    <button type="button" onclick="confirmCancel()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -414,6 +432,7 @@ if (strlen($user) == 0) {
             document.getElementById('formatType').innerHTML = type;
         }
         var modal = document.getElementById("myModal");
+        var deleteModal = document.getElementById("deleteModal");
         // Get the button that opens the modal
         // var modalBtn = document.getElementById("openModal");
         // Get the <span> element that closes the modal
@@ -513,6 +532,9 @@ if (strlen($user) == 0) {
             cleanModal();
             modal.style.display = "none";
         }
+        function closeDeleteModal() {
+            deleteModal.style.display = "none";
+        }
         function saveAction(e, row, col, item_number) {
             console.log(col);
             actionName = document.getElementById('nameAction').value;
@@ -543,12 +565,7 @@ if (strlen($user) == 0) {
                 else {
                     names.push((document.getElementById('modalDropdownName'+index)).innerHTML);
                 }
-                if((document.getElementById('modalDropdownContent'+index)).value == 'Please Make a Selection') {
-                    content.push('');
-                }
-                else {
-                    content.push((document.getElementById('modalDropdownContent'+index)).value);
-                }
+                content.push((document.getElementById('modalDropdownContent'+index)).value);
             }
             var data = {
                 row: row,
@@ -601,11 +618,31 @@ if (strlen($user) == 0) {
                 }
             }
             tmp = "<button type='button' onclick='saveAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>";
-            tmp += "<button type='button' onclick='deleteAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-danger btn-icon-split my-1 ml-2'><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></button>";
+            tmp += "<button type='button' onclick='openDeleteModal(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-danger btn-icon-split my-1 ml-2'><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></button>";
             document.getElementById("modal-btn-wrapper").innerHTML = tmp;
             openModal();
         }
-        function deleteAction(e, row, col, item_number) {
+        function openDeleteModal(e, row, col, item_number) {
+            localStorage.setItem('deleteRow', row);
+            localStorage.setItem('deleteCol', col);
+            deleteModal.style.display = "block";   
+            closeModal();
+            // deleteAction(e, row, col, item_number);
+        }
+        function confirmDelete() {
+            row = localStorage.getItem('deleteRow');
+            col = localStorage.getItem('deleteCol');
+            deleteAction(row, col, 0);
+            closeDeleteModal();
+        }
+        function confirmCancel() {
+            key = localStorage.getItem('deleteConfirm');
+            localStorage.remomveItem('deleteRow');
+            localStorage.remomveItem('deleteCol');
+            closeDeleteModal();
+            openModal();
+        }
+        function deleteAction(row, col, item_number) {
             for (let index = col; index < 6; index++) {
                 next = localStorage.getItem('get_'+row+'_'+(index+1)+'_'+item_number);
                 if(next) {
