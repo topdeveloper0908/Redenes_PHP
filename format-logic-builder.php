@@ -386,7 +386,9 @@ if (strlen($user) == 0) {
                         count++;
                         data = JSON.parse(localStorage.getItem('get_'+row+'_'+(col-3)+'_0'));
                         table.children[row].children[col].innerHTML = "<a href='#' onclick='getAction(event, "+row+","+(col-3)+",0)'>"+data.actionName+"</a>";
-                        table.children[row].children[col+1].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col-2)+",0)'>Add Action</button>";
+                        if(col<8) {
+                            table.children[row].children[col+1].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col-2)+",0)'>Add Action</button>";
+                        }
                         for (let k = col+2; k < 9; k++) {
                             table.children[row].children[k].innerHTML = "";
                         }
@@ -563,7 +565,7 @@ if (strlen($user) == 0) {
         function nextAction(row, col, item_number, actionName) {
             tmp = "<a href='#' onclick='getAction(event, "+row+","+col+","+item_number+")'>"+actionName+"</a>";
             document.getElementById('table-content').children[row].children[col+3].innerHTML = tmp;
-            if(col<6) {
+            if(col<5) {
                 document.getElementById('table-content').children[row].children[col+4].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col+1)+","+item_number+")'>Add Action</button>";
             }
             cleanModal();
