@@ -277,6 +277,7 @@ if (strlen($user) == 0) {
                 async:false,
                 success: function (res) {
                     writeData(res);
+                    writeTable();
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -314,7 +315,7 @@ if (strlen($user) == 0) {
                             tmp += "<tr>";
                             tmp += "<td></td><td></td>";
                             tmp += "<td>"+objects[i][j].pre_filled[k]+"</td>";
-                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row)+",0,"+k+")'>Add Action</button>"+"</td>";
+                            tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row)+",0,0)'>Add Action</button>"+"</td>";
                             tmp += "<td></td><td></td><td></td><td></td><td></td>";
                             tmp += "</tr>";
                             row++;
@@ -360,7 +361,7 @@ if (strlen($user) == 0) {
                         tmp += "<td>"+"<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0"+")'>Add Action</button>"+"</td>";
                         tmp += "<td></td><td></td><td></td><td></td><td></td>";
                         tmp +="</tr>";
-                        tmp += "<tr><td></td><td></td><td>False</td><td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row+1)+",0,1"+")'>Add Action</button>"+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                        tmp += "<tr><td></td><td></td><td>False</td><td>"+"<button class='btn btn-primary' onclick='addAction(event,"+(row+1)+",0,0"+")'>Add Action</button>"+"</td><td></td><td></td><td></td><td></td><td></td></tr>";
                         row+=2;
                     }
                     else if(Object.keys(objects[i][j])[0] == 'divider') {
@@ -375,6 +376,36 @@ if (strlen($user) == 0) {
             }
             document.getElementById('table-content').innerHTML = tmp;
         }
+        function writeTable() {
+            rowCount = document.getElementById('table-content').children.length;
+            table = document.getElementById('table-content');
+            for (let row = 0; row < rowCount; row++) {
+                count = 0;
+                for (let col = 3; col < 9; col++) {
+                    if(localStorage.getItem('get_'+row+'_'+(col-3)+'_0')) {
+                        count++;
+                        data = JSON.parse(localStorage.getItem('get_'+row+'_'+(col-3)+'_0'));
+                        table.children[row].children[col].innerHTML = "<a href='#' onclick='getAction(event, "+row+","+(col-3)+",0)'>"+data.actionName+"</a>";
+                        table.children[row].children[col+1].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+","+(col-2)+",0)'>Add Action</button>";
+                        for (let k = col+2; k < 9; k++) {
+                            table.children[row].children[k].innerHTML = "";
+                        }
+                    }
+                }
+                if(count == 0) {
+                    if(table.children[row].children[0].innerHTML =='Header' || table.children[row].children[0].innerHTML =='Divider') {
+                        table.children[row].children[3].innerHTML = "";
+                    }
+                    else {
+                        table.children[row].children[3].innerHTML = "<button class='btn btn-primary' onclick='addAction(event,"+row+",0,0)'>Add Action</button>";
+                        for (let k = 4; k < 9; k++) {
+                            table.children[row].children[k].innerHTML = "";
+                        }
+                        return;
+                    }
+                }
+            }
+        }
         function writeMetaData(id, name, module, type) {
             document.getElementById('formatID').innerHTML = id;
             document.getElementById('formatName').innerHTML = name;
@@ -385,10 +416,6 @@ if (strlen($user) == 0) {
         // Get the button that opens the modal
         // var modalBtn = document.getElementById("openModal");
         // Get the <span> element that closes the modal
-        var closeBtn = document.getElementsByClassName("close")[0];
-        modalBtn.onclick = function() {
-            modal.style.display = "block";
-        }
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
@@ -478,6 +505,7 @@ if (strlen($user) == 0) {
             modal.style.display = "none";
         }
         function saveAction(e, row, col, item_number) {
+            console.log(col);
             actionName = document.getElementById('nameAction').value;
             if(actionName == '') {
                 window.alert('Name Auction should not be empty');
@@ -563,9 +591,23 @@ if (strlen($user) == 0) {
                     document.getElementById("modalDropdownContent"+(i+1)).setAttribute('disabled', true);
                 }
             }
-            tmp = document.getElementById("modal-btn-wrapper").innerHTML;
-            tmp += "<button type='button' onclick='deleteAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button>";
+            tmp = "<button type='submit' class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Save</span></button><button type='submit' onclick='closeModal()' class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>";
+            tmp += "<button type='button' onclick='deleteAction(event, "+row+","+col+","+item_number+")' class='nav-link btn btn-danger btn-icon-split my-1 ml-2'><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></button>";
+            document.getElementById("modal-btn-wrapper").innerHTML = tmp;
             openModal();
+        }
+        function deleteAction(e, row, col, item_number) {
+            for (let index = col; index < 6; index++) {
+                next = localStorage.getItem('get_'+row+'_'+(index+1)+'_'+item_number);
+                if(next) {
+                    localStorage.setItem('get_'+row+'_'+index+'_'+item_number, next);
+                }
+                else {
+                    localStorage.removeItem('get_'+row+'_'+index+'_'+item_number);
+                }
+            }
+            writeTable();
+            closeModal();
         }
         function cleanModal() {
             document.getElementById("nameAction").value = '';
