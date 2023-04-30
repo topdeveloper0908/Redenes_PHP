@@ -90,7 +90,7 @@ if (strlen($user) == 0) {
                                         </span>
                                         <span class="text">Test Format</span>
                                     </a>
-                                    <a href="#" class="btn btn-success btn-icon-split mr-2" onclick="onSave(e)">
+                                    <a href="#" class="btn btn-success btn-icon-split mr-2" onclick="saveLogic(event)">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
@@ -669,6 +669,149 @@ if (strlen($user) == 0) {
             document.getElementById("modalDropdownName6").innerHTML = 'N/A';
             document.getElementById("modalDropdownContent6").innerHTML = '';
             document.getElementById("modalDropdownContent6").setAttribute('disabled', true);
+        }
+        function saveLogic(e) {
+            currentRow = 0;
+            currentCol = 0;
+            formData = [];
+            prevType = '';
+            table = document.getElementById('table-content');
+            rowCount = table.children.length;
+            for (let index = 0; index < rowCount; index++) {
+                tr = table.children[index];
+                type = tr.children[0].innerHTML;
+                label = tr.children[1].innerHTML;
+                if(type == 'Divider') {
+                    formData.push({type: type})
+                }
+                else if(type == 'Header') {
+                    formData.push({type: type, label: label})
+                }
+                else if( type == '') {
+                    type = prevType;
+                }
+                else if( type == 'Check Box') {
+                    children = [];
+                    for (let l = 0; l < 2; l++) {
+                        actions = [];
+                        for (let j = 0; j < 6; j++) {
+                            action = localStorage.getItem('get_'+(index+l)+'_'+j+'_0');
+                            if(action) {
+                                action = JSON.parse(action);
+                                dropdowns =[];
+                                for (let k = 0; k < action.dropdowns.length; k++) {
+                                    const dropdown = action.dropdowns[k];
+                                    if(dropdown != '') {
+                                        dropdowns.push({
+                                            name: action.names[k],
+                                            selected: action.content[k],
+                                            selects: action.dropdowns[k]
+                                        });
+                                    }
+                                    else {
+                                        break;
+                                    }
+                                }
+                                actions.push({
+                                    name: action.actionName,
+                                    dropdowns: dropdowns
+                                });
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        children.push(actions);
+                    }
+                    formData.push({
+                        type: type, 
+                        label: label,
+                        value: ['true', 'false'],
+                        children: children
+                    })
+                }
+                else if( type == 'Drop Down') {
+                    value = tr.children[2].innerHTML;
+                    children = [];
+                    for (let l = 0;; l++) {
+                        if(table.children[index+l].children[0].innerHTML != '' && l !=0) {
+                            break;
+                        }
+                        actions = [];
+                        for (let j = 0; j < 6; j++) {
+                            action = localStorage.getItem('get_'+(index+l)+'_'+j+'_0');
+                            if(action) {
+                                action = JSON.parse(action);
+                                dropdowns =[];
+                                for (let k = 0; k < action.dropdowns.length; k++) {
+                                    const dropdown = action.dropdowns[k];
+                                    if(dropdown != '') {
+                                        dropdowns.push({
+                                            name: action.names[k],
+                                            selected: action.content[k],
+                                            selects: action.dropdowns[k]
+                                        });
+                                    }
+                                    else {
+                                        break;
+                                    }
+                                }
+                                actions.push({
+                                    name: action.actionName,
+                                    dropdowns: dropdowns
+                                });
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        children.push(actions);
+                    }
+                    formData.push({
+                        type: type, 
+                        label: label,
+                        value: value,
+                        children: children
+                    })
+                }
+                else {
+                    value = tr.children[2].innerHTML;
+                    actions = [];
+                    for (let j = 0; j < 6; j++) {
+                        action = localStorage.getItem('get_'+index+'_'+j+'_0');
+                        if(action) {
+                            action = JSON.parse(action);
+                            dropdowns =[];
+                            for (let k = 0; k < action.dropdowns.length; k++) {
+                                const dropdown = action.dropdowns[k];
+                                if(dropdown != '') {
+                                    dropdowns.push({
+                                        name: action.names[k],
+                                        selected: action.content[k],
+                                        selects: action.dropdowns[k]
+                                    });
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                            actions.push({
+                                name: action.actionName,
+                                dropdowns: dropdowns
+                            });
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    formData.push({
+                        type: type, 
+                        label: label,
+                        value: value,
+                        actions: actions
+                    })
+                }
+            }
         }
         //$('#dataTable').dataTable();
     </script>
