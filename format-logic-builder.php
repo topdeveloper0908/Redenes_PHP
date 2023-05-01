@@ -312,8 +312,9 @@ if (strlen($user) == 0) {
                 url: "https://api.redenes.org/dev/v1/format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
                 async:false,
                 success: function (res) {
-                    writeData(res);
-                    writeTable();
+                    console.log(res);
+                        writeData(res);
+                    //writeTable();
                     document.getElementById("my-loader-element").classList.remove("loader");                
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -330,6 +331,7 @@ if (strlen($user) == 0) {
             objects = data.objects;
             for (var i = 0; i < objects.length; i++) {
                 for (var j = 0; j < objects[i].length; j++) {
+                    
                     if(Object.keys(objects[i][j])[0] == 'title') {
                         tmp +="<tr>";
                         tmp +="<td>Header</td>";
