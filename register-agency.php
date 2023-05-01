@@ -203,22 +203,20 @@ $authorization = $_COOKIE['authorization'];
 
         function getData(agency_id) {
             $.ajax({
-                type: "GET",
-                url: "https://api.redenes.org/dev/v1/register-agency/",
-                data: {
-                    agency_id: agency_id,
-                    authorization: "<?php echo $authorization; ?>"
-                },
-                async: false,
-                success: function(res) {
-                    if (res.account_type) {
-                        writeAgencyType(res.account_type);
-                    }
-                    // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    type: "GET",
+                    url: "https://api.redenes.org/dev/v1/register-agency/",
+                    data: {
+                        agency_id: agency_id,
+                        authorization: "<?php echo $authorization; ?>"
+                    },
+                    async: false,
+                    writeAgencyType(res.account_type);
                 }
-            })
+                // To hide the loader
+                document.getElementById("my-loader-element").classList.remove("loader"); document.getElementById(
+                    "my-loader-wrapper").classList.add("d-none");
+            }
+        })
         }
 
         function writeAgencyType(data) {
