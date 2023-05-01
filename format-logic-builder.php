@@ -78,13 +78,13 @@ if (strlen($user) == 0) {
                             <h4>Format Name: <span id="formatName"></span></h4>
                             <div class="d-md-flex align-items-center">
                                 <div class="align-items-center mt-2" role="group">
-                                    <a href="#" class="btn btn-primary btn-icon-split" onclick="onPublish(e)">
+                                    <a href="#" class="btn btn-primary btn-icon-split disabled" id="btn-publish" onclick="saveLogic(event)">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-print"></i>
                                         </span>
                                         <span class="text">Publish</span>
                                     </a>
-                                    <a href="#" class="btn btn-info btn-icon-split mx-2" onclick="testFormat(e)">
+                                    <a href="#" class="btn btn-info btn-icon-split mx-2" onclick="testFormat(event)">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-forward"></i>
                                         </span>
@@ -96,12 +96,12 @@ if (strlen($user) == 0) {
                                         </span>
                                         <span class="text">Save</span>
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-icon-split">
+                                    <button type="submit" class="btn btn-danger btn-icon-split" onclick="openCancelModal()">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-trash"></i>
                                         </span>
                                         <span class="text">Cancel</span>
-                                    </a>
+                                    </button>
                                 </div>
                                 <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                     <div class="card-header py-2">
@@ -277,6 +277,24 @@ if (strlen($user) == 0) {
             </form>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="cancelModal" class="modal" style="padding-top:20rem">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeCancelModal()">&times;</span>
+            <form id="createUserForm">
+                <div id="modalFromContent">
+                    <div class="row align-items-center justify-content-center mb-2">
+                        <h6 class="ml-2 mb-0 text-right">Do you want to go back, and unsaved data will be lost</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                    <button type="button" onclick="goPreviousPage()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Delete</span></button>
+                    <button type="button" onclick="closeCancelModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -433,6 +451,7 @@ if (strlen($user) == 0) {
         }
         var modal = document.getElementById("myModal");
         var deleteModal = document.getElementById("deleteModal");
+        var cancelModal = document.getElementById("cancelModal");
         // Get the button that opens the modal
         // var modalBtn = document.getElementById("openModal");
         // Get the <span> element that closes the modal
@@ -530,8 +549,20 @@ if (strlen($user) == 0) {
             cleanModal();
             modal.style.display = "none";
         }
+        function openDeleteModal() {
+           deleteModal.style.display = "block";
+        }
         function closeDeleteModal() {
             deleteModal.style.display = "none";
+        }
+        function openCancelModal() {
+           cancelModal.style.display = "block";
+        }
+        function closeCancelModal() {
+            cancelModal.style.display = "none";
+        }
+        function goPreviousPage() {
+            window.location.replace('module-format');
         }
         function saveAction(e, row, col, item_number) {
             actionName = document.getElementById('nameAction').value;
@@ -670,7 +701,7 @@ if (strlen($user) == 0) {
             document.getElementById("modalDropdownContent6").innerHTML = '';
             document.getElementById("modalDropdownContent6").setAttribute('disabled', true);
         }
-        function saveLogic(e) {
+        function getAllData() {
             currentRow = 0;
             currentCol = 0;
             formData = [];
@@ -812,6 +843,47 @@ if (strlen($user) == 0) {
                     })
                 }
             }
+            return formData[0];
+        }
+        function saveLogic(e) {
+            e.preventDefault();
+            document.getElementById("my-loader-element").classList.add("loader");
+            formData = getAllData();
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                async:false,
+                success: function (res) {
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    if(res.status == 'Form Data Updated/Saved') {
+                        window.location.replace('module-format');
+                    }
+                }
+            })
+        }
+        function testFormat(e) {
+            e.preventDefault();
+            formData = getAllData();
+            document.getElementById("my-loader-element").classList.add("loader");
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType:'application/json',
+                async:false,
+                success: function (res) {
+                    document.getElementById("alert").classList.remove("d-none");    
+                    document.getElementById("btn-publish").classList.remove("disabled");    
+                    document.getElementById("alert-title").innerHTML = res.status;    
+                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
         }
         //$('#dataTable').dataTable();
     </script>
