@@ -10,6 +10,11 @@ if (strlen($user) == 0) {
     $_SESSION['user'] = $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
     $agency_id = $_COOKIE['agency_id'];
+    if ($_REQUEST['form_id']) {
+        $form_id = $_REQUEST['form_id'];
+    } else {
+        $form_id = '737b1459-25b4-4397-915f-f1f949c93492';
+    }
     $agencies = explode("$$", $_COOKIE['agency']);
 ?>
 <!-- Bootstrap core JavaScript-->
@@ -65,8 +70,7 @@ if (strlen($user) == 0) {
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800" id="page-title"></h1>
                     <form>
-                        <div id="incident-content">
-                        </div>
+                        <div id="incident-content"></div>
                     </form>
                 </div>
                 <!-- /.container-fluid -->
@@ -95,33 +99,70 @@ if (strlen($user) == 0) {
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/main.js"></script>
 
     <script>
     // To show the loader
     document.getElementById("my-loader-element").classList.add("loader");
     init_id = "<?php echo $agency_id; ?>";
+    var incident;
+    var increment;
+    var formData;
 
     function getData(agency_id) {
         $.ajax({
             type: "GET",
-            url: "https://api.redenes.org/dev/v1/online-app-form/",
+            url: "https://api.redenes.org/dev/v1/online-app-form",
             data: {
                 agency_id: agency_id,
-                authorization: "<?php echo $authorization; ?>"
+                authorization: "<?php echo $authorization; ?>",
+                form_id: "<?php echo $form_id; ?>"
+            },
+            async: false,
+            cors: true,
+            secure: true,
+            contentType: 'application/json',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'false',
+                'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+                'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
             },
             success: function(res) {
-                console.log(res);
-                writeData(res.objects, res.navigation_title);
+                writeData(res.objects);
+                formData = res;
+                document.getElementById("page-title").innerHTML = res.navigation_title;
+                // To hide the loader
                 document.getElementById("my-loader-element").classList.remove("loader");
                 document.getElementById("my-loader-wrapper").classList.add("d-none");
             }
         })
     }
 
-    function writeData(content, pageTitle) {
-        document.getElementById('page-title').innerHTML = pageTitle;
+    function writeData(content) {
         var tmp = '';
         for (var i = 0; i < content.length; i++) {
             object = content[i];
@@ -146,6 +187,49 @@ if (strlen($user) == 0) {
         document.getElementById("incident-content").innerHTML = tmp;
     }
     getData(init_id);
+
+    function changeAgencyData(agency_id) {
+        document.cookie = "agency_id = " + agency_id;
+        window.location.replace("overview");
+    }
+
+    function saveData(a, b, c) {
+        for (var i = 0; i < formData.objects.length; i++) {
+            for (var j = 0; j < formData.objects[i].length; j++) {
+                if (Object.keys(formData.objects[i][j])[0] == 'text_box') {
+                    id = "incident_ob" + i.toString() + "_text" + j.toString();
+                    formData.objects[i][j].pre_filled = document.getElementById(id).value;
+                }
+                if (Object.keys(formData.objects[i][j])[0] == 'drop_down') {
+                    id = "incident_ob" + i.toString() + "_dropdown" + j.toString();
+                    formData.objects[i][j].pre_filled_selected = document.getElementById(id).value;
+                }
+                if (Object.keys(formData.objects[i][j])[0] == 'check_box') {
+                    id = "incident_ob" + i.toString() + "_check" + j.toString();
+                    formData.objects[i][j].pre_filled = document.getElementById(id).checked;
+                }
+            }
+        }
+        if (formData.objects[a][b].buttons[c]) {
+            formData.objects[a][b].buttons[c].clicked = 'true';
+        }
+        $.ajax({
+            type: "POST",
+            url: "https://api.redenes.org/dev/v1/select-incident/",
+            data: JSON.stringify(formData),
+            dataType: "json",
+            contentType: 'application/json',
+            success: function(res) {
+                formData = res;
+                writeData(res);
+            }
+        })
+    }
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var multi = new Multiselect("#countries");
+    });
     </script>
 </body>
 
