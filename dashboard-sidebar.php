@@ -89,7 +89,7 @@ if (strlen($user) == 0) {
                 <a href="closed-incident" class="collapse-item d-inline-block">Closed Incident</a>
                 <a href="active-incident" class="collapse-item d-inline-block">Active Incident</a>
                 <button class="collapse-item d-inline-block">Phone</button>
-                <button class="collapse-item d-inline-block">Messages</button>
+                <a href="online-form" class="collapse-item d-inline-block">Messages</a>
                 <button class="collapse-item d-inline-block">Audio</button>
                 <button class="collapse-item d-inline-block">Mutual Aid</button>
             </div>
@@ -169,6 +169,11 @@ if (currentUrl.includes('/active-incident')) {
     document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
     document.getElementById('alert-item').lastElementChild.classList.add('show');
     document.getElementById('alert-item').lastElementChild.firstElementChild.children[1].classList.add('active');
+} else if (currentUrl.includes('/online-form')) {
+    document.getElementById('alert-item').classList.add('active');
+    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById('alert-item').lastElementChild.classList.add('show');
+    document.getElementById('alert-item').lastElementChild.firstElementChild.children[5].classList.add('active');
 }
 
 function changeAgencyData(agency_id) {

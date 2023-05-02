@@ -10,7 +10,11 @@ if (strlen($user) == 0) {
     $_SESSION['user'] = $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
     $agency_id = $_COOKIE['agency_id'];
-    $form_id = $_REQUEST['form_id'];
+    if ($_REQUEST['form_id']) {
+        $form_id = $_REQUEST['form_id'];
+    } else {
+        $form_id = '737b1459-25b4-4397-915f-f1f949c9d602';
+    }
     $agencies = explode("$$", $_COOKIE['agency']);
 ?>
 <!-- Bootstrap core JavaScript-->
