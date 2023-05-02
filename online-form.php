@@ -64,7 +64,7 @@ if (strlen($user) == 0) {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800">Selected Incident - <?php echo $form_id ?></h1>
+                    <h1 class="h3 mb-4 text-gray-800">Selected Form - <?php echo $form_id ?></h1>
                     <form>
                         <div id="incident-content">
                         </div>
@@ -131,14 +131,23 @@ if (strlen($user) == 0) {
 
     function getData(agency_id) {
         $.ajax({
-            type: "GET",
-            url: "https://api.redenes.org/dev/v1/online-form",
-            data: {
+            type: "POST",
+            url: "https://api.redenes.org/dev/v1/online-app-form",
+            data: JSON.stringify({
                 agency_id: agency_id,
                 authorization: "<?php echo $authorization; ?>",
                 form_id: "<?php echo $form_id; ?>"
-            },
+            }),
             async: false,
+            cors: true,
+            secure: true,
+            contentType: 'application/json',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'false',
+                'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
+                'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+            },
             success: function(res) {
                 writeData(res);
                 formData = res;

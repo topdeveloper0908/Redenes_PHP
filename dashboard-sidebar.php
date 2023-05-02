@@ -1,13 +1,13 @@
-<?php  
-    $authorization = $_COOKIE['authorization'];
-    $agencies = explode("$$", $_COOKIE['agency']);
-    $agencies_id = explode("$$", $_COOKIE['agency_id']);
-    $user = $_COOKIE['name'];
-    if (strlen($user) == 0) {
+<?php
+$authorization = $_COOKIE['authorization'];
+$agencies = explode("$$", $_COOKIE['agency']);
+$agencies_id = explode("$$", $_COOKIE['agency_id']);
+$user = $_COOKIE['name'];
+if (strlen($user) == 0) {
     header('location:logout');
-    }
+}
 ?>
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion p-relative" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
         <div class="sidebar-brand-text mx-3">Dashboard</div>
@@ -16,18 +16,18 @@
     <hr class="sidebar-divider my-0">
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-building"></i>
             <span>Agency Names</span>
         </a>
         <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <?php
-                    foreach ($agencies as $key => $agency) {
-                        if($key != count($agencies)-1)
-                            echo "<button class='collapse-item d-inline-block' onClick='changeAgencyData(".$agencies_id[$key].")'>".$agency."</button>";
-                    }
+                foreach ($agencies as $key => $agency) {
+                    if ($key != count($agencies) - 1)
+                        echo "<button class='collapse-item d-inline-block' onClick='changeAgencyData(" . $agencies_id[$key] . ")'>" . $agency . "</button>";
+                }
                 ?>
             </div>
         </div>
@@ -37,8 +37,8 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-house-user"></i>
             <span>Home</span>
         </a>
@@ -57,8 +57,8 @@
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-            aria-expanded="true" aria-controls="collapseThree">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+            aria-controls="collapseThree">
             <i class="fas fa-fw fa-list"></i>
             <span>Logs</span>
         </a>
@@ -77,8 +77,8 @@
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item" id="alert-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-bullhorn"></i>
             <span>Alerts</span>
         </a>
@@ -99,8 +99,8 @@
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-compass"></i>
             <span>References</span>
         </a>
@@ -119,8 +119,8 @@
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-user-alt"></i>
             <span>Account</span>
         </a>
@@ -148,33 +148,31 @@
     </li>
 </ul>
 <script>
-    // To show the loader
-    var currentUrl = window.location.href;
-    if(currentUrl.includes('/active-incident')) {
-        document.getElementById('alert-item').classList.add('active');
-        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-        document.getElementById('alert-item').lastElementChild.classList.add('show');
-        document.getElementById('alert-item').lastElementChild.firstElementChild.children[3].classList.add('active');
-    }
-    else if(currentUrl.includes('/closed-incident')) {
-        document.getElementById('alert-item').classList.add('active');
-        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-        document.getElementById('alert-item').lastElementChild.classList.add('show');
-        document.getElementById('alert-item').lastElementChild.firstElementChild.children[2].classList.add('active');
-    }
-    else if(currentUrl.includes('/select-incident')) {
-        document.getElementById('alert-item').classList.add('active');
-        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-        document.getElementById('alert-item').lastElementChild.classList.add('show');
-    }
-    else if(currentUrl.includes('/new-incident')) {
-        document.getElementById('alert-item').classList.add('active');
-        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-        document.getElementById('alert-item').lastElementChild.classList.add('show');
-        document.getElementById('alert-item').lastElementChild.firstElementChild.children[1].classList.add('active');
-    }
-    function changeAgencyData(agency_id) {
-        document.cookie = "agency_id = " + agency_id;
-        window.location.replace("overview");
-    }
+// To show the loader
+var currentUrl = window.location.href;
+if (currentUrl.includes('/active-incident')) {
+    document.getElementById('alert-item').classList.add('active');
+    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById('alert-item').lastElementChild.classList.add('show');
+    document.getElementById('alert-item').lastElementChild.firstElementChild.children[3].classList.add('active');
+} else if (currentUrl.includes('/closed-incident')) {
+    document.getElementById('alert-item').classList.add('active');
+    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById('alert-item').lastElementChild.classList.add('show');
+    document.getElementById('alert-item').lastElementChild.firstElementChild.children[2].classList.add('active');
+} else if (currentUrl.includes('/select-incident')) {
+    document.getElementById('alert-item').classList.add('active');
+    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById('alert-item').lastElementChild.classList.add('show');
+} else if (currentUrl.includes('/new-incident')) {
+    document.getElementById('alert-item').classList.add('active');
+    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById('alert-item').lastElementChild.classList.add('show');
+    document.getElementById('alert-item').lastElementChild.firstElementChild.children[1].classList.add('active');
+}
+
+function changeAgencyData(agency_id) {
+    document.cookie = "agency_id = " + agency_id;
+    window.location.replace("overview");
+}
 </script>

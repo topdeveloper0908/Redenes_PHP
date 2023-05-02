@@ -17,9 +17,7 @@ session_start();
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -49,13 +47,10 @@ session_start();
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="username" name="username" aria-describedby="emailHelp"
-                                                placeholder="Enter Name..." required="">
+                                            <input type="text" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter Name..." required="">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" name="password" placeholder="Password" required="">
+                                            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password" required="">
                                         </div>
                                         <p id="danger-txt" class="d-none text-danger text-center">The username or password is incorrect</p>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -91,22 +86,22 @@ session_start();
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("form").submit(function (event) {
+        $(document).ready(function() {
+            $("form").submit(function(event) {
                 var formData = {
                     email_address: $("#username").val(),
                     password: $("#password").val(),
                     platform: "Website",
-		    device_id: "null"
+                    device_id: "null"
                 };
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/login/",
                     data: JSON.stringify(formData),
                     dataType: "json",
-                    cors: true ,
+                    cors: true,
                     secure: true,
-                    contentType:'application/json',
+                    contentType: 'application/json',
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Credentials': 'false',
@@ -114,21 +109,21 @@ session_start();
                         'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
                     },
                     encode: true,
-                    success: function (data) {
+                    success: function(data) {
                         document.cookie = "name = " + $("#username").val();
-                        var tmp='';
-                        var tmp1='';
+                        var tmp = '';
+                        var tmp1 = '';
                         var index = 0;
-                        if(data.agencies.length == 0) {
+                        if (data.agencies.length == 0) {
                             document.cookie = "authorization = " + data.authorization;
                             window.location.replace("register-agency");
                         }
                         data.agencies.forEach(element => {
-                            auth = tmp + data.authorization 
+                            auth = tmp + data.authorization
                             tmp = tmp + element.agency_name + '$$';
                             tmp1 = tmp1 + element.agency_id + '$$';
-                            if(index == 0) {
-                                document.cookie = "agency_id = " + element.agency_id;        
+                            if (index == 0) {
+                                document.cookie = "agency_id = " + element.agency_id;
                             }
                             index++;
                         });
@@ -138,10 +133,9 @@ session_start();
                         document.cookie = "agency_name = " + data.agencies[0].agency_name;
                     },
                     complete: function(data) {
-                        if(data.status == 404) {
+                        if (data.status == 404) {
                             document.getElementById('danger-txt').classList.remove('d-none');
-                        }
-                        else  {
+                        } else {
                             window.location.replace("new-incident");
                         }
                     }
