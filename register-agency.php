@@ -203,20 +203,20 @@ $authorization = $_COOKIE['authorization'];
 
         function getData(agency_id) {
             $.ajax({
-                    type: "GET",
-                    url: "https://api.redenes.org/dev/v1/register-agency/",
-                    data: {
-                        agency_id: agency_id,
-                        authorization: "<?php echo $authorization; ?>"
-                    },
-                    async: false,
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/register-agency/",
+                data: {
+                    agency_id: agency_id,
+                    authorization: "<?php echo $authorization; ?>"
+                },
+                async: false,
+                success: function(res) {
                     writeAgencyType(res.account_type);
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
-                // To hide the loader
-                document.getElementById("my-loader-element").classList.remove("loader"); document.getElementById(
-                    "my-loader-wrapper").classList.add("d-none");
-            }
-        })
+            })
         }
 
         function writeAgencyType(data) {
@@ -231,6 +231,11 @@ $authorization = $_COOKIE['authorization'];
         document.getElementById("my-loader-wrapper").classList.add("d-none");
         document.getElementById('myform').addEventListener('submit', function(e) {
             e.preventDefault(); //to prevent form submission
+            console.log(document.getElementById('agency-type').value);
+            if (document.getElementById('agency-type').value == 'Please Select and Agency') {
+                window.alert('You should select the agency type');
+                return;
+            }
             document.getElementById("my-loader-element").classList.add("loader");
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
@@ -240,10 +245,13 @@ $authorization = $_COOKIE['authorization'];
                         agency_name: document.getElementById('agency-name').value,
                         agency_abbreviation: document.getElementById('agency-abbreviation')
                             .value,
+                        agency_type: document.getElementById('agency-type')
+                            .value,
                     }],
                     contact_information: [{
                         phone_number: document.getElementById('agency-phone').value,
-                        email_address: document.getElementById('agency-email').value
+                        email_address: document.getElementById('agency-email').value,
+                        website: document.getElementById('agency-website').value
                     }],
                     physical_address: [{
                         street: document.getElementById('agency-street').value,
