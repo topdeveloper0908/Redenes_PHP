@@ -269,8 +269,13 @@ if (strlen($user) == 0) {
                             formData.objects[i][j].pre_filled = document.getElementById(id).value;
                         }
                         if (Object.keys(formData.objects[i][j])[0] == 'drop_down') {
-                            id = "incident_ob" + i.toString() + "_dropdown" + j.toString();
-                            formData.objects[i][j].pre_filled_selected = document.getElementById(id).value;
+                            if (formData.objects[i][j].multiple == 'true') {
+                                id = 'multi-dropdown' + j;
+                                formData.objects[i][j].pre_filled_selected = document.getElementById(id).children[0].children[0].innerHTML;
+                            } else {
+                                id = "incident_ob" + i.toString() + "_dropdown" + j.toString();
+                                formData.objects[i][j].pre_filled_selected = document.getElementById(id).value;
+                            }
                         }
                         if (Object.keys(formData.objects[i][j])[0] == 'check_box') {
                             id = "incident_ob" + i.toString() + "_check" + j.toString();
@@ -289,7 +294,7 @@ if (strlen($user) == 0) {
                     contentType: 'application/json',
                     success: function(res) {
                         formData = res;
-                        writeData(res);
+                        writeFormData(res);
                     }
                 })
             }
