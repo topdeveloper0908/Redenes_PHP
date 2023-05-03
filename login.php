@@ -145,6 +145,9 @@ session_start();
                     complete: function(data) {
                         if (data.status == 404) {
                             document.getElementById('danger-txt').classList.remove('d-none');
+                        } else if (data.status == 500) {
+                            document.getElementById('danger-txt').classList.remove('d-none');
+                            document.getElementById('danger-txt').innerHTML = "Sorry, there is an error in the server";
                         } else {
                             window.location.replace("new-incident");
                         }
