@@ -35,7 +35,7 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="home-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-house-user"></i>
             <span>Home</span>
@@ -54,7 +54,7 @@ if (strlen($user) == 0) {
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="logs-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
             <i class="fas fa-fw fa-list"></i>
             <span>Logs</span>
@@ -73,7 +73,7 @@ if (strlen($user) == 0) {
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item" id="alert-item">
+    <li class="nav-item" id="alerts-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-bullhorn"></i>
             <span>Alerts</span>
@@ -94,7 +94,7 @@ if (strlen($user) == 0) {
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="references-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-compass"></i>
             <span>References</span>
@@ -113,7 +113,7 @@ if (strlen($user) == 0) {
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="account-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-user-alt"></i>
             <span>Account</span>
@@ -278,9 +278,10 @@ if (strlen($user) == 0) {
             document.getElementById('sidebar-account-wrapper').innerHTML = tmp;
         }
     }
+    var clicked;
     if (localStorage.getItem('menu_item_clicked')) {
         element = JSON.parse(localStorage.getItem('menu_item_clicked'));
-        console.log(element);
+        clicked = element.wrapper;
         document.getElementById('sidebar-' + element.wrapper + '-wrapper').children[element.index].classList.add('clicked');
     }
 
@@ -290,17 +291,19 @@ if (strlen($user) == 0) {
             index: index
         }));
     }
-    if (
-        currentUrl.includes('/active-incident') ||
-        currentUrl.includes('/closed-incident') ||
-        currentUrl.includes('/select-incident') ||
-        currentUrl.includes('/new-incident') ||
-        currentUrl.includes('/online-form')
-    ) {
-        document.getElementById('alert-item').classList.add('active');
-        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-        document.getElementById('alert-item').lastElementChild.classList.add('show');
-    }
+    document.getElementById(clicked + '-item').classList.add('active');
+    document.getElementById(clicked + '-item').firstElementChild.classList.remove('collapsed');
+    document.getElementById(clicked + '-item').lastElementChild.classList.add('show');
+    // if (
+    //     currentUrl.includes('/active-incident') ||
+    //     currentUrl.includes('/closed-incident') ||
+    //     currentUrl.includes('/select-incident') ||
+    //     currentUrl.includes('/new-incident') ||
+    // ) {
+    //     document.getElementById('alert-item').classList.add('active');
+    //     document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+    //     document.getElementById('alert-item').lastElementChild.classList.add('show');
+    // }
 
     function changeAgencyData(agency_id) {
         document.cookie = "agency_id = " + agency_id;
