@@ -55,7 +55,7 @@ if (strlen($user) == 0) {
                     Dashboard
                 </a>
                 <?php
-                if ($isAdmin == true) {
+                if ($isAdmin == 'true') {
                 ?>
                     <a class="dropdown-item" href="overview">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
