@@ -1,7 +1,7 @@
 <?php
 $user = $_COOKIE['name'];
-$agency = $_COOKIE['agency_name'];
 $isAdmin = $_COOKIE['isAdmin'];
+$agency = $_COOKIE['agency_name'];
 if (strlen($user) == 0) {
     header('location:logout');
 }
