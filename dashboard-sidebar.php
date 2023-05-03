@@ -166,7 +166,7 @@ if (strlen($user) == 0) {
                             }
                             tmp += "'>" + element.name + "</a>";
                         } else {
-                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                             if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                                 tmp += " active";
                             }
@@ -196,7 +196,7 @@ if (strlen($user) == 0) {
                             }
                             tmp += "'>" + element.name + "</a>";
                         } else {
-                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                             if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                                 tmp += " active";
                             }
@@ -223,7 +223,7 @@ if (strlen($user) == 0) {
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -252,7 +252,7 @@ if (strlen($user) == 0) {
                             }
                             tmp += "'>" + element.name + "</a>";
                         } else {
-                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                             if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                                 tmp += " active";
                             }
@@ -282,7 +282,7 @@ if (strlen($user) == 0) {
                             }
                             tmp += "'>" + element.name + "</a>";
                         } else {
-                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                             if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                                 tmp += " active";
                             }
