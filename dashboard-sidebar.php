@@ -16,8 +16,7 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-building"></i>
             <span>Agency Names</span>
         </a>
@@ -37,13 +36,12 @@ if (strlen($user) == 0) {
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-house-user"></i>
             <span>Home</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="sidebar-home-wrapper">
                 <button class="collapse-item d-inline-block">Directory</button>
                 <button class="collapse-item d-inline-block">Calendar</button>
                 <button class="collapse-item d-inline-block">Status</button>
@@ -57,13 +55,12 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-            aria-controls="collapseThree">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
             <i class="fas fa-fw fa-list"></i>
             <span>Logs</span>
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="sidebar-logs-wrapper">
                 <button class="collapse-item d-inline-block">Supplies</button>
                 <button class="collapse-item d-inline-block">Training</button>
                 <button class="collapse-item d-inline-block">Daily</button>
@@ -77,13 +74,12 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item" id="alert-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-bullhorn"></i>
             <span>Alerts</span>
         </a>
         <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="sidebar-alerts-wrapper">
                 <button class="collapse-item d-inline-block">Emergency</button>
                 <a href="new-incident" class="collapse-item d-inline-block">New Incident</a>
                 <a href="closed-incident" class="collapse-item d-inline-block">Closed Incident</a>
@@ -99,13 +95,12 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-compass"></i>
             <span>References</span>
         </a>
         <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="sidebar-references-wrapper">
                 <button class="collapse-item d-inline-block">Locations</button>
                 <button class="collapse-item d-inline-block">Maps</button>
                 <button class="collapse-item d-inline-block">Communications</button>
@@ -119,13 +114,12 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-user-alt"></i>
             <span>Account</span>
         </a>
         <div id="collapseSix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" id="sidebar-account-wrapper">
                 <button class="collapse-item d-inline-block">Personal Profile</button>
                 <button class="collapse-item d-inline-block">Agency Profile</button>
                 <button class="collapse-item d-inline-block">App Settings</button>
@@ -148,36 +142,172 @@ if (strlen($user) == 0) {
     </li>
 </ul>
 <script>
-// To show the loader
-var currentUrl = window.location.href;
-if (currentUrl.includes('/active-incident')) {
-    document.getElementById('alert-item').classList.add('active');
-    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-    document.getElementById('alert-item').lastElementChild.classList.add('show');
-    document.getElementById('alert-item').lastElementChild.firstElementChild.children[3].classList.add('active');
-} else if (currentUrl.includes('/closed-incident')) {
-    document.getElementById('alert-item').classList.add('active');
-    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-    document.getElementById('alert-item').lastElementChild.classList.add('show');
-    document.getElementById('alert-item').lastElementChild.firstElementChild.children[2].classList.add('active');
-} else if (currentUrl.includes('/select-incident')) {
-    document.getElementById('alert-item').classList.add('active');
-    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-    document.getElementById('alert-item').lastElementChild.classList.add('show');
-} else if (currentUrl.includes('/new-incident')) {
-    document.getElementById('alert-item').classList.add('active');
-    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-    document.getElementById('alert-item').lastElementChild.classList.add('show');
-    document.getElementById('alert-item').lastElementChild.firstElementChild.children[1].classList.add('active');
-} else if (currentUrl.includes('/online-form')) {
-    document.getElementById('alert-item').classList.add('active');
-    document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
-    document.getElementById('alert-item').lastElementChild.classList.add('show');
-    document.getElementById('alert-item').lastElementChild.firstElementChild.children[5].classList.add('active');
-}
+    // To show the loader
+    var currentUrl = window.location.href;
+    if (localStorage.getItem('dashsidebar-data')) {
+        data = JSON.parse(localStorage.getItem('dashsidebar-data'));
+        console.log(data);
+        if (data.home) {
+            tmp = '';
+            for (let index = 0; index < data.home.length; index++) {
+                const element = data.home[index];
+                if (element.state == 'false') {
+                    tmp += "<button class = 'collapse-item d-inline-block";
+                    tmp += " disabled";
+                    tmp += "'>" + element.name + "</button>";
+                } else {
+                    if (element.server_ui == "true") {
+                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block'>" + element.name + "</a>";
+                    } else {
+                        if (element.server_ui == "true") {
+                            tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        } else {
+                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        }
+                    }
+                }
+            }
+            document.getElementById('sidebar-home-wrapper').innerHTML = tmp;
+        }
+        if (data.logs) {
+            tmp = '';
+            for (let index = 0; index < data.logs.length; index++) {
+                const element = data.logs[index];
+                if (element.state == 'false') {
+                    tmp += "<button class = 'collapse-item d-inline-block";
+                    tmp += " disabled";
+                    tmp += "'>" + element.name + "</button>";
+                } else {
+                    if (element.server_ui == "true") {
+                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block'>" + element.name + "</a>";
+                    } else {
+                        if (element.server_ui == "true") {
+                            tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        } else {
+                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        }
+                    }
+                }
+            }
+            document.getElementById('sidebar-logs-wrapper').innerHTML = tmp;
+        }
+        if (data.alerts) {
+            tmp = '';
+            for (let index = 0; index < data.alerts.length; index++) {
+                const element = data.alerts[index];
+                if (element.state == 'false') {
+                    tmp += "<button class = 'collapse-item d-inline-block";
+                    tmp += " disabled";
+                    tmp += "'>" + element.name + "</button>";
+                } else {
+                    if (element.server_ui == "true") {
+                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                            tmp += " active";
+                        }
+                        tmp += "'>" + element.name + "</a>";
+                    } else {
+                        tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                        if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                            tmp += " active";
+                        }
+                        tmp += "'>" + element.name + "</a>";
+                    }
+                }
+            }
+            document.getElementById('sidebar-alerts-wrapper').innerHTML = tmp;
+        }
+        if (data.references) {
+            tmp = '';
+            for (let index = 0; index < data.references.length; index++) {
+                const element = data.references[index];
+                if (element.state == 'false') {
+                    tmp += "<button class = 'collapse-item d-inline-block";
+                    tmp += " disabled";
+                    tmp += "'>" + element.name + "</button>";
+                } else {
+                    if (element.server_ui == "true") {
+                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block'>" + element.name + "</a>";
+                    } else {
+                        if (element.server_ui == "true") {
+                            tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        } else {
+                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        }
+                    }
+                }
+            }
+            document.getElementById('sidebar-references-wrapper').innerHTML = tmp;
+        }
+        if (data.account) {
+            tmp = '';
+            for (let index = 0; index < data.account.length; index++) {
+                const element = data.account[index];
+                if (element.state == 'false') {
+                    tmp += "<button class = 'collapse-item d-inline-block";
+                    tmp += " disabled";
+                    tmp += "'>" + element.name + "</button>";
+                } else {
+                    if (element.server_ui == "true") {
+                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block'>" + element.name + "</a>";
+                    } else {
+                        if (element.server_ui == "true") {
+                            tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        } else {
+                            tmp += "<a href = 'online-form' class = 'collapse-item d-inline-block";
+                            if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
+                                tmp += " active";
+                            }
+                            tmp += "'>" + element.name + "</a>";
+                        }
+                    }
+                }
+            }
+            document.getElementById('sidebar-account-wrapper').innerHTML = tmp;
+        }
+    }
+    if (
+        currentUrl.includes('/active-incident') ||
+        currentUrl.includes('/closed-incident') ||
+        currentUrl.includes('/select-incident') ||
+        currentUrl.includes('/new-incident') ||
+        currentUrl.includes('/online-form')
+    ) {
+        document.getElementById('alert-item').classList.add('active');
+        document.getElementById('alert-item').firstElementChild.classList.remove('collapsed');
+        document.getElementById('alert-item').lastElementChild.classList.add('show');
+    }
 
-function changeAgencyData(agency_id) {
-    document.cookie = "agency_id = " + agency_id;
-    window.location.replace("overview");
-}
+    function changeAgencyData(agency_id) {
+        document.cookie = "agency_id = " + agency_id;
+        window.location.replace("overview");
+    }
 </script>

@@ -133,6 +133,9 @@ session_start();
                         document.cookie = "agency = " + tmp;
                         document.cookie = "agencies_id = " + tmp1;
                         document.cookie = "agency_name = " + data.agencies[0].agency_name;
+                        if (data.agencies[0].modules) {
+                            localStorage.setItem('dashsidebar-data', JSON.stringify(data.agencies[0].modules));
+                        }
                     },
                     complete: function(data) {
                         if (data.status == 404) {

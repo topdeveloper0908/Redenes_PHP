@@ -1,35 +1,43 @@
 .logo {
     max-width: 14rem;
 }
+
 .topbar {
     height: 6.375rem;
 }
-.sidebar .nav-item .nav-link .img-profile, 
+
+.sidebar .nav-item .nav-link .img-profile,
 .topbar .nav-item .nav-link .img-profile {
     height: 4rem;
     width: 4rem;
 }
+
 .sidebar button {
     border: none;
     background-color: white;
     text-align: left;
+
     &:hover {
         background-color: rgb(240, 240, 240);
     }
 }
+
 .custom-control-label {
     padding-top: 0.25rem;
 }
+
 .table td,
 .table th {
     vertical-align: middle;
     text-align: center;
 }
+
 .bg-one-image img {
     width: 100%;
     height: auto;
     padding: 2rem;
 }
+
 .loader {
     position: absolute;
     top: 50%;
@@ -42,6 +50,7 @@
     animation: spin 2s linear infinite;
     z-index: 10;
 }
+
 #my-loader-wrapper {
     position: absolute;
     top: 0;
@@ -51,59 +60,75 @@
     background: white;
     z-index: 9;
 }
+
 #incident-content {
     .card-body {
         .custom-control-label {
             font-size: 1rem;
             padding-top: 0rem;
         }
-    }    
-    > div {
+    }
+
+    >div {
         max-width: 1400px;
     }
+
     .incident-link:hover {
         text-decoration: none;
     }
+
     img {
         max-width: 6rem;
     }
 }
+
 .btn .icon i {
     line-height: 1.5;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .gps-page {
     overflow-x: hidden;
     background-color: red;
+
     .heading-title {
         background-color: red;
         font-size: 9rem;
         margin-bottom: 0;
         padding: 6rem 0;
         color: black;
+
         &.data-heading-title {
             padding-top: 7rem;
             padding-bottom: 5rem;
         }
     }
+
     .location-title {
         font-size: 5.5rem;
         color: black;
     }
+
     .data-title {
         font-size: 3.5rem;
         color: black;
     }
 }
+
 .well {
     .well-sm {
         max-width: 1400px;
     }
+
     .formbuilder-icon-autocomplete,
     .formbuilder-icon-date,
     .formbuilder-icon-file,
@@ -113,8 +138,10 @@
     .formbuilder-icon-textarea {
         display: none;
     }
+
     .select-field {
         &.form-field {
+
             .subtype-wrap,
             .style-wrap,
             .className-wrap,
@@ -132,103 +159,123 @@
             .access-wrap {
                 display: none !important;
             }
+
             .option-label {
                 width: 100% !important;
             }
         }
     }
+
     .checkbox-group-field {
+
         .option-value,
         .option-actions {
             display: none !important;
         }
+
         .option-label {
             width: 100% !important;
         }
     }
 }
+
 .custom-control.custom-border {
     border: 2px solid #fff;
     border-left: none;
     border-right: none;
     border-bottom: none;
 }
+
 .preview-btn {
     align-items: center;
     padding-right: 0.8rem;
     position: relative;
+
     &::before {
         content: '+';
-        background-color: rgba(0,0,0,0.15);
+        background-color: rgba(0, 0, 0, 0.15);
         padding: 0.25rem 0.7rem;
         margin-right: 0.8rem;
         font-size: 1.8rem;
         line-height: 1;
         font-weight: 800;
-        color: rgba(255,255,255,0.55);
+        color: rgba(255, 255, 255, 0.55);
     }
 }
+
 .form-wrap.form-builder .frmb li.hidden-field {
     background-color: white !important;
 }
+
 #build-wrap {
     padding: 0.5rem;
     background-color: lightgrey;
     max-width: 1400px;
 }
+
 .well.well-sm {
     max-width: 1400px;
 }
+
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 30rem;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 30rem;
 }
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  text-align: right;
-  margin-bottom: 1rem;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: right;
+    margin-bottom: 1rem;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-     -khtml-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .multiselect {
@@ -250,13 +297,13 @@
     border-bottom: 1px solid transparent;
 }
 
-.multiselect > .title {
+.multiselect>.title {
     cursor: pointer;
     height: 16px;
     padding: .6rem 1rem 1.5rem;
 }
 
-.multiselect > .title > .text {
+.multiselect>.title>.text {
     max-height: 25px;
     display: block;
     float: left;
@@ -264,8 +311,8 @@
     line-height: 1.3em;
 }
 
-.multiselect > .title > .expand-icon,
-.multiselect > .title > .close-icon {
+.multiselect>.title>.expand-icon,
+.multiselect>.title>.close-icon {
     float: right;
     border-radius: 50%;
     padding: 0 8px;
@@ -276,22 +323,22 @@
     margin-top: -4px
 }
 
-.multiselect.selection > .title > .expand-icon {
+.multiselect.selection>.title>.expand-icon {
     display: none;
 }
 
-.multiselect > .title > .expand-icon,
-.multiselect.selection > .title > .close-icon {
+.multiselect>.title>.expand-icon,
+.multiselect.selection>.title>.close-icon {
     display: block;
 }
 
-.multiselect > .title > .close-icon:hover {
+.multiselect>.title>.close-icon:hover {
     border: 1px solid rgba(0, 0, 0, 0.3);
     background: rgb(203, 32, 32);
     color: #fff;
 }
 
-.multiselect > .dropdown-container {
+.multiselect>.dropdown-container {
     max-height: 200px;
     overflow: auto;
     margin-top: 4px;
@@ -303,22 +350,22 @@
     right: -1px;
 }
 
-.multiselect.active > .dropdown-container {
+.multiselect.active>.dropdown-container {
     border: 1px solid #d1d3e2;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     border-top: 0;
 }
 
-.multiselect:hover > .dropdown-container {
+.multiselect:hover>.dropdown-container {
     border-top-color: #d1d3e2;
 }
 
-.multiselect.active:hover > .dropdown-container {
+.multiselect.active:hover>.dropdown-container {
     border-color: #d1d3e2;
 }
 
-.multiselect > .dropdown-container > option {
+.multiselect>.dropdown-container>option {
     display: none;
     padding: 5px 20px;
     cursor: pointer;
@@ -327,23 +374,25 @@
     border-bottom: 1px solid transparent;
 }
 
-.multiselect > .dropdown-container > option.selected {
+.multiselect>.dropdown-container>option.selected {
     background: rgb(122, 175, 233);
     border-top: 1px solid #d1d3e2;
     border-bottom: 1px solid #d1d3e2;
     color: #fff;
 }
 
-.multiselect > .dropdown-container > option:hover {
+.multiselect>.dropdown-container>option:hover {
     background: rgba(0, 0, 0, 0.1);
     color: #000;
 }
 
-.multiselect.active > .dropdown-container > option {
+.multiselect.active>.dropdown-container>option {
     display: block;
 }
+
 .navbar-nav {
     position: relative;
+
     &.disabled::before {
         content: "";
         position: absolute;
@@ -354,5 +403,14 @@
         z-index: 100;
         background: white;
         opacity: 0.2;
+    }
+
+    .disabled.collapse-item {
+        color: gray;
+        opacity: 0.7;
+
+        &:hover {
+            background-color: white !important;
+        }
     }
 }
