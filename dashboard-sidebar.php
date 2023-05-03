@@ -157,13 +157,13 @@ if (strlen($user) == 0) {
                     tmp += "'>" + element.name + "</button>";
                 } else {
                     if (element.server_ui == "false") {
-                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('home'," + index + ") href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('home'," + index + ") href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -183,13 +183,13 @@ if (strlen($user) == 0) {
                     tmp += "'>" + element.name + "</button>";
                 } else {
                     if (element.server_ui == "false") {
-                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('logs'," + index + ") href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('logs'," + index + ") href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -209,13 +209,13 @@ if (strlen($user) == 0) {
                     tmp += "'>" + element.name + "</button>";
                 } else {
                     if (element.server_ui == "false") {
-                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('alerts'," + index + ") onclick=menuItemClicked('alerts'," + index + ") href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('alerts'," + index + ") onclick=menuItemClicked('alerts'," + index + ") href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -235,13 +235,13 @@ if (strlen($user) == 0) {
                     tmp += "'>" + element.name + "</button>";
                 } else {
                     if (element.server_ui == "false") {
-                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('references'," + index + ") href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('references'," + index + ") href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -261,13 +261,13 @@ if (strlen($user) == 0) {
                     tmp += "'>" + element.name + "</button>";
                 } else {
                     if (element.server_ui == "false") {
-                        tmp += "<a href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('account'," + index + ") href = '" + element.module.replace('_', '-') + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
                         tmp += "'>" + element.name + "</a>";
                     } else {
-                        tmp += "<a href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
+                        tmp += "<a onclick=menuItemClicked('account'," + index + ") href = 'online-form?form_id=" + element.default_form + "' class = 'collapse-item d-inline-block";
                         if (currentUrl.indexOf(element.module.replace('_', '-')) > 0) {
                             tmp += " active";
                         }
@@ -277,6 +277,18 @@ if (strlen($user) == 0) {
             }
             document.getElementById('sidebar-account-wrapper').innerHTML = tmp;
         }
+    }
+    if (localStorage.getItem('menu_item_clicked')) {
+        element = JSON.parse(localStorage.getItem('menu_item_clicked'));
+        console.log(element);
+        document.getElementById('sidebar-' + element.wrapper + '-wrapper').children[element.index].classList.add('clicked');
+    }
+
+    function menuItemClicked(wrapper, index) {
+        localStorage.setItem('menu_item_clicked', JSON.stringify({
+            wrapper: wrapper,
+            index: index
+        }));
     }
     if (
         currentUrl.includes('/active-incident') ||

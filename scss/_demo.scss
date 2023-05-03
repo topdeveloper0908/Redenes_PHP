@@ -405,6 +405,10 @@
         opacity: 0.2;
     }
 
+    .clicked.collapse-item {
+        background-color: #eaecf4;
+    }
+
     .disabled.collapse-item {
         color: gray;
         opacity: 0.7;
