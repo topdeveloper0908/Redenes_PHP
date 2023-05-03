@@ -390,7 +390,7 @@
     display: block;
 }
 
-.navbar-nav {
+.navbar-nav.sidebar {
     position: relative;
 
     &.disabled::before {
@@ -406,7 +406,8 @@
     }
 
     .clicked.collapse-item {
-        background-color: #eaecf4;
+        color: #4e73df !important;
+        font-weight: 700 !important;
     }
 
     .disabled.collapse-item {
