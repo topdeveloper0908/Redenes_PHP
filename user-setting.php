@@ -1,4 +1,4 @@
-<?php  
+<?php
 session_start();
 error_reporting(0);
 
@@ -23,9 +23,7 @@ $agency_id = $_COOKIE['agency_id'];
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -39,7 +37,7 @@ $agency_id = $_COOKIE['agency_id'];
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include ('sidebar.php');?>
+        <?php include('sidebar.php'); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -49,7 +47,7 @@ $agency_id = $_COOKIE['agency_id'];
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include ('header.php'); ?>
+                <?php include('header.php'); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -79,10 +77,10 @@ $agency_id = $_COOKIE['agency_id'];
                                 </button>
                             </div>
                         </div>
-    
+
                         <!-- Content Row -->
                         <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 row-cols-1">
-    
+
                             <div class="px-2">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
@@ -92,13 +90,11 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Agency Register ID</label>
-                                                <input type="text" class="form-control form-control-user"
-                                                    id="registerID" aria-describedby="emailHelp"
-                                                    placeholder="Enter Register ID..." readOnly>
+                                                <input type="text" class="form-control form-control-user" id="registerID" aria-describedby="emailHelp" placeholder="Enter Register ID..." readOnly>
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Auto Add Email Domain</h6>
@@ -108,9 +104,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             <h6 class="m-0 mb-2">User@</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1">
                                                 <label>Email Domain</label>
-                                                <input type="text" class="form-control form-control-user"
-                                                    id="emailDomain" aria-describedby="emailHelp"
-                                                    placeholder="Enter Email Domain..." readOnly>
+                                                <input type="text" class="form-control form-control-user" id="emailDomain" aria-describedby="emailHelp" placeholder="Enter Email Domain..." readOnly>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -132,7 +126,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
                             <div class="px-2">
                                 <div class="card shadow mb-4">
@@ -146,9 +140,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Custom</label>
                                                 <div class="d-flex">
-                                                    <input type="text" class="form-control form-control-user"
-                                                        id="userRanks" aria-describedby="emailHelp"
-                                                        placeholder="Enter User Rank..." readOnly>
+                                                    <input type="text" class="form-control form-control-user" id="userRanks" aria-describedby="emailHelp" placeholder="Enter User Rank..." readOnly>
                                                     <button type="button" onClick="addRank()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
@@ -159,7 +151,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
                             <div class="px-2">
                                 <div class="card shadow mb-4">
@@ -173,9 +165,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Custom</label>
                                                 <div class="d-flex">
-                                                    <input type="text" class="form-control form-control-user"
-                                                        id="userGroup" aria-describedby="emailHelp"
-                                                        placeholder="Enter User Group..." readOnly>
+                                                    <input type="text" class="form-control form-control-user" id="userGroup" aria-describedby="emailHelp" placeholder="Enter User Group..." readOnly>
                                                     <button type="button" onClick="addGroup()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
@@ -186,7 +176,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
                             <div class="px-2">
                                 <div class="card shadow mb-4">
@@ -200,9 +190,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Custom</label>
                                                 <div class="d-flex">
-                                                    <input type="text" class="form-control form-control-user"
-                                                        id="userStatus" aria-describedby="emailHelp"
-                                                        placeholder="Enter User Status..." readOnly>
+                                                    <input type="text" class="form-control form-control-user" id="userStatus" aria-describedby="emailHelp" placeholder="Enter User Status..." readOnly>
                                                     <button type="button" onClick="addStatus()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
@@ -213,7 +201,7 @@ $agency_id = $_COOKIE['agency_id'];
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -257,36 +245,36 @@ $agency_id = $_COOKIE['agency_id'];
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
         var user_setting_info;
-        init_id = "<?php echo $agency_id;?>";
+        init_id = "<?php echo $agency_id; ?>";
+
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
                 url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: {
                     agency_id: agency_id,
-                    authorization: "<?php echo $authorization;?>"
+                    authorization: "<?php echo $authorization; ?>"
                 },
-                success: function (res) {
+                success: function(res) {
                     console.log(res);
-                    user_setting_info   = res.agencies_user_settings[0];
+                    user_setting_info = res.agencies_user_settings[0];
                     writeData();
                     // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
         getData(init_id);
+
         function saveData() {
-            var authorization = "<?php echo $authorization;?>";
+            var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
-                agency_user_settings: [
-                    {
-                        auto_add_email_domain: document.getElementById('emailDomain').value,
-                    }
-                ]
+                agency_user_settings: [{
+                    auto_add_email_domain: document.getElementById('emailDomain').value,
+                }]
             };
             elements = $('#userStatusWrapper').children();
             var tmp = {};
@@ -318,8 +306,8 @@ $agency_id = $_COOKIE['agency_id'];
                 url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: JSON.stringify(formData),
                 dataType: "json",
-                contentType:'application/json',
-                success: function (res) {   
+                contentType: 'application/json',
+                success: function(res) {
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
@@ -331,6 +319,10 @@ $agency_id = $_COOKIE['agency_id'];
                     buttons.forEach(element => {
                         element.setAttribute("disabled", true);
                     });
+                    var deleteLinks = document.querySelectorAll('.delete-link');
+                    deleteLinks.forEach(element => {
+                        element.classList.add("disabled");
+                    });
                     var inputs = document.querySelectorAll('.form-control');
                     inputs.forEach(element => {
                         element.setAttribute("readOnly", true);
@@ -338,6 +330,7 @@ $agency_id = $_COOKIE['agency_id'];
                 }
             })
         }
+
         function saveEnable() {
             var checks = document.querySelectorAll('.custom-control-input');
             checks.forEach(element => {
@@ -355,11 +348,16 @@ $agency_id = $_COOKIE['agency_id'];
             buttons.forEach(element => {
                 element.removeAttribute("disabled");
             });
+            var deleteLinks = document.querySelectorAll('.delete-link');
+            deleteLinks.forEach(element => {
+                element.classList.remove("disabled");
+            });
             document.getElementById("registerID").setAttribute("readOnly", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
         }
+
         function cancelSave() {
             writeData();
             var inputs = document.querySelectorAll('.custom-control-input');
@@ -370,13 +368,18 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.setAttribute("readOnly", true);
             });
+            var deleteLinks = document.querySelectorAll('.delete-link');
+            deleteLinks.forEach(element => {
+                element.classList.add("disabled");
+            });
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
         }
+
         function writeData() {
             document.getElementById('registerID').value = init_id;
-            if(user_setting_info.auto_add_email_domain) {
+            if (user_setting_info.auto_add_email_domain) {
                 document.getElementById('emailDomain').value = user_setting_info.auto_add_email_domain;
             }
             ranks = user_setting_info.user_ranks[0];
@@ -384,13 +387,13 @@ $agency_id = $_COOKIE['agency_id'];
             group = document.getElementById('userRanksGroup');
             for (const key in ranks) {
                 console.log(ranks[key]);
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
-                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if(ranks[key] == 'true') {
+                if (ranks[key] == 'true') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserRank(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
             }
             document.getElementById('userRanksGroup').innerHTML = tmp;
             writeUserRank(ranks, 'read');
@@ -399,13 +402,13 @@ $agency_id = $_COOKIE['agency_id'];
             tmp = '';
             group = document.getElementById('userGroupWrapper');
             for (const key in groups) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
-                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if(groups[key] == 'true') {
+                if (groups[key] == 'true') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserGroup(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
             }
             document.getElementById('userGroupWrapper').innerHTML = tmp;
             writeUserGroup(groups, 'read');
@@ -414,203 +417,236 @@ $agency_id = $_COOKIE['agency_id'];
             tmp = '';
             group = document.getElementById('userStatusWrapper');
             for (const key in statuses) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+key+"Check'";
-                if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if(statuses[key] == 'true') {
+                if (statuses[key] == 'true') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='"+key+"Check'>"+key+"</label></div></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserStatus(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
             }
             document.getElementById('userStatusWrapper').innerHTML = tmp;
             writeUserStatus(statuses, 'read');
         }
+
         function writeUserRank(data, method) {
             var tmp = '';
-            if(method == 'read') {
+            if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'";
+                    if (data[key] == 'true') {
+                        tmp += "<option value='" + key + "'";
                     }
-                    if(key == user_setting_info.auto_add_user_to_rank) {
+                    if (key == user_setting_info.auto_add_user_to_rank) {
                         tmp += " selected";
                     }
-                    tmp += ">"+key+"</option>";
+                    tmp += ">" + key + "</option>";
                 });
             }
             document.getElementById('userRankDropdown').innerHTML = tmp;
         }
+
+        function removeUserRank(e, key) {
+            e.preventDefault();
+            element = e.currentTarget;
+            console.log(element.classList.value.indexOf('disabled'));
+            if (element.classList.value.indexOf('disabled') == -1) {
+                $(element).parent().remove();
+                addRankToList(e);
+            }
+        }
+
         function addRank() {
             var tmp;
             var value = document.getElementById('userRanks').value;
-            if( value == '' ) {
+            if (value == '') {
                 window.alert('Empty value should not be added')
-            }
-            else {
+            } else {
                 group = document.getElementById('userRanksGroup');
                 inputs = $(group).find('.custom-control-input');
                 status = false;
                 for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];  
-                    if(element.id == value+'Check') {
+                    const element = inputs[index];
+                    if (element.id == value + 'Check') {
                         status = true;
                     }
                 }
-                if(status == true) {
+                if (status == true) {
                     window.alert('The same name is exist')
-                }
-                else {
+                } else {
                     group = document.getElementById('userRanksGroup');
                     inputs = $(group).find('.custom-control-input');
                     tmp = document.getElementById('userRanksGroup').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='"+value+"Check'";
-                    if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + value + "Check'";
+                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
                         tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='"+value+"Check'>"+value+"</label></div></div>";
+                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
                     document.getElementById('userRanksGroup').innerHTML = tmp;
                     inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length-1; index++) {
-                        inputs1[index].checked = inputs[index].checked;  
+                    for (let index = 0; index < inputs1.length - 1; index++) {
+                        inputs1[index].checked = inputs[index].checked;
                     }
                 }
             }
         }
+
         function addRankToList(e) {
             var tmp = '';
             group = document.getElementById('userRanksGroup');
             inputs = $(group).find('.custom-control-input');
             for (let index = 0; index < inputs.length; index++) {
-                if(inputs[index].checked == true) {
+                if (inputs[index].checked == true) {
                     let str = inputs[index].id;
                     str = str.substring(0, str.length - 5);
-                    tmp += "<option value='"+ str +"'>"+str+"</option>";
-                }   
+                    tmp += "<option value='" + str + "'>" + str + "</option>";
+                }
             }
             document.getElementById('userRankDropdown').innerHTML = tmp;
         }
+
         function writeUserGroup(data, method) {
             var tmp = '';
-            if(method == 'read') {
+            if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'";
+                    if (data[key] == 'true') {
+                        tmp += "<option value='" + key + "'";
                     }
-                    if(key == user_setting_info.auto_add_user_to_group) {
+                    if (key == user_setting_info.auto_add_user_to_group) {
                         tmp += " selected";
                     }
-                    tmp += ">"+key+"</option>";
+                    tmp += ">" + key + "</option>";
                 });
             }
             document.getElementById('userGroupDropdown').innerHTML = tmp;
         }
+
+        function removeUserGroup(e, key) {
+            e.preventDefault();
+            element = e.currentTarget;
+            console.log(element.classList.value.indexOf('disabled'));
+            if (element.classList.value.indexOf('disabled') == -1) {
+                $(element).parent().remove();
+                addGroupToList(e);
+            }
+        }
+
         function addGroup() {
             var tmp;
             var value = document.getElementById('userGroup').value;
-            if( value == '' ) {
+            if (value == '') {
                 window.alert('Empty value should not be added')
-            }
-            else {
+            } else {
                 group = document.getElementById('userGroupWrapper');
                 inputs = $(group).find('.custom-control-input');
                 status = false;
                 for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];  
-                    if(element.id == value+'Check') {
+                    const element = inputs[index];
+                    if (element.id == value + 'Check') {
                         status = true;
                     }
                 }
-                if(status == true) {
+                if (status == true) {
                     window.alert('The same name is exist')
-                }
-                else {
+                } else {
                     group = document.getElementById('userGroupWrapper');
                     inputs = $(group).find('.custom-control-input');
                     tmp = document.getElementById('userGroupWrapper').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='"+value+"Check'";
-                    if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='" + value + "Check'";
+                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
                         tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='"+value+"Check'>"+value+"</label></div></div>";
+                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
                     document.getElementById('userGroupWrapper').innerHTML = tmp;
                     inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length-1; index++) {
-                        inputs1[index].checked = inputs[index].checked;  
+                    for (let index = 0; index < inputs1.length - 1; index++) {
+                        inputs1[index].checked = inputs[index].checked;
                     }
                 }
             }
         }
+
         function addGroupToList() {
             var tmp = '';
             group = document.getElementById('userGroupWrapper');
             inputs = $(group).find('.custom-control-input');
             for (let index = 0; index < inputs.length; index++) {
-                if(inputs[index].checked == true) {
+                if (inputs[index].checked == true) {
                     let str = inputs[index].id;
                     str = str.substring(0, str.length - 5);
-                    tmp += "<option value='"+ str +"'>"+str+"</option>";
-                }   
+                    tmp += "<option value='" + str + "'>" + str + "</option>";
+                }
             }
             document.getElementById('userGroupDropdown').innerHTML = tmp;
         }
+
         function writeUserStatus(data, method) {
             var tmp = '';
-            if(method == 'read') {
+            if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if(data[key] == 'true') {
-                        tmp += "<option value='"+ key +"'";
+                    if (data[key] == 'true') {
+                        tmp += "<option value='" + key + "'";
                     }
-                    if(key == user_setting_info.auto_add_user_to_status) {
+                    if (key == user_setting_info.auto_add_user_to_status) {
                         tmp += " selected";
                     }
-                    tmp += ">"+key+"</option>";
+                    tmp += ">" + key + "</option>";
                 });
             }
             document.getElementById('userStatusDropdown').innerHTML = tmp;
         }
+
+        function removeUserStatus(e, key) {
+            e.preventDefault();
+            element = e.currentTarget;
+            console.log(element.classList.value.indexOf('disabled'));
+            if (element.classList.value.indexOf('disabled') == -1) {
+                $(element).parent().remove();
+                addStatusToList(e);
+            }
+        }
+
         function addStatus() {
             var tmp;
             var value = document.getElementById('userStatus').value;
-            if( value == '' ) {
+            if (value == '') {
                 window.alert('Empty value should not be added')
-            }
-            else {
+            } else {
                 group = document.getElementById('userStatusWrapper');
                 inputs = $(group).find('.custom-control-input');
                 status = false;
                 for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];  
-                    if(element.id == value+'Check') {
+                    const element = inputs[index];
+                    if (element.id == value + 'Check') {
                         status = true;
                     }
                 }
-                if(status == true) {
+                if (status == true) {
                     window.alert('The same name is exist')
-                }
-                else {
+                } else {
                     group = document.getElementById('userStatusWrapper');
                     inputs = $(group).find('.custom-control-input');
                     tmp = document.getElementById('userStatusWrapper').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addStatusToList(event)' id='"+value+"Check'";
-                    if(!document.getElementById("edit-btn").classList.contains("d-none"))
+                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addStatusToList(event)' id='" + value + "Check'";
+                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
                         tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='"+value+"Check'>"+value+"</label></div></div>";
+                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
                     document.getElementById('userStatusWrapper').innerHTML = tmp;
                     inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length-1; index++) {
-                        inputs1[index].checked = inputs[index].checked;  
+                    for (let index = 0; index < inputs1.length - 1; index++) {
+                        inputs1[index].checked = inputs[index].checked;
                     }
                 }
             }
         }
+
         function addStatusToList(e) {
             var tmp = '';
             group = document.getElementById('userStatusWrapper');
             inputs = $(group).find('.custom-control-input');
             for (let index = 0; index < inputs.length; index++) {
-                if(inputs[index].checked == true) {
+                if (inputs[index].checked == true) {
                     let str = inputs[index].id;
                     str = str.substring(0, str.length - 5);
-                    tmp += "<option value='"+ str +"'>"+str+"</option>";
-                }   
+                    tmp += "<option value='" + str + "'>" + str + "</option>";
+                }
             }
             document.getElementById('userStatusDropdown').innerHTML = tmp;
         }

@@ -1,4 +1,4 @@
-<?php  
+<?php
 $cell_number = $_COOKIE['cell_number'];
 if (strlen($cell_number) == 0) {
     header('location:login');
@@ -20,9 +20,7 @@ if (strlen($cell_number) == 0) {
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -30,7 +28,8 @@ if (strlen($cell_number) == 0) {
 </head>
 
 <body class="bg-gradient-primary">
-
+    <div id="my-loader-element"></div>
+    <div id="my-loader-wrapper"></div>
     <div class="container">
 
         <!-- Outer Row -->
@@ -52,13 +51,12 @@ if (strlen($cell_number) == 0) {
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" name="password" aria-describedby="emailHelp"
-                                                placeholder="Enter Password...">
+                                            <input type="password" class="form-control form-control-user" id="password" name="password" aria-describedby="emailHelp" placeholder="Enter Password...">
                                         </div>
+                                        <p id="danger-txt" class="d-none text-danger text-center">Some Error</p>
                                         <button class="btn btn-primary btn-user btn-block">
                                             Update Password
-</button>
+                                        </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -89,21 +87,31 @@ if (strlen($cell_number) == 0) {
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("form").submit(function (event) {
+        document.getElementById("my-loader-element").classList.remove("loader");
+        document.getElementById("my-loader-wrapper").classList.add("d-none");
+        $(document).ready(function() {
+            $("form").submit(function(event) {
+                document.getElementById("my-loader-element").classList.add("loader");
+                document.getElementById("my-loader-wrapper").classList.remove("d-none");
                 var formData = {
                     password: $("#password").val(),
-                    cell_number: "<?php echo $cell_number;?>"
+                    cell_number: "<?php echo $cell_number; ?>"
                 };
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/update-password/",
                     data: JSON.stringify(formData),
                     dataType: "json",
-                    contentType:'application/json',
-                    success: function (data) {
-                        document.cookie = "cell_number = ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-                        window.location.replace("login");
+                    contentType: 'application/json',
+                    complete: function(data) {
+                        if (data.status == 200) {
+                            document.cookie = "cell_number = ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                            window.location.replace("login");
+                        } else {
+                            document.getElementById("my-loader-element").classList.remove("loader");
+                            document.getElementById("my-loader-wrapper").classList.add("d-none");
+                            document.getElementById('danger-txt').classList.remove('d-none');
+                        }
                     }
                 })
                 event.preventDefault();

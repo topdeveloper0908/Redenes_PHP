@@ -25,7 +25,8 @@ session_start();
 </head>
 
 <body class="bg-gradient-primary">
-
+    <div id="my-loader-element"></div>
+    <div id="my-loader-wrapper"></div>
     <div class="container">
 
         <!-- Outer Row -->
@@ -87,8 +88,12 @@ session_start();
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script>
+        document.getElementById("my-loader-element").classList.remove("loader");
+        document.getElementById("my-loader-wrapper").classList.add("d-none");
         $(document).ready(function() {
             $("form").submit(function(event) {
+                document.getElementById("my-loader-element").classList.add("loader");
+                document.getElementById("my-loader-wrapper").classList.remove("d-none");
                 var formData = {
                     email_address: $("#username").val(),
                     password: $("#password").val(),
@@ -144,8 +149,12 @@ session_start();
                     },
                     complete: function(data) {
                         if (data.status == 404) {
+                            document.getElementById("my-loader-element").classList.remove("loader");
+                            document.getElementById("my-loader-wrapper").classList.add("d-none");
                             document.getElementById('danger-txt').classList.remove('d-none');
                         } else if (data.status == 500) {
+                            document.getElementById("my-loader-element").classList.remove("loader");
+                            document.getElementById("my-loader-wrapper").classList.add("d-none");
                             document.getElementById('danger-txt').classList.remove('d-none');
                             document.getElementById('danger-txt').innerHTML = "Sorry, there is an error in the server";
                         } else {

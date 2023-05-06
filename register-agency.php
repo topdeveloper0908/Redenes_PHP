@@ -2,6 +2,10 @@
 session_start();
 error_reporting(0);
 $authorization = $_COOKIE['authorization'];
+$user = $_COOKIE['name'];
+if (strlen($user) == 0) {
+    header('location:logout');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -295,11 +299,11 @@ $authorization = $_COOKIE['authorization'];
                     document.cookie = "agency_name = " + data.agencies[0].agency_name;
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    window.location.replace("new-incident");
+                    //window.location.replace("new-incident");
                 }
             })
-        });
-    </script>
+    });
+</script>
 
 </body>
 
