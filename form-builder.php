@@ -80,12 +80,12 @@ if (strlen($user) == 0) {
                                             </span>
                                             <span class="text">Save</span>
                                         </button>
-                                        <a href="module-format" class="btn btn-danger btn-icon-split">
+                                        <button onclick="openCancelModal()" class="btn btn-danger btn-icon-split">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
                                             </span>
                                             <span class="text">Cancel</span>
-                                        </a>
+                                        </button>
                                     </div>
                                     <div id="alert" class="card mb-0 ml-md-5 mt-2 d-none">
                                         <div class="card-header py-2">
@@ -125,6 +125,24 @@ if (strlen($user) == 0) {
         </div>
         <!-- End of Page Wrapper -->
 
+        <!-- The Modal -->
+        <div id="cancelModal" class="modal" style="padding-top:20rem">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="closeCancelModal()">&times;</span>
+                <form id="createUserForm">
+                    <div id="modalFromContent">
+                        <div class="row align-items-center justify-content-center mb-2">
+                            <h6 class="ml-2 mb-0 text-right">Do you want to go back, and unsaved data will be lost</h6>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                        <button type="button" onclick="goPreviousPage()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Back</span></button>
+                        <button type="button" onclick="closeCancelModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Stay</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
@@ -424,6 +442,20 @@ if (strlen($user) == 0) {
                 }
 
             });
+
+            var cancelModal = document.getElementById("cancelModal");
+
+            function openCancelModal() {
+                cancelModal.style.display = "block";
+            }
+
+            function closeCancelModal() {
+                cancelModal.style.display = "none";
+            }
+
+            function goPreviousPage() {
+                window.location.replace('module-format');
+            }
         </script>
         <!-- Form Builder JavaScript-->
         <script src="js/form/vkbeautify.min.js"></script>

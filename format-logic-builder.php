@@ -287,8 +287,8 @@ if (strlen($user) == 0) {
                         </div>
                     </div>
                     <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
-                        <button type="button" onclick="goPreviousPage()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Delete</span></button>
-                        <button type="button" onclick="closeCancelModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
+                        <button type="button" onclick="goPreviousPage()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Back</span></button>
+                        <button type="button" onclick="closeCancelModal()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Stay</span></button>
                     </div>
                 </form>
             </div>
