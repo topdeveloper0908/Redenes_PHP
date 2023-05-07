@@ -84,6 +84,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Status</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -97,6 +98,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Status</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
+                                                <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody id="table-content">
@@ -198,7 +200,24 @@ $agency_id = $_COOKIE['agency_id'];
             </form>
         </div>
     </div>
-
+    <!-- The Modal -->
+    <div id="deleteModal" class="modal" style="padding-top:20rem">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <form id="createUserForm">
+                <div id="modalFromContent">
+                    <div class="row align-items-center justify-content-center mb-2">
+                        <h6 class="ml-2 mb-0 text-right">Are you sure to delete this action?</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                    <button type="button" onclick="confirmDelete()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Delete</span></button>
+                    <button type="button" onclick="confirmCancel()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -264,6 +283,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td>" + element.status + "</td>";
                 tmp += "<td><a href='form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
+                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span></a></td>"
                 tmp += "</tr>";
                 index++;
             });
@@ -308,6 +328,59 @@ $agency_id = $_COOKIE['agency_id'];
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+        var deleteModal = document.getElementById("deleteModal");
+
+        function openDeleteModal(e, row) {
+            e.preventDefault();
+            localStorage.setItem('deleteRow', row);
+            deleteModal.style.display = "block";
+        }
+
+        function closeDeleteModal() {
+            deleteModal.style.display = "none";
+        }
+
+        function confirmDelete() {
+            row = localStorage.getItem('deleteRow');
+            localStorage.removeItem('deleteRow');
+            deleteForm(row);
+            closeDeleteModal();
+        }
+
+        function deleteForm(row) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            document.getElementById("my-loader-wrapper").classList.remove("d-none");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                delete: row
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/format-modules/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    if (res.delete == 'completed') {
+                        trs = document.getElementById("table-content").children;
+                        for (let index = 0; index < trs.length; index++) {
+                            const element = trs[index];
+                            if (trs[index].children[0].innerHTML == row) {
+                                trs[index].remove();
+                            }
+                        }
+                        document.getElementById("my-loader-element").classList.remove("loader");
+                        document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    }
+                }
+            })
+        }
+
+        function confirmCancel() {
+            localStorage.removeItem('deleteRow');
+            closeDeleteModal();
         }
     </script>
     <!-- Page level custom scripts -->
