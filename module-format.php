@@ -1,4 +1,4 @@
-<?php  
+<?php
 session_start();
 error_reporting(0);
 
@@ -23,9 +23,7 @@ $agency_id = $_COOKIE['agency_id'];
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -45,7 +43,7 @@ $agency_id = $_COOKIE['agency_id'];
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include ('sidebar.php');?>
+        <?php include('sidebar.php'); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -55,7 +53,7 @@ $agency_id = $_COOKIE['agency_id'];
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include ('header.php'); ?>
+                <?php include('header.php'); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -69,45 +67,45 @@ $agency_id = $_COOKIE['agency_id'];
                                 <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create New Format</span></button>
                             </div>
                         </div>
-    
+
                         <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Format ID</th>
-                                            <th>Format Type</th>
-                                            <th>Module</th>
-                                            <th>Format Name</th>
-                                            <th>Created By</th>
-                                            <th>Last Edit</th>
-                                            <th>Status</th>
-                                            <th>Edit Layout</th>
-                                            <th>Edit Logic</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Format ID</th>
-                                            <th>Format Type</th>
-                                            <th>Module</th>
-                                            <th>Format Name</th>
-                                            <th>Created By</th>
-                                            <th>Last Edit</th>
-                                            <th>Status</th>
-                                            <th>Edit Layout</th>
-                                            <th>Edit Logic</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody id="table-content">
-                                        
-                                    </tbody>
-                                </table>
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Format ID</th>
+                                                <th>Format Type</th>
+                                                <th>Module</th>
+                                                <th>Format Name</th>
+                                                <th>Created By</th>
+                                                <th>Last Edit</th>
+                                                <th>Status</th>
+                                                <th>Edit Layout</th>
+                                                <th>Edit Logic</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Format ID</th>
+                                                <th>Format Type</th>
+                                                <th>Module</th>
+                                                <th>Format Name</th>
+                                                <th>Created By</th>
+                                                <th>Last Edit</th>
+                                                <th>Status</th>
+                                                <th>Edit Layout</th>
+                                                <th>Edit Logic</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody id="table-content">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </form>
 
                 </div>
@@ -195,7 +193,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4">
-                    <button type="submit" id="createModuleBtn" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create</span></button>
+                    <button type="submit" id="createModuleBtn" class='nav-link edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create</span></button>
                 </div>
             </form>
         </div>
@@ -206,8 +204,7 @@ $agency_id = $_COOKIE['agency_id'];
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script>        
-
+    <script>
         document.getElementById("my-loader-element").classList.add("loader");
     </script>
     <!-- Bootstrap core JavaScript-->
@@ -230,50 +227,52 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Custom scripts for all pages-->
     <script src="js/main.js"></script>
 
-    <script>        
-        init_id = "<?php echo $agency_id;?>";
+    <script>
+        init_id = "<?php echo $agency_id; ?>";
+
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
                 url: "https://api.redenes.org/dev/v1/format-modules/",
                 data: {
                     agency_id: agency_id,
-                    authorization: "<?php echo $authorization;?>"
+                    authorization: "<?php echo $authorization; ?>"
                 },
-                async:false,
-                success: function (res) {
+                async: false,
+                success: function(res) {
                     console.log(res);
                     var data = res.agencies_users;
                     writeData(data);
-                    document.getElementById("my-loader-element").classList.remove("loader");                
+                    document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
         getData(init_id);
+
         function writeData(mainData) {
             var tmp = '';
             var index = 0;
             mainData.forEach(element => {
                 tmp += "<tr>";
-                tmp += "<td class='col-id'>"+element.format_id+"</td>";
-                tmp += "<td>"+element.format_type+"</td>";
-                tmp +=  "<td>"+element.module+"</td>";
-                tmp +=  "<td>"+element.format_name+"</td>";
-                tmp +=  "<td>"+element.created_by+"</td>";
-                tmp +=  "<td>"+element.last_edit+"</td>";
-                tmp +=  "<td>"+element.status+"</td>";
-                tmp += "<td><a href='form-builder?form_id="+element.format_id+"' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
-                tmp += "<td><a href='format-logic-builder?format_id="+element.format_id+"' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
+                tmp += "<td class='col-id'>" + element.format_id + "</td>";
+                tmp += "<td>" + element.format_type + "</td>";
+                tmp += "<td>" + element.module + "</td>";
+                tmp += "<td>" + element.format_name + "</td>";
+                tmp += "<td>" + element.created_by + "</td>";
+                tmp += "<td>" + element.last_edit + "</td>";
+                tmp += "<td>" + element.status + "</td>";
+                tmp += "<td><a href='form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
+                tmp += "<td><a href='format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "</tr>";
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
-        } 
-        $('#createModuleForm').submit(function(e){
-            document.getElementById("my-loader-element").classList.add("loader");                
+        }
+        $('#createModuleForm').submit(function(e) {
+            document.getElementById("my-loader-element").classList.add("loader");
             e.preventDefault();
-            var authorization = "<?php echo $authorization;?>";
+            var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
                 format_type: $('#formatType').val(),
@@ -285,11 +284,11 @@ $agency_id = $_COOKIE['agency_id'];
                 url: "https://api.redenes.org/dev/v1/format-modules/",
                 data: JSON.stringify(formData),
                 dataType: "json",
-                contentType:'application/json',
-                success: function (res) {
-                    document.getElementById("my-loader-element").classList.remove("loader");                
+                contentType: 'application/json',
+                success: function(res) {
+                    document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    window.location.replace('form-builder?form_id='+res.format_id);
+                    window.location.replace('form-builder?form_id=' + res.format_id);
                 }
             })
         })
@@ -303,15 +302,13 @@ $agency_id = $_COOKIE['agency_id'];
             modal.style.display = "block";
         }
         closeBtn.onclick = function() {
-           modal.style.display = "none";
+            modal.style.display = "none";
         }
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
-
-
     </script>
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
