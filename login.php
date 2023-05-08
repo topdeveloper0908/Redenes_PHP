@@ -158,7 +158,8 @@ session_start();
                             document.getElementById('danger-txt').classList.remove('d-none');
                             document.getElementById('danger-txt').innerHTML = "Sorry, there is an error in the server";
                         } else {
-                            window.location.replace("new-incident");
+                            // window.location.replace("new-incident");
+                            window.location.replace("online-form?form_id=737b1459-25b4-4397-915f-f1f949c93492");
                         }
                     }
                 })
