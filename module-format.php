@@ -75,13 +75,14 @@ $agency_id = $_COOKIE['agency_id'];
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Format ID</th>
-                                                <th>Format Type</th>
                                                 <th>Module</th>
                                                 <th>Format Name</th>
+                                                <th>Format Type</th>
                                                 <th>Created By</th>
                                                 <th>Last Edit</th>
                                                 <th>Status</th>
+                                                <th>Offline</th>
+                                                <th>Groups</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
                                                 <th></th>
@@ -89,13 +90,14 @@ $agency_id = $_COOKIE['agency_id'];
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Format ID</th>
-                                                <th>Format Type</th>
                                                 <th>Module</th>
                                                 <th>Format Name</th>
+                                                <th>Format Type</th>
                                                 <th>Created By</th>
                                                 <th>Last Edit</th>
                                                 <th>Status</th>
+                                                <th>Offline</th>
+                                                <th>Groups</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
                                                 <th></th>
@@ -273,14 +275,23 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             var index = 0;
             mainData.forEach(element => {
-                tmp += "<tr>";
-                tmp += "<td class='col-id'>" + element.format_id + "</td>";
-                tmp += "<td>" + element.format_type + "</td>";
+                tmp += "<tr data-id='" + element.format_id + "'>";
                 tmp += "<td>" + element.module + "</td>";
                 tmp += "<td>" + element.format_name + "</td>";
+                tmp += "<td>" + element.format_type + "</td>";
                 tmp += "<td>" + element.created_by + "</td>";
                 tmp += "<td>" + element.last_edit + "</td>";
                 tmp += "<td>" + element.status + "</td>";
+                tmp += "<td>" + element.offline.toUpperCase() + "</td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'>"
+                for (let index = 0; index < element.groups.length; index++) {
+                    tmp += "<option value='" + element.groups[index] + "'";
+                    // if (element.user_element.groups == element.groups[index]) {
+                    //     tmp += " selected";
+                    // }
+                    tmp += ">" + element.groups[index] + "</option>"
+                }
+                tmp += "</select></td>";
                 tmp += "<td><a href='form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span></a></td>"
@@ -367,7 +378,8 @@ $agency_id = $_COOKIE['agency_id'];
                         trs = document.getElementById("table-content").children;
                         for (let index = 0; index < trs.length; index++) {
                             const element = trs[index];
-                            if (trs[index].children[0].innerHTML == row) {
+                            console.log(trs[index]);
+                            if (trs[index].getAttribute('data-id') == row) {
                                 trs[index].remove();
                             }
                         }
