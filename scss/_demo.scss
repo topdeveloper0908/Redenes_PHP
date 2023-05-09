@@ -323,6 +323,9 @@
     float: left;
     overflow: hidden;
     line-height: 1.3em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80%;
 }
 
 .multiselect>.title>.expand-icon,
@@ -402,6 +405,10 @@
 
 .multiselect.active>.dropdown-container>option {
     display: block;
+}
+
+.multiselect.disabled {
+    background-color: #eaecf4;
 }
 
 .navbar-nav.sidebar {

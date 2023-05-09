@@ -74,32 +74,33 @@ $agency_id = $_COOKIE['agency_id'];
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Rank</th>
-                                                <th>Group</th>
+                                                <th style="width: 14rem;">Group</th>
                                                 <th>Status</th>
                                                 <th>Join Date</th>
                                                 <th>Last Login</th>
+                                                <th>Added By</th>
                                                 <th style="width:1px">Admin</th>
                                                 <th style="width: 14rem;">Edit</th>
+                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Rank</th>
-                                                <th>Group</th>
+                                                <th style="width: 14rem;">Group</th>
                                                 <th>Status</th>
                                                 <th>Join Date</th>
                                                 <th>Last Login</th>
+                                                <th>Added By</th>
                                                 <th style="width:1px">Admin</th>
                                                 <th style="width: 14rem;">Edit</th>
+                                                <th>Delete</th>
                                             </tr>
                                         </tfoot>
                                         <tbody id="table-content">
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -183,6 +184,24 @@ $agency_id = $_COOKIE['agency_id'];
             </form>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="deleteModal" class="modal" style="padding-top:20rem">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <form id="createUserForm">
+                <div id="modalFromContent">
+                    <div class="row align-items-center justify-content-center mb-2">
+                        <h6 class="ml-2 mb-0 text-right">Are you sure to delete this user?</h6>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4" id="modal-btn-wrapper">
+                    <button type="button" onclick="confirmDelete()" class='nav-link btn btn-success btn-icon-split my-1 mr-4'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Delete</span></button>
+                    <button type="button" onclick="confirmCancel()" class='nav-link btn btn-danger btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-minus'></i></span><span class='text'>Cancel</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -194,9 +213,6 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -240,9 +256,9 @@ $agency_id = $_COOKIE['agency_id'];
         function writeData(mainData, groups, ranks, statuses) {
             var tmp = '';
             var index = 0;
+            var defaultGroups = ""
             mainData.forEach(element => {
-                tmp += "<tr>";
-                tmp += "<td class='col-id'>" + element.id + "</td>";
+                tmp += "<tr data-id='" + element.id + "'>";
                 tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                 for (let index = 0; index < ranks.length; index++) {
@@ -253,15 +269,25 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += ">" + ranks[index] + "</option>"
                 }
                 tmp += "</select></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                for (let index = 0; index < groups.length; index++) {
-                    tmp += "<option value='" + groups[index] + "'";
-                    if (element.user_groups == groups[index]) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + groups[index] + "</option>"
+                tmp += "<td>";
+                if (element.user_groups != '') {
+                    tmp = tmp + "<div class='form-group mb-0'>";
+                    tmp += "<div class='multiselect disabled selection' id='groupsDropdown" + index + "' multiple='multiple' data-target='groupsDropdown" + index + "'>";
+                    tmp += "<div class='title noselect' title='" + element.user_groups.join(',') + "'><span class='text'>" + element.user_groups.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                } else {
+                    tmp = tmp + "<div class='form-group mb-0'>";
+                    tmp += "<div class='multiselect disabled' id='groupsDropdown" + index + "' multiple='multiple' data-target='groupsDropdown" + index + "'>";
+                    tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
                 }
-                tmp += "</select></td>";
+                tmp += " <div class='dropdown-container text-left'>";
+                for (var k = 0; k < groups.length; k++) {
+                    tmp += "<option value='" + groups[k] + "' class='option-item";
+                    if (element.user_groups.indexOf(groups[k]) != -1) {
+                        tmp += " selected"
+                    }
+                    tmp += "'>" + groups[k] + "</option>";
+                }
+                tmp += "</div></div></div></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                 for (let index = 0; index < statuses.length; index++) {
                     tmp += "<option value='" + statuses[index] + "'";
@@ -273,15 +299,20 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "</select></td>";
                 tmp += "<td>" + element.join_date + "</td>";
                 tmp += "<td>" + element.last_login + "</td>";
+                tmp += "<td>" + element.added_by + "</td>";
                 tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='onCallCheck" + index + "' disabled ";
                 if (element.admin == 'true')
                     tmp += 'checked';
                 tmp += "><label class='custom-control-label' for='onCallCheck" + index + "'></label></div></td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
+            for (let i = 0; i < index; i++) {
+                new Multiselect('#groupsDropdown' + i, mainData[i].user_groups);
+            }
         }
 
         function writeModal(groups, ranks, statuses) {
@@ -318,9 +349,11 @@ $agency_id = $_COOKIE['agency_id'];
                 checkbox = trElement.querySelector('.custom-control-input')
                 input = trElement.querySelector('.form-control');
                 selects = trElement.querySelectorAll('.custom-select');
+                multiSelect = trElement.querySelector('.multiselect');
 
                 checkbox.removeAttribute('disabled');
                 input.removeAttribute('readOnly');
+                multiSelect.classList.remove('disabled');
                 values[0] = input.value;
                 i = 1;
                 selects.forEach(element => {
@@ -353,6 +386,8 @@ $agency_id = $_COOKIE['agency_id'];
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
+                multiSelect = trElement.querySelector('.multiselect');
+                multiSelect.classList.add('disabled');
                 input.value = values[0];
                 selects[0].value = values[1];
                 selects[1].value = values[2];
@@ -406,6 +441,8 @@ $agency_id = $_COOKIE['agency_id'];
                 selects.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
+                multiSelect = trElement.querySelector('.multiselect');
+                multiSelect.classList.add('disabled');
             });
         });
         var modal = document.getElementById("myModal");
@@ -423,6 +460,61 @@ $agency_id = $_COOKIE['agency_id'];
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+
+        var deleteModal = document.getElementById("deleteModal");
+
+        function openDeleteModal(e, row) {
+            e.preventDefault();
+            localStorage.setItem('deleteRow', row);
+            deleteModal.style.display = "block";
+        }
+
+        function closeDeleteModal() {
+            deleteModal.style.display = "none";
+        }
+
+        function confirmDelete() {
+            row = localStorage.getItem('deleteRow');
+            localStorage.removeItem('deleteRow');
+            deleteUser(row);
+            closeDeleteModal();
+        }
+
+        function deleteUser(row) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            document.getElementById("my-loader-wrapper").classList.remove("d-none");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                delete: row
+            }
+            // $.ajax({
+            //     type: "POST",
+            //     url: "https://api.redenes.org/dev/v1/users/",
+            //     data: JSON.stringify(formData),
+            //     dataType: "json",
+            //     contentType: 'application/json',
+            //     success: function(res) {
+            //         if (res.delete == 'completed') {
+
+            //         }
+            //     }
+            // })
+            trs = document.getElementById("table-content").children;
+            for (let index = 0; index < trs.length; index++) {
+                const element = trs[index];
+                if (trs[index].getAttribute('data-id') == row) {
+                    trs[index].remove();
+                }
+            }
+            document.getElementById("my-loader-element").classList.remove("loader");
+            document.getElementById("my-loader-wrapper").classList.add("d-none");
+        }
+
+        function confirmCancel() {
+            localStorage.removeItem('deleteRow');
+            closeDeleteModal();
         }
         $('#createUserForm').submit(function(e) {
             document.getElementById("my-loader-element").classList.add("loader");

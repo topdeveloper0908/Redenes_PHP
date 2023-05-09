@@ -1,13 +1,13 @@
-Array.prototype.search = function(elem) {
-    for(var i = 0; i < this.length; i++) {
-        if(this[i] == elem) return i;
+Array.prototype.search = function (elem) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == elem) return i;
     }
-    
+
     return -1;
 };
 
-var Multiselect = function(selector, selections) {
-    if(!$(selector)) {
+var Multiselect = function (selector, selections) {
+    if (!$(selector)) {
         console.error("ERROR: Element %s does not exist.", selector);
         return;
     }
@@ -15,65 +15,68 @@ var Multiselect = function(selector, selections) {
     this.selector = selector;
     this.selections = selections;
 
-    (function(that) {
+    (function (that) {
         that.events();
     })(this);
 };
 
 Multiselect.prototype = {
-    open: function(that) {
+    open: function (that) {
         var target = $(that).parent().attr("data-target");
 
         // If we are not keeping track of this one's entries, then
         // start doing so.
-        if(!this.selections) {
-            this.selections = [ ];
+        if (!this.selections) {
+            this.selections = [];
         }
         $('.multiselect').removeClass('active');
         $(this.selector + ".multiselect").addClass("active");
     },
 
-    close: function() {
+    close: function () {
         $(this.selector + ".multiselect").removeClass("active");
     },
 
-    events: function() {
+    events: function () {
         var that = this;
 
         var first = false;
 
-        $(document).on("click", that.selector + ".multiselect > .title", function(e) {
-                        console.log(e);
-            if($(e.currentTarget).parent()[0].classList.value.indexOf('active') < 0) {
+        $(document).on("click", that.selector + ".multiselect > .title", function (e) {
+            parent = $(e.currentTarget).parent();
+            if (parent[0].classList.value.indexOf('disabled') > -1) {
+                return;
+            }
+            if ($(e.currentTarget).parent()[0].classList.value.indexOf('active') < 0) {
                 that.open();
             }
             else {
-                that.close();   
+                that.close();
             }
         });
 
-        $(document).on("click", that.selector + ".multiselect option", function(e) {
+        $(document).on("click", that.selector + ".multiselect option", function (e) {
             var selection = $(this).attr("value");
-            var target = $(this).parent().parent()  .attr("data-target");
+            var target = $(this).parent().parent().attr("data-target");
 
             var io = that.selections.search(selection);
-            if(io < 0) that.selections.push(selection);
+            if (io < 0) that.selections.push(selection);
             else that.selections.splice(io, 1);
 
             that.selectionStatus();
             that.setSelectionsString();
         });
 
-        $(document).on("click", that.selector + ".multiselect > .title > .close-icon", function(e) {
+        $(document).on("click", that.selector + ".multiselect > .title > .close-icon", function (e) {
             that.clearSelections();
         });
 
-        $(document).click(function(e) {
-            if(e.target.className.indexOf("title") < 0) {
-                if(e.target.className.indexOf("text") < 0) {
-                    if(e.target.className.indexOf("-icon") < 0) {
-                        if(e.target.className.indexOf("option-item") < 0 ||
-                           e.target.localName != "option") {
+        $(document).click(function (e) {
+            if (e.target.className.indexOf("title") < 0) {
+                if (e.target.className.indexOf("text") < 0) {
+                    if (e.target.className.indexOf("-icon") < 0) {
+                        if (e.target.className.indexOf("option-item") < 0 ||
+                            e.target.localName != "option") {
                             that.close();
                         }
                     }
@@ -82,30 +85,30 @@ Multiselect.prototype = {
         });
     },
 
-    selectionStatus: function() {
+    selectionStatus: function () {
         var obj = $(this.selector + ".multiselect");
 
-        if(this.selections.length) obj.addClass("selection");
+        if (this.selections.length) obj.addClass("selection");
         else obj.removeClass("selection");
     },
 
-    clearSelections: function() {
+    clearSelections: function () {
         this.selections = [];
         this.selectionStatus();
         this.setSelectionsString();
     },
 
-    getSelections: function() {
+    getSelections: function () {
         return this.selections;
     },
 
-    setSelectionsString: function() {
+    setSelectionsString: function () {
         var selects = this.getSelectionsString().split(", ");
         $(this.selector + ".multiselect > .title").attr("title", selects);
 
         var opts = $(this.selector + ".multiselect option");
 
-        if(selects.length > 6) {
+        if (selects.length > 6) {
             var _selects = this.getSelectionsString().split(", ");
             _selects = _selects.splice(0, 6);
             $(this.selector + ".multiselect > .title > .text")
@@ -116,15 +119,15 @@ Multiselect.prototype = {
                 .text(selects);
         }
 
-        for(var i = 0; i < opts.length; i++) {
+        for (var i = 0; i < opts.length; i++) {
             $(opts[i]).removeClass("selected");
         }
 
-        for(var j = 0; j < selects.length; j++) {
+        for (var j = 0; j < selects.length; j++) {
             var select = selects[j];
 
-            for(var i = 0; i < opts.length; i++) {
-                if($(opts[i]).attr("value") == select) {
+            for (var i = 0; i < opts.length; i++) {
+                if ($(opts[i]).attr("value") == select) {
                     $(opts[i]).addClass("selected");
                     break;
                 }
@@ -132,14 +135,14 @@ Multiselect.prototype = {
         }
     },
 
-    getSelectionsString: function() {
-        if(this.selections.length > 0)
+    getSelectionsString: function () {
+        if (this.selections.length > 0)
             return this.selections.join(", ");
         else return "Select";
     },
 
-    setSelections: function(arr) {
-        if(!arr[0]) {
+    setSelections: function (arr) {
+        if (!arr[0]) {
             error("ERROR: This does not look like an array.");
             return;
         }
