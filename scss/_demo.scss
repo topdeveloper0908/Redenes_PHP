@@ -409,6 +409,12 @@
 
 .multiselect.disabled {
     background-color: #eaecf4;
+
+    &>.title>.close-icon:hover {
+        border: 1px solid #d1d3e2;
+        background: none;
+        color: inherit;
+    }
 }
 
 .navbar-nav.sidebar {

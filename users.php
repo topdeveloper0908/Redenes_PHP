@@ -408,6 +408,8 @@ $agency_id = $_COOKIE['agency_id'];
                 input = trElement.querySelector('.form-control')
                 selects = trElement.querySelectorAll('.custom-select')
 
+                groups = trElement.querySelector('.multiselect').children[0].getAttribute('title');
+
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
@@ -416,11 +418,11 @@ $agency_id = $_COOKIE['agency_id'];
                 var formData = {
                     authorization: authorization.toString(),
                     agency_id: init_id.toString(),
-                    id: trElement.querySelector('.col-id').innerHTML,
+                    id: trElement.getAttribute('data-id'),
                     name: input.value,
                     rank: selects[0].value,
-                    group: selects[1].value,
-                    status: selects[2].value,
+                    group: groups,
+                    status: selects[1].value,
                     admin: checkbox.checked
                 }
                 $.ajax({

@@ -68,6 +68,10 @@ Multiselect.prototype = {
         });
 
         $(document).on("click", that.selector + ".multiselect > .title > .close-icon", function (e) {
+            parent = $(e.currentTarget).parent().parent();
+            if (parent[0].classList.value.indexOf('disabled') > -1) {
+                return;
+            }
             that.clearSelections();
         });
 
