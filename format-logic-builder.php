@@ -67,13 +67,13 @@ if (strlen($user) == 0) {
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800">Form Logic Builder</h1>
+                        <h1 class="h3 mb-4 text-gray-800" id="pageTitle">Form Logic Builder</h1>
 
-                        <div class="mb-4">
+                        <div>
                             <h4 class="mb-2">Format ID: <span id="formatID"></span></h4>
+                            <h4 class="mb-2">Module Name: <span id="moduleName"></span></h4>
+                            <h4 class="mb-2">Format Name: <span id="formatName"></span></h4>
                             <h4 class="mb-2">Format Type: <span id="formatType"></span></h4>
-                            <h4>Module Name: <span id="moduleName"></span></h4>
-                            <h4>Format Name: <span id="formatName"></span></h4>
                             <div class="d-md-flex align-items-center">
                                 <div class="align-items-center mt-2" role="group">
                                     <a href="#" class="btn btn-primary btn-icon-split disabled" id="btn-publish" onclick="saveLogic(event)">
@@ -106,6 +106,14 @@ if (strlen($user) == 0) {
                                         <h6 id="alert-title" class="m-0 font-weight-bold text-danger"></h6>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="d-flex align-items-center mt-4 mb-2">
+                                <h4 class="mr-2 mb-0">Offline: </h4>
+                                <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' id="formatOffline" style="max-width: 40rem;"></select>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <h4 class="mr-2">Groups: </h4>
+                                <div id="groupsWrapper" style="flex: 1; max-width: 40rem"></div>
                             </div>
                         </div>
                         <div class="card shadow mb-4">
@@ -300,7 +308,7 @@ if (strlen($user) == 0) {
 
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
-
+        <script src="js/main.js"></script>
         <script>
             init_id = "<?php echo $agency_id; ?>";
             actinoNumber = 0;
@@ -311,6 +319,7 @@ if (strlen($user) == 0) {
                     url: "https://api.redenes.org/dev/v1/format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
                     async: false,
                     success: function(res) {
+                        console.log(res);
                         writeData(res);
                         //writeTable();
                         document.getElementById("my-loader-element").classList.remove("loader");
@@ -326,7 +335,8 @@ if (strlen($user) == 0) {
                 var tmp = '';
                 row = 0;
                 // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
-                writeMetaData(data.form_id, data.form_name, data.module, data.type);
+                console.log(data);
+                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected);
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
                     for (var j = 0; j < objects[i].length; j++) {
@@ -453,11 +463,43 @@ if (strlen($user) == 0) {
                 }
             }
 
-            function writeMetaData(id, name, module, type) {
+            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected) {
                 document.getElementById('formatID').innerHTML = id;
                 document.getElementById('formatName').innerHTML = name;
                 document.getElementById('moduleName').innerHTML = module;
                 document.getElementById('formatType').innerHTML = type;
+                document.getElementById('pageTitle').innerHTML = pageTitle;
+                var tmp = "<option value='true'";
+                if (offline == 'true') {
+                    tmp += ' selected';
+                }
+                tmp += ">True</option><option value='false'";
+                if (offline == 'false') {
+                    tmp += ' selected';
+                }
+                tmp += ">False</option>";
+                document.getElementById('formatOffline').innerHTML = tmp;
+                tmp = '';
+                if (groupsSelected != '') {
+                    tmp = tmp + "<div class='form-group mb-0'>";
+                    tmp += "<div class='multiselect mb-3 bg-white selection' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
+                    tmp += "<div class='title noselect' title='" + groupsSelected.join(',') + "'><span class='text'>" + groupsSelected.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                } else {
+                    tmp = tmp + "<div class='form-group mb-0'>";
+                    tmp += "<div class='multiselect mb-3 bg-white' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
+                    tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+                }
+                tmp += " <div class='dropdown-container'>"
+                for (var k = 0; k < groups.length; k++) {
+                    tmp += "<option value='" + groups[k] + "' class='option-item";
+                    if (groupsSelected.indexOf(groups[k]) != -1) {
+                        tmp += " selected"
+                    }
+                    tmp += "'>" + groups[k] + "</option>";
+                }
+                tmp += "</div></div></div>";
+                document.getElementById('groupsWrapper').innerHTML = tmp;
+                new Multiselect('#groupsDropdown', groupsSelected);
             }
             var modal = document.getElementById("myModal");
             var deleteModal = document.getElementById("deleteModal");
