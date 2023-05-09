@@ -85,7 +85,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Groups</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
-                                                <th></th>
+                                                <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -100,7 +100,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Groups</th>
                                                 <th>Edit Layout</th>
                                                 <th>Edit Logic</th>
-                                                <th></th>
+                                                <th>Delete</th>
                                             </tr>
                                         </tfoot>
                                         <tbody id="table-content">
@@ -283,18 +283,11 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td>" + element.last_edit + "</td>";
                 tmp += "<td>" + element.status + "</td>";
                 tmp += "<td>" + element.offline.toUpperCase() + "</td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'>"
-                for (let index = 0; index < element.groups.length; index++) {
-                    tmp += "<option value='" + element.groups[index] + "'";
-                    // if (element.user_element.groups == element.groups[index]) {
-                    //     tmp += " selected";
-                    // }
-                    tmp += ">" + element.groups[index] + "</option>"
-                }
+                tmp += "<td>" + element.groups + "</td>";
                 tmp += "</select></td>";
                 tmp += "<td><a href='form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
-                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span></a></td>"
+                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
                 index++;
             });
