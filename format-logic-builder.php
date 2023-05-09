@@ -70,7 +70,6 @@ if (strlen($user) == 0) {
                         <h1 class="h3 mb-4 text-gray-800" id="pageTitle">Form Logic Builder</h1>
 
                         <div>
-                            <h4 class="mb-2">Format ID: <span id="formatID"></span></h4>
                             <h4 class="mb-2">Module Name: <span id="moduleName"></span></h4>
                             <h4 class="mb-2">Format Name: <span id="formatName"></span></h4>
                             <h4 class="mb-2">Format Type: <span id="formatType"></span></h4>
@@ -464,7 +463,6 @@ if (strlen($user) == 0) {
             }
 
             function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected) {
-                document.getElementById('formatID').innerHTML = id;
                 document.getElementById('formatName').innerHTML = name;
                 document.getElementById('moduleName').innerHTML = module;
                 document.getElementById('formatType').innerHTML = type;
@@ -914,6 +912,8 @@ if (strlen($user) == 0) {
                         })
                     }
                 }
+                formData[0].offline = document.getElementById('formatOffline').value;
+                formData[0].groups = document.getElementById('groupsDropdown').children[0].getAttribute('title');
                 return formData[0];
             }
 
@@ -921,6 +921,7 @@ if (strlen($user) == 0) {
                 e.preventDefault();
                 document.getElementById("my-loader-element").classList.add("loader");
                 formData = getAllData();
+                console.log(formData);
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/format-logic-builder",
