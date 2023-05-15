@@ -215,6 +215,7 @@ if (strlen($user) == 0) {
                 },
                 async: false,
                 success: function(res) {
+                    console.log(res);
                     writeAgencyType(res.account_type);
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -226,7 +227,11 @@ if (strlen($user) == 0) {
         function writeAgencyType(data) {
             tmp = '';
             for (let index = 0; index < data.length; index++) {
-                tmp += "<option value='" + data[index] + "'>" + data[index] + "</option>";
+                console.log(data[index]);
+                for (const key in data[index]) {
+                    const element = data[index][key];
+                    tmp += "<option value='" + key + "'>" + data[index][key] + "</option>";
+                }
             }
             document.getElementById('agency-type').innerHTML = tmp;
         }
@@ -273,6 +278,7 @@ if (strlen($user) == 0) {
                     }]
                 }]
             };
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/register-agency/",
@@ -280,7 +286,6 @@ if (strlen($user) == 0) {
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(data) {
-                    console.log(data);
                     var tmp = '';
                     var tmp1 = '';
                     var index = 0;
@@ -302,8 +307,8 @@ if (strlen($user) == 0) {
                     //window.location.replace("new-incident");
                 }
             })
-    });
-</script>
+        });
+    </script>
 
 </body>
 
