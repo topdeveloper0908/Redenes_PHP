@@ -1,6 +1,7 @@
 <?php
 $user = $_COOKIE['name'];
 $isAdmin = $_COOKIE['isAdmin'];
+$sysAdmin = $_COOKIE['systemAdmin'];
 $agency = $_COOKIE['agency_name'];
 if (strlen($user) == 0) {
     header('location:logout');
@@ -60,6 +61,16 @@ if (strlen($user) == 0) {
                     <a class="dropdown-item" href="overview">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                         Settings
+                    </a>
+                <?php
+                }
+                ?>
+                <?php
+                if ($sysAdmin == 'true') {
+                ?>
+                    <a class="dropdown-item" href="system-config">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        System Config
                     </a>
                 <?php
                 }

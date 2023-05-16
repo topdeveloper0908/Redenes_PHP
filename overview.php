@@ -46,6 +46,7 @@ if (strlen($user) == 0) {
         <!-- Page Wrapper -->
         <div id="wrapper">
 
+
             <?php include('sidebar.php'); ?>
 
             <!-- Content Wrapper -->
