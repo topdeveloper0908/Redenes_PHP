@@ -304,7 +304,7 @@ if (strlen($user) == 0) {
                     document.cookie = "agency_name = " + data.agencies[0].agency_name;
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    //window.location.replace("new-incident");
+                    window.location.replace("new-incident");
                 }
             })
         });
