@@ -37,8 +37,8 @@ $agency_id = $_COOKIE['agency_id'];
 </head>
 
 <body id="page-top">
-    <!-- <div id="my-loader-element"></div>
-    <div id="my-loader-wrapper"></div> -->
+    <div id="my-loader-element"></div>
+    <div id="my-loader-wrapper"></div>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -196,18 +196,176 @@ $agency_id = $_COOKIE['agency_id'];
 
     <script src="js/demo/datatables-demo.js"></script>
     <script>
-        var modal = document.getElementById("myModal");
-        // Get the button that opens the modal
-        var modalBtn = document.getElementById("openModal");
-        // Get the <span> element that closes the modal
-        var closeBtn = document.getElementsByClassName("close")[0];
-        modalBtn.onclick = function() {
-            modal.style.display = "block";
-        }
+        document.getElementById("my-loader-element").classList.add("loader");
 
-        function closeAddModal() {
-            modal.style.display = "none";
+        init_id = "<?php echo $agency_id; ?>";
+
+        function getData(agency_id) {
+            $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/system-config-agencies/",
+                async: false,
+                data: {
+                    agency_id: agency_id,
+                    authorization: "<?php echo $authorization; ?>"
+                },
+                success: function(res) {
+                    console.log(res);
+                    // To hide the loader
+                    writeData(res.agencies);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
         }
+        getData(init_id);
+
+        function writeData(data) {
+            var tmp = '';
+            data.forEach(element => {
+                tmp += "<tr data-id='" + element.agency_id + "'>";
+                tmp += "<td>" + element.agency_id + "</td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                for (let index = 0; index < element.type.length; index++) {
+                    tmp += "<option value='" + element.type[index] + "'";
+                    if (element.type_selected == element.type[index]) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + element.type[index] + "</option>"
+                }
+                tmp += "</td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                for (let index = 0; index < element.status.length; index++) {
+                    tmp += "<option value='" + element.status[index] + "'";
+                    if (element.status_selected == element.status[index]) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + element.status[index] + "</option>"
+                }
+                tmp += "</td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.sign_up_date + "></td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
+                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
+                tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                tmp += "</tr>";
+            });
+            document.getElementById('table-content').innerHTML = tmp;
+            $('#dataTable').dataTable();
+        }
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const saveButtons = document.querySelectorAll('.save-btn');
+        const cancelButtons = document.querySelectorAll('.cancel-btn');
+        var values = ['', '', '', '', '', '', '', ''];
+        editButtons.forEach(element => {
+            element.addEventListener('click', function(e) {
+                tdElement = e.currentTarget.parentNode;
+                trElement = tdElement.parentNode;
+                tdElement.querySelector('.save-btn').classList.remove('d-none');
+                tdElement.querySelector('.cancel-btn').classList.remove('d-none');
+                e.currentTarget.classList.add('d-none');
+
+                inputs = trElement.querySelectorAll('.form-control');
+                selects = trElement.querySelectorAll('.custom-select');
+                i = 0;
+                inputs.forEach(element => {
+                    element.removeAttribute('readOnly');
+                    values[i] = element.value;
+                    i++;
+                });
+                selects.forEach(element => {
+                    element.removeAttribute('disabled');
+                    values[i] = element.value;
+                    i++;
+                });
+                editButtons.forEach(element => {
+                    element.setAttribute('disabled', true);
+                });
+            });
+        });
+        cancelButtons.forEach(element => {
+            element.addEventListener('click', function(e) {
+                tdElement = e.currentTarget.parentNode;
+                trElement = tdElement.parentNode;
+                tdElement.querySelector('.save-btn').classList.add('d-none');
+                tdElement.querySelector('.edit-btn').classList.remove('d-none');
+                e.currentTarget.classList.add('d-none');
+                inputs = trElement.querySelectorAll('.form-control')
+                selects = trElement.querySelectorAll('.custom-select')
+
+                inputs.forEach(element => {
+                    element.setAttribute('readOnly', true);
+                });
+                selects.forEach(element => {
+                    element.setAttribute('disabled', true);
+                });
+                editButtons.forEach(element => {
+                    element.removeAttribute('disabled');
+                });
+                inputs[0].value = values[0];
+                inputs[1].value = values[3];
+                inputs[2].value = values[4];
+                inputs[3].value = values[5];
+                inputs[4].value = values[6];
+                inputs[5].value = values[7];
+                selects[0].value = values[1];
+                selects[1].value = values[2];
+            });
+        });
+        saveButtons.forEach(element => {
+            element.addEventListener('click', function(e) {
+                tdElement = e.currentTarget.parentNode;
+                trElement = tdElement.parentNode;
+
+                tdElement.querySelector('.cancel-btn').classList.add('d-none');
+                tdElement.querySelector('.edit-btn').classList.remove('d-none');
+                e.currentTarget.classList.add('d-none');
+
+                inputs = trElement.querySelectorAll('.form-control')
+                selects = trElement.querySelectorAll('.custom-select')
+
+                editButtons.forEach(element => {
+                    element.removeAttribute('disabled');
+                });
+                document.getElementById("my-loader-element").classList.add("loader");
+                var authorization = "<?php echo $authorization; ?>";
+                var formData = {
+                    authorization: authorization.toString(),
+                    agencies: [{
+                        agency_id: trElement.getAttribute('data-id'),
+                        type_name: inputs[0].value,
+                        type_selected: selects[0].value,
+                        status_selected: selects[1].value,
+                        sign_up_date: inputs[1].value,
+                        trial_end: inputs[2].value,
+                        subscription: inputs[3].value,
+                        phone: inputs[4].value,
+                        email: inputs[5].value,
+                    }]
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.redenes.org/dev/v1/system-config-agencies",
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function(res) {
+                        // To hide the loader
+                        console.log(res);
+                        document.getElementById("my-loader-element").classList.remove("loader");
+                        document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    }
+                })
+                inputs.forEach(element => {
+                    element.setAttribute('readOnly', true);
+                });
+                selects.forEach(element => {
+                    element.setAttribute('disabled', true);
+                });
+            });
+        });
     </script>
 </body>
 

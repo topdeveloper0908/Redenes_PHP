@@ -112,7 +112,7 @@ if (strlen($user) == 0) {
         </a>
     </li>
     <?php
-    if ($sysAdmin == 'true') {
+    if ($sysAdmin == 'active') {
     ?>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">

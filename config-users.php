@@ -73,22 +73,22 @@ $agency_id = $_COOKIE['agency_id'];
                                             <tr>
                                                 <th>User ID</th>
                                                 <th>Name</th>
-                                                <th style="width: 14rem;">Join Date</th>
+                                                <th>Join Date</th>
                                                 <th>Last Login</th>
                                                 <th>Status</th>
                                                 <th>Agencies</th>
-                                                <th>Edit</th>
+                                                <th style="width: 14rem;">Edit</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th>User ID</th>
                                                 <th>Name</th>
-                                                <th style="width: 14rem;">Join Date</th>
+                                                <th>Join Date</th>
                                                 <th>Last Login</th>
                                                 <th>Status</th>
                                                 <th>Agencies</th>
-                                                <th>Edit</th>
+                                                <th style="width: 14rem;">Edit</th>
                                             </tr>
                                         </tfoot>
                                         <tbody id="table-content">
@@ -227,16 +227,16 @@ $agency_id = $_COOKIE['agency_id'];
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-users/",
+                url: "https://api.redenes.org/dev/v1/system-config-users/",
                 data: {
                     agency_id: agency_id,
                     authorization: "<?php echo $authorization; ?>"
                 },
                 async: false,
                 success: function(res) {
-                    var data = res.agencies_users;
-                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
-                    writeModal(res.user_groups, res.user_ranks, res.user_status);
+                    writeData(res.users);
+                    // writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    // writeModal(res.user_groups, res.user_ranks, res.user_status);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -244,91 +244,34 @@ $agency_id = $_COOKIE['agency_id'];
         }
         getData(init_id);
 
-        function writeData(mainData, groups, ranks, statuses) {
+        function writeData(data) {
             var tmp = '';
-            var index = 0;
-            var defaultGroups = ""
-            mainData.forEach(element => {
-                tmp += "<tr data-id='" + element.id + "'>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                for (let index = 0; index < ranks.length; index++) {
-                    tmp += "<option value='" + ranks[index] + "'";
-                    if (element.user_ranks == ranks[index]) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + ranks[index] + "</option>"
-                }
-                tmp += "</select></td>";
-                tmp += "<td>";
-                if (element.user_groups != '') {
-                    tmp = tmp + "<div class='form-group mb-0'>";
-                    tmp += "<div class='multiselect disabled selection' id='groupsDropdown" + index + "' multiple='multiple' data-target='groupsDropdown" + index + "'>";
-                    tmp += "<div class='title noselect' title='" + element.user_groups.join(',') + "'><span class='text'>" + element.user_groups.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
-                } else {
-                    tmp = tmp + "<div class='form-group mb-0'>";
-                    tmp += "<div class='multiselect disabled' id='groupsDropdown" + index + "' multiple='multiple' data-target='groupsDropdown" + index + "'>";
-                    tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
-                }
-                tmp += " <div class='dropdown-container text-left'>";
-                for (var k = 0; k < groups.length; k++) {
-                    tmp += "<option value='" + groups[k] + "' class='option-item";
-                    if (element.user_groups.indexOf(groups[k]) != -1) {
-                        tmp += " selected"
-                    }
-                    tmp += "'>" + groups[k] + "</option>";
-                }
-                tmp += "</div></div></div></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                for (let index = 0; index < statuses.length; index++) {
-                    tmp += "<option value='" + statuses[index] + "'";
-                    if (element.user_status == statuses[index]) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + statuses[index] + "</option>"
-                }
-                tmp += "</select></td>";
+            data.forEach(element => {
+                tmp += "<tr data-id='" + element.user_id + "'>";
+                tmp += "<td>" + element.user_id + "</td>";
+                tmp += "<td>" + element.name + "</td>";
                 tmp += "<td>" + element.join_date + "</td>";
                 tmp += "<td>" + element.last_login + "</td>";
-                tmp += "<td>" + element.added_by + "</td>";
-                tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='onCallCheck" + index + "' disabled ";
-                if (element.admin == 'true')
-                    tmp += 'checked';
-                tmp += "><label class='custom-control-label' for='onCallCheck" + index + "'></label></div></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                for (let index = 0; index < element.status.length; index++) {
+                    tmp += "<option value='" + element.status[index] + "'";
+                    if (element.status_selected == element.status[index]) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + element.status[index] + "</option>"
+                }
+                tmp += "</td>";
+                tmp += "<td>" + element.agencies + "</td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
-                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
-                index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
-            for (let i = 0; i < index; i++) {
-                new Multiselect('#groupsDropdown' + i, mainData[i].user_groups);
-            }
+            $('#dataTable').dataTable();
         }
-
-        function writeModal(groups, ranks, statuses) {
-            var tmp = '';
-            for (var i = 0; i < groups.length; i++) {
-                tmp += "<option value='" + groups[i] + "'>" + groups[i] + "</option>";
-            }
-            document.getElementById('groupType').innerHTML = tmp;
-            tmp = '';
-            for (var i = 0; i < groups.length; i++) {
-                tmp += "<option value='" + ranks[i] + "'>" + ranks[i] + "</option>";
-            }
-            document.getElementById('rankType').innerHTML = tmp;
-            tmp = '';
-            for (var i = 0; i < statuses.length; i++) {
-                tmp += "<option value='" + statuses[i] + "'>" + statuses[i] + "</option>";
-            }
-            document.getElementById('statusType').innerHTML = tmp;
-        }
-
         const editButtons = document.querySelectorAll('.edit-btn');
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
-
-        var values = ['', '', '', '', false];
+        var value = '';
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
                 tdElement = e.currentTarget.parentNode;
@@ -337,26 +280,12 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.cancel-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
-                checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control');
-                selects = trElement.querySelectorAll('.custom-select');
-                multiSelect = trElement.querySelector('.multiselect');
-
-                checkbox.removeAttribute('disabled');
-                input.removeAttribute('readOnly');
-                multiSelect.classList.remove('disabled');
-                values[0] = input.value;
-                i = 1;
-                selects.forEach(element => {
-                    element.removeAttribute('disabled');
-                    values[i] = element.value;
-                    i++;
-                });
-
+                select = trElement.querySelector('.custom-select');
+                select.removeAttribute('disabled');
+                value = select.value;
                 editButtons.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
-                values[4] = checkbox.checked;
             });
         });
         cancelButtons.forEach(element => {
@@ -366,24 +295,13 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.save-btn').classList.add('d-none');
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
-                checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control')
-                selects = trElement.querySelectorAll('.custom-select')
-                checkbox.setAttribute('disabled', true);
-                input.setAttribute('readOnly', true);
-                selects.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
+                select = trElement.querySelector('.custom-select')
+
+                select.setAttribute('disabled', true);
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
-                multiSelect = trElement.querySelector('.multiselect');
-                multiSelect.classList.add('disabled');
-                input.value = values[0];
-                selects[0].value = values[1];
-                selects[1].value = values[2];
-                selects[2].value = values[3];
-                checkbox.checked = values[4];
+                select.value = value;
             });
         });
         saveButtons.forEach(element => {
@@ -395,12 +313,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
-                checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control')
-                selects = trElement.querySelectorAll('.custom-select')
-
-                groups = trElement.querySelector('.multiselect').children[0].getAttribute('title');
-
+                select = trElement.querySelector('.custom-select')
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
@@ -408,17 +321,14 @@ $agency_id = $_COOKIE['agency_id'];
                 var authorization = "<?php echo $authorization; ?>";
                 var formData = {
                     authorization: authorization.toString(),
-                    agency_id: init_id.toString(),
-                    id: trElement.getAttribute('data-id'),
-                    name: input.value,
-                    rank: selects[0].value,
-                    group: groups,
-                    status: selects[1].value,
-                    admin: checkbox.checked
+                    agencies: [{
+                        user_id: trElement.getAttribute('data-id'),
+                        status_selected: select.value,
+                    }]
                 }
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/agency-users/",
+                    url: "https://api.redenes.org/dev/v1/system-config-agencies",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',
@@ -428,117 +338,9 @@ $agency_id = $_COOKIE['agency_id'];
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
                     }
                 })
-
-                input.setAttribute('readOnly', true);
-                checkbox.setAttribute('disabled', true);
-                selects.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
-                multiSelect = trElement.querySelector('.multiselect');
-                multiSelect.classList.add('disabled');
+                select.setAttribute('disabled', true);
             });
         });
-        var modal = document.getElementById("myModal");
-        // Get the button that opens the modal
-        var modalBtn = document.getElementById("openModal");
-        // Get the <span> element that closes the modal
-        var closeBtn = document.getElementsByClassName("close")[0];
-        modalBtn.onclick = function() {
-            modal.style.display = "block";
-        }
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        var deleteModal = document.getElementById("deleteModal");
-
-        function openDeleteModal(e, row) {
-            e.preventDefault();
-            localStorage.setItem('deleteRow', row);
-            deleteModal.style.display = "block";
-        }
-
-        function closeDeleteModal() {
-            deleteModal.style.display = "none";
-        }
-
-        function confirmDelete() {
-            row = localStorage.getItem('deleteRow');
-            localStorage.removeItem('deleteRow');
-            deleteUser(row);
-            closeDeleteModal();
-        }
-
-        function deleteUser(row) {
-            document.getElementById("my-loader-element").classList.add("loader");
-            document.getElementById("my-loader-wrapper").classList.remove("d-none");
-            var authorization = "<?php echo $authorization; ?>";
-            var formData = {
-                authorization: authorization.toString(),
-                delete: row
-            }
-            // $.ajax({
-            //     type: "POST",
-            //     url: "https://api.redenes.org/dev/v1/users/",
-            //     data: JSON.stringify(formData),
-            //     dataType: "json",
-            //     contentType: 'application/json',
-            //     success: function(res) {
-            //         if (res.delete == 'completed') {
-
-            //         }
-            //     }
-            // })
-            trs = document.getElementById("table-content").children;
-            for (let index = 0; index < trs.length; index++) {
-                const element = trs[index];
-                if (trs[index].getAttribute('data-id') == row) {
-                    trs[index].remove();
-                }
-            }
-            document.getElementById("my-loader-element").classList.remove("loader");
-            document.getElementById("my-loader-wrapper").classList.add("d-none");
-        }
-
-        function confirmCancel() {
-            localStorage.removeItem('deleteRow');
-            closeDeleteModal();
-        }
-        $('#createUserForm').submit(function(e) {
-            document.getElementById("my-loader-element").classList.add("loader");
-            e.preventDefault();
-            var authorization = "<?php echo $authorization; ?>";
-            var formData = {
-                authorization: authorization.toString(),
-                agency_id: init_id,
-                rank: document.getElementById("rankType").value,
-                group: document.getElementById("groupType").value,
-                status: document.getElementById("statusType").value,
-                phone: document.getElementById("userPhone").value
-            }
-            $.ajax({
-                type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-users/",
-                data: JSON.stringify(formData),
-                dataType: "json",
-                async: false,
-                contentType: 'application/json',
-                success: function(res) {
-                    modal.style.display = "none";
-                    var data = res.agencies_users;
-                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
-                    writeModal(res.user_groups, res.user_ranks, res.user_status);
-                    document.getElementById("my-loader-element").classList.remove("loader");
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
-                }
-            })
-            $('#dataTable').dataTable();
-        })
     </script>
 </body>
 

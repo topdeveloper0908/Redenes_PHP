@@ -183,14 +183,15 @@ $agency_id = $_COOKIE['agency_id'];
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                url: "https://api.redenes.org/dev/v1/system-config-module-settings/",
                 data: {
                     agency_id: agency_id,
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
+                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.user_group_selected, res.user_groups);
+                    writeDropdown(res.agency_type_selected, res.agency_types);
                     writeTable(res.agencies_module_settings[0]);
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -222,7 +223,7 @@ $agency_id = $_COOKIE['agency_id'];
             };
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                url: "https://api.redenes.org/dev/v1/system-config-module-settings/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType: 'application/json',
@@ -314,7 +315,7 @@ $agency_id = $_COOKIE['agency_id'];
         function changeUserGroup(e) {
             $.ajax({
                 type: "GET",
-                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                url: "https://api.redenes.org/dev/v1/system-config-module-settings/",
                 data: {
                     agency_id: init_id,
                     authorization: "<?php echo $authorization; ?>",

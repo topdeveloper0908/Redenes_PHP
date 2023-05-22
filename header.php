@@ -66,7 +66,7 @@ if (strlen($user) == 0) {
                 }
                 ?>
                 <?php
-                if ($sysAdmin == 'true') {
+                if ($sysAdmin == 'active') {
                 ?>
                     <a class="dropdown-item" href="system-config">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
