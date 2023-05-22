@@ -241,10 +241,10 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             data.forEach(element => {
                 tmp += "<tr>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.build_id + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.platform + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.version + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.description + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.build_id + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.platform + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.version + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.description + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                 for (let index = 0; index < element.status.length; index++) {
                     tmp += "<option value='" + element.status[index] + "'";

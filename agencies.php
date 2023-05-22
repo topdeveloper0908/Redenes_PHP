@@ -225,7 +225,7 @@ $agency_id = $_COOKIE['agency_id'];
             data.forEach(element => {
                 tmp += "<tr data-id='" + element.agency_id + "'>";
                 tmp += "<td>" + element.agency_id + "</td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                 for (let index = 0; index < element.type.length; index++) {
                     tmp += "<option value='" + element.type[index] + "'";
@@ -245,10 +245,10 @@ $agency_id = $_COOKIE['agency_id'];
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.sign_up_date + "</td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 tmp += "</tr>";
             });
