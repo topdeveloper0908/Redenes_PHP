@@ -242,7 +242,7 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += ">" + element.status[index] + "</option>"
                 }
                 tmp += "</td>";
-                tmp += "<td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Send Notification</span></button></td>";
+                tmp += "<td> <button type='button' class='btn btn-success btn-icon-split btn-notification' onclick=logout(event,'" + element.device_id + "')> <span class='icon text-white-50'> <i class='fas fa-plus'></i></span><span class='text'>Logout</span></button></td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 tmp += "</tr>";
             });
@@ -322,6 +322,37 @@ $agency_id = $_COOKIE['agency_id'];
                 select.setAttribute('disabled', true);
             });
         });
+
+        function logout(e, id) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            document.getElementById("my-loader-wrapper").classList.remove("d-none");
+            var authorization = "<?php echo $authorization; ?>";
+
+            // input = trElement.querySelectorAll('.form-control')
+
+            document.getElementById("my-loader-element").classList.add("loader");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id.toString(),
+                id: id,
+                button: 'log_out',
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/system-config-devices/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+            document.getElementById("my-loader-element").classList.remove("loader");
+            document.getElementById("my-loader-wrapper").classList.add("d-none");
+        }
     </script>
 
 </body>

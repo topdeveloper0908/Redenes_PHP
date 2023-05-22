@@ -225,7 +225,7 @@ $agency_id = $_COOKIE['agency_id'];
             data.forEach(element => {
                 tmp += "<tr data-id='" + element.agency_id + "'>";
                 tmp += "<td>" + element.agency_id + "</td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
+                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                 for (let index = 0; index < element.type.length; index++) {
                     tmp += "<option value='" + element.type[index] + "'";
@@ -244,11 +244,11 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += ">" + element.status[index] + "</option>"
                 }
                 tmp += "</td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.sign_up_date + "></td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
+                tmp += "<td>" + element.sign_up_date + "</td>";
+                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
+                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
+                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
+                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 tmp += "</tr>";
             });
@@ -309,7 +309,6 @@ $agency_id = $_COOKIE['agency_id'];
                 inputs[2].value = values[4];
                 inputs[3].value = values[5];
                 inputs[4].value = values[6];
-                inputs[5].value = values[7];
                 selects[0].value = values[1];
                 selects[1].value = values[2];
             });
@@ -338,11 +337,10 @@ $agency_id = $_COOKIE['agency_id'];
                         type_name: inputs[0].value,
                         type_selected: selects[0].value,
                         status_selected: selects[1].value,
-                        sign_up_date: inputs[1].value,
-                        trial_end: inputs[2].value,
-                        subscription: inputs[3].value,
-                        phone: inputs[4].value,
-                        email: inputs[5].value,
+                        trial_end: inputs[1].value,
+                        subscription: inputs[2].value,
+                        phone: inputs[3].value,
+                        email: inputs[4].value,
                     }]
                 }
                 $.ajax({
