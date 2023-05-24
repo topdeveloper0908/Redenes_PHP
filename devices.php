@@ -234,7 +234,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td class='col-id'>" + element.last_login + "</td>";
                 tmp += "<td class='col-id'>" + element.name + "</td>";
                 tmp += "<td class='col-id'>" + element.app_version + "</td>";
-                tmp += "<td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Log Out</span></button></td>";
+                tmp += "<td> <button type='button' class='btn btn-primary btn-icon-split btn-notification'> <span class='icon text-white-50'> <i class='fas fa-flag'></i></span><span class='text'>Send Notification</span></button></td>";
                 tmp += "<td> <button type='button' class='btn btn-success btn-icon-split btn-notification' onclick=logout(event,'" + id + "')> <span class='icon text-white-50'> <i class='fas fa-plus'></i></span><span class='text'>Logout</span></button></td>";
                 tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event,'" + id + "')><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
