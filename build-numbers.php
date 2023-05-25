@@ -136,7 +136,11 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <input type="text" class="form-control form-control-user" id="modal-platform" placeholder="Enter Platform...">
+                            <select id="modal-platform" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                                <option value='Android'>Android</option>
+                                <option value='iOS'>iOS</option>
+                                <option value='Web'>Web</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -167,6 +171,10 @@ $agency_id = $_COOKIE['agency_id'];
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                                <option value='Available'>Available</option>
+                                <option value='Not Available'>Not Available</option>
+                                <option value='Testing'>Testing</option>
+                                <option value='Beta'>Beta</option>
                             </select>
                         </div>
                     </div>
@@ -230,6 +238,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     var data = res.build_numbers;
                     writeData(data);
+                    console.log(data);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -239,10 +248,20 @@ $agency_id = $_COOKIE['agency_id'];
 
         function writeData(data) {
             var tmp = '';
+            const platform = ['Android', 'iOS', 'Web'];
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.build_id + "></td>";
-                tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.platform + "></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>";
+                platform.forEach
+                platform.forEach(subElement => {
+                    tmp += "<option value='" + subElement + "'";
+                    if (element.platform == subElement) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + subElement + "</option>"
+                })
+                tmp += "</td>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.version + "></td>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.description + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
@@ -275,16 +294,20 @@ $agency_id = $_COOKIE['agency_id'];
                 e.currentTarget.classList.add('d-none');
 
                 inputs = trElement.querySelectorAll('.form-control');
-                select = trElement.querySelector('.custom-select');
+                selects = trElement.querySelectorAll('.custom-select');
                 i = 0;
                 inputs.forEach(element => {
                     element.removeAttribute('readOnly');
                     element.classList.remove('border-0');
-                    values[i] = element.value;
-                    i++;
                 });
-                select.removeAttribute('disabled');
-                values[4] = select.value;
+                selects.forEach(element => {
+                    element.removeAttribute('disabled');
+                });
+                values[0] = inputs[0].value;
+                values[1] = selects[0].value;
+                values[2] = inputs[1].value;
+                values[3] = inputs[2].value;
+                values[4] = selects[1].value;
                 editButtons.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
@@ -298,21 +321,23 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
                 inputs = trElement.querySelectorAll('.form-control')
-                select = trElement.querySelector('.custom-select')
+                selects = trElement.querySelectorAll('.custom-select')
 
-                select.setAttribute('disabled', true);
                 inputs.forEach(element => {
                     element.setAttribute('readOnly', true);
                     element.classList.add('border-0');
+                });
+                selects.forEach(element => {
+                    element.setAttribute('disabled', true);
                 });
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
                 inputs[0].value = values[0];
-                inputs[1].value = values[1];
-                inputs[2].value = values[2];
-                inputs[3].value = values[3];
-                select.value = values[4];
+                selects[0].value = values[1];
+                inputs[1].value = values[2];
+                inputs[2].value = values[3];
+                selects[1].value = values[4];
             });
         });
         saveButtons.forEach(element => {
@@ -325,7 +350,7 @@ $agency_id = $_COOKIE['agency_id'];
                 e.currentTarget.classList.add('d-none');
 
                 inputs = trElement.querySelectorAll('.form-control')
-                select = trElement.querySelector('.custom-select')
+                selects = trElement.querySelectorAll('.custom-select')
 
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
@@ -336,10 +361,10 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: authorization.toString(),
                     build_numbers: [{
                         build_id: inputs[0].value,
-                        platform: inputs[1].value,
-                        version: inputs[2].value,
-                        description: inputs[3].value,
-                        status_selected: select.value
+                        platform: selects[0].value,
+                        version: inputs[1].value,
+                        description: inputs[2].value,
+                        status_selected: selects[1].value
                     }]
                 }
                 $.ajax({
@@ -354,9 +379,12 @@ $agency_id = $_COOKIE['agency_id'];
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
                     }
                 })
-                select.setAttribute('disabled', true);
+                selects.forEach(element => {
+                    element.setAttribute('disabled', true);
+                });
                 inputs.forEach(element => {
                     element.setAttribute('readOnly', true);
+                    element.classList.add('border-0');
                 });
             });
         });
