@@ -255,8 +255,8 @@ if (strlen($user) == 0) {
                         array.push(object);
                     }
                 }
-                formData.form_data_html = $('.frmb').html();
-                formData.form_data_json = array;
+                // formData.form_data_html = $('.frmb').html();
+                // formData.form_data_json = array;
                 formData.button = 'save';
                 console.log(formData);
                 document.getElementById("my-loader-element").classList.add("loader");
@@ -340,8 +340,8 @@ if (strlen($user) == 0) {
                             array.push(object);
                         }
                     }
-                    formData.form_data_html = $('.frmb').html();
-                    formData.form_data_json = array;
+                    // formData.form_data_html = $('.frmb').html();
+                    // formData.form_data_json = array;
                     formData.button = 'preview';
                     var mainData = [];
                     $.ajax({
