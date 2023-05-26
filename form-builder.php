@@ -182,7 +182,6 @@ if (strlen($user) == 0) {
                         if (res.format_type == 'Display') {
                             $(".formbuilder-icon-checkbox-group").addClass("d-none");
                             $(".formbuilder-icon-button").addClass("d-none");
-                            $(".formbuilder-icon-header").addClass("d-none");
                             $(".formbuilder-icon-select").addClass("d-none");
                         }
                         document.getElementById("module").innerHTML = res.module;
