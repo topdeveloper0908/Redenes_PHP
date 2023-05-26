@@ -60,7 +60,7 @@ $agency_id = $_COOKIE['agency_id'];
                         <div class="card shadow mb-4" style="max-width: 1400px">
                             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
-                                    <h6 class="mr-3 mb-0" style="white-space:nowrap">Agency Type</h6>
+                                    <h6 class="mr-3 mb-0" style="white-space:nowrap">User Group</h6>
                                     <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
                                     </select>
                                 </div>
@@ -165,7 +165,7 @@ $agency_id = $_COOKIE['agency_id'];
     <script>
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
-        var module_setting, module_setting_2;
+        var module_setting;
         init_id = "<?php echo $agency_id; ?>";
 
         function getData(agency_id) {
@@ -177,9 +177,10 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
+                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.agency_type_selected, res.agency_types);
-                    writeTable();
+                    writeDropdown(res.agency_types_selected, res.agency_types);
+                    writeTable(res.agencies_module_settings[0]);
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -190,6 +191,21 @@ $agency_id = $_COOKIE['agency_id'];
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
+            for (let key in module_setting) {
+                for (let subkey in module_setting[key][0]) {
+                    for (let i = 0; i < 3; i++) {
+                        if (i == 0) {
+                            module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
+                        } else if (i == 1) {
+                            module_setting[key][0][subkey][0].edit = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
+                        } else if (i == 2) {
+                            module_setting[key][0][subkey][0].add = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
+                        } else {
+                            module_setting[key][0][subkey][0].default_form_selected = document.getElementById(subkey + 'Dropdown').value;
+                        }
+                    }
+                }
+            }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
@@ -206,6 +222,10 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
+                    var inputs = document.querySelectorAll('.custom-control-input');
+                    inputs.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
                     var selects = document.querySelectorAll('.custom-select');
                     selects.forEach(element => {
                         element.setAttribute("disabled", true);
@@ -216,6 +236,12 @@ $agency_id = $_COOKIE['agency_id'];
         }
 
         function saveEnable() {
+            var inputs = document.querySelectorAll('.custom-control-input');
+            inputs.forEach(element => {
+                if (element.classList.contains('always-check') == false) {
+                    element.removeAttribute("disabled");
+                }
+            });
             var selects = document.querySelectorAll('.custom-select');
             selects.forEach(element => {
                 element.removeAttribute("disabled");
@@ -224,26 +250,22 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
-            module_setting_2 = structuredClone(module_setting);
         }
 
         function cancelSave() {
-            module_setting = module_setting_2;
-            writeTable();
+            writeTable(module_setting);
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
-            var selects = document.querySelectorAll('.custom-select');
-            selects.forEach(element => {
+            document.getElementById('userGroupDropdown').removeAttribute("disabled");
+            var inputs = document.querySelectorAll('.custom-control-input');
+            inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
-            document.getElementById('userGroupDropdown').removeAttribute("disabled");
         }
 
-        function writeTable() {
-            data = module_setting;
+        function writeTable(data) {
             tmp = '';
-            var status = ['enabled', 'disabled', 'true', 'false'];
             for (let key in data) {
                 new_item = 0;
                 for (let subkey in data[key][0]) {
@@ -255,34 +277,24 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += "<tr>";
                     tmp += "<td style='text-transform:capitalize;'>" + key + "</td>";
                     tmp += "<td style='text-transform:capitalize;'>" + subkey.replace('_', ' ') + "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='view' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                    for (let index = 0; index < 4; index++) {
-                        tmp += "<option value='" + status[index] + "'";
-                        if (element.view == status[index]) {
-                            tmp += " selected";
+                    for (let i = 0; i < 3; i++) {
+                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input";
+                        if (element.add == 'always') {
+                            tmp += " always-check";
                         }
-                        tmp += ">" + status[index] + "</option>"
-                    }
-                    tmp += "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='edit' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                    for (let index = 0; index < 4; index++) {
-                        tmp += "<option value='" + status[index] + "'";
-                        if (element.edit == status[index]) {
-                            tmp += " selected";
+                        tmp += "' id='" + subkey + "Check" + i + "' disabled ";
+                        if (element.add != 'false' && i == 0) {
+                            tmp += " checked";
                         }
-                        tmp += ">" + status[index] + "</option>"
-                    }
-                    tmp += "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='add' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                    for (let index = 0; index < 4; index++) {
-                        tmp += "<option value='" + status[index] + "'";
-                        if (element.add == status[index]) {
-                            tmp += " selected";
+                        if (element.edit != 'false' && i == 1) {
+                            tmp += " checked";
                         }
-                        tmp += ">" + status[index] + "</option>"
+                        if (element.view != 'false' && i == 2) {
+                            tmp += " checked";
+                        }
+                        tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
                     }
-                    tmp += "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select id='" + subkey + "Dropdown' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
                     for (let index = 0; index < element.default_forms.length; index++) {
                         tmp += "<option value='" + element.default_forms[index] + "'";
                         if (element.default_form_selected == element.default_forms[index]) {
@@ -297,13 +309,6 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById('table-content').innerHTML = tmp;
         }
 
-        function valueChange(e) {
-            value = e.currentTarget.value;
-            action = e.currentTarget.getAttribute('data-action');
-            key = e.currentTarget.getAttribute('data-key');
-            subkey = e.currentTarget.getAttribute('data-subKey');
-            module_setting[key][0][subkey][0][action] = value;
-        }
 
         function writeDropdown(selected, options) {
             tmp = '';
@@ -329,7 +334,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     module_setting = res.agencies_module_settings[0];
                     writeDropdown(res.user_group_selected, res.user_groups);
-                    writeTable();
+                    writeTable(res.agencies_module_settings[0]);
                 }
             })
         }
