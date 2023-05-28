@@ -456,6 +456,7 @@ table .custom-select:disabled {
     border-color: transparent;
     text-align: center;
     color: #6e707e;
+    opacity: 1;
 
     &:focus {
         outline: none !important;

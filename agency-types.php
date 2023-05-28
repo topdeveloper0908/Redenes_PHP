@@ -127,7 +127,7 @@ $agency_id = $_COOKIE['agency_id'];
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()">&times;</span>
-            <form id="createUserForm">
+            <form id="createTypeForm">
                 <div class="row align-items-center mb-4">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Type Name</h6>
@@ -307,7 +307,7 @@ $agency_id = $_COOKIE['agency_id'];
                 var formData = {
                     authorization: authorization.toString(),
                     agencies: [{
-                        type_name: inputs.value,
+                        type_name: input.value,
                         status_selected: select.value
                     }]
                 }
@@ -327,6 +327,31 @@ $agency_id = $_COOKIE['agency_id'];
                 input.setAttribute('readOnly', true);
             });
         });
+        $('#createTypeForm').submit(function(e) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            e.preventDefault();
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                type_name: document.getElementById("modal-type-name").value,
+                status: document.getElementById("modal-status").value,
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/system-config-agency-types/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                async: false,
+                contentType: 'application/json',
+                success: function(res) {
+                    closeAddModal();
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+            $('#dataTable').dataTable();
+        })
     </script>
 </body>
 
