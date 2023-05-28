@@ -352,6 +352,8 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
+                id = trElement.children[0].innerHTML;
+                console.log(id);
                 inputs = trElement.querySelectorAll('.form-control')
                 selects = trElement.querySelectorAll('.custom-select')
 
@@ -362,12 +364,12 @@ $agency_id = $_COOKIE['agency_id'];
                 var authorization = "<?php echo $authorization; ?>";
                 var formData = {
                     authorization: authorization.toString(),
-                    build_numbers: [{
-                        platform: selects[0].value,
-                        version: inputs[0].value,
-                        description: inputs[1].value,
-                        status_selected: selects[1].value
-                    }]
+                    agency_id: init_id,
+                    build_id: id,
+                    platform: selects[0].value,
+                    version: inputs[0].value,
+                    description: inputs[1].value,
+                    status_selected: selects[1].value
                 }
                 $.ajax({
                     type: "POST",
