@@ -240,9 +240,7 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 success: function(res) {
                     var data = res.build_numbers;
-                    console.log(data);
                     writeData(data);
-                    console.log(data);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -353,7 +351,6 @@ $agency_id = $_COOKIE['agency_id'];
                 e.currentTarget.classList.add('d-none');
 
                 id = trElement.children[0].innerHTML;
-                console.log(id);
                 inputs = trElement.querySelectorAll('.form-control')
                 selects = trElement.querySelectorAll('.custom-select')
 
@@ -365,7 +362,7 @@ $agency_id = $_COOKIE['agency_id'];
                 var formData = {
                     authorization: authorization.toString(),
                     agency_id: init_id,
-                    build_id: id,
+                    build_number_id: id,
                     platform: selects[0].value,
                     version: inputs[0].value,
                     description: inputs[1].value,
@@ -413,7 +410,8 @@ $agency_id = $_COOKIE['agency_id'];
                 contentType: 'application/json',
                 success: function(res) {
                     closeAddModal();
-                    console.log(res);
+                    var data = res.build_numbers;
+                    writeData(data);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
