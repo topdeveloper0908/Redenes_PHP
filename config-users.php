@@ -132,7 +132,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='rankType' id='rankType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='rankType' id='rankType' aria-controls='dataTable' class='custom-select form-control-sm'>
                             </select>
                         </div>
                     </div>
@@ -143,7 +143,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='groupType' id='groupType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='groupType' id='groupType' aria-controls='dataTable' class='custom-select form-control-sm'>
                             </select>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='statusType' id='statusType' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='statusType' id='statusType' aria-controls='dataTable' class='custom-select form-control-sm'>
                             </select>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td>" + element.name + "</td>";
                 tmp += "<td>" + element.join_date + "</td>";
                 tmp += "<td>" + element.last_login + "</td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < element.status.length; index++) {
                     tmp += "<option value='" + element.status[index] + "'";
                     if (element.status_selected == element.status[index]) {

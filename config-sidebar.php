@@ -58,8 +58,8 @@ if (strlen($user) == 0) {
         </a>
     </li>
 
-    <li id="module_item" class="nav-item">
-        <a class="nav-link" href="module-setting">
+    <li id="module_format_item" class="nav-item">
+        <a class="nav-link" href="config-module-format">
             <i class="fas fa-fw fa-tools"></i>
             <span>Format Modules</span>
         </a>
@@ -127,6 +127,8 @@ if (strlen($user) == 0) {
         document.getElementById('users_item').classList.add('active');
     } else if (currentUrl.includes('config-device')) {
         document.getElementById('devices_item').classList.add('active');
+    } else if (currentUrl.includes('config-module-format')) {
+        document.getElementById('module_format_item').classList.add('active');
     }
 
     function changeAgencyData(agency_id) {

@@ -192,7 +192,7 @@ if (strlen($user) == 0) {
                             tmp = tmp + "><label class='custom-control-label' for='incident_ob" + i.toString() + "_check" + j.toString() + "'>" + object[j].check_box + "</label></div></div>";
                         } else if (Object.keys(object[j])[0] == 'drop_down') {
                             tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down + "</label>";
-                            tmp = tmp + "<select id='incident_ob" + i.toString() + "_dropdown" + j.toString() + "' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm mb-4'>";
+                            tmp = tmp + "<select id='incident_ob" + i.toString() + "_dropdown" + j.toString() + "' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm mb-4'>";
                             for (var k = 0; k < object[j].pre_filled.length; k++) {
                                 tmp = tmp + "<option value='" + object[j].pre_filled[k] + "'";
                                 if (object[j].pre_filled_selected && object[j].pre_filled_selected == object[j].pre_filled[k]) {

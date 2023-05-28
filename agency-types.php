@@ -79,7 +79,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Status</th>
                                                 <th>Updated By</th>
                                                 <th>Updated Date</th>
-                                                <th>Subscription</th>
+                                                <th>Subscriptions</th>
                                                 <th style="width: 15rem">Edit</th>
                                             </tr>
                                         </thead>
@@ -90,7 +90,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Status</th>
                                                 <th>Updated By</th>
                                                 <th>Updated Date</th>
-                                                <th>Subscription</th>
+                                                <th>Subscriptions</th>
                                                 <th>Edit</th>
                                             </tr>
                                         </tfoot>
@@ -144,20 +144,15 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
+                                <option value='enabled'>Enabled</option>
+                                <option value='disabled'>Disabled</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Subscription</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <input type="text" class="form-control form-control-user" id="modal-subscription" placeholder="Enter Subscription...">
-                        </div>
-                    </div>
+                <div class="row justify-content-center mt-4">
+                    <button type="submit" id="createModuleBtn" class='nav-link btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add Type</span></button>
                 </div>
             </form>
         </div>
@@ -230,9 +225,9 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             data.forEach(element => {
                 tmp += "<tr>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.type_id + "></td>";
-                tmp += "<td><input type='text' class='form-control border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.type_name + "></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp += "<td>" + element.type_id + "</td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.type_name + "></td>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < element.status.length; index++) {
                     tmp += "<option value='" + element.status[index] + "'";
                     if (element.status_selected == element.status[index]) {
@@ -253,7 +248,7 @@ $agency_id = $_COOKIE['agency_id'];
         const editButtons = document.querySelectorAll('.edit-btn');
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
-        var values = ['', '', ''];
+        var values = ['', ''];
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
                 tdElement = e.currentTarget.parentNode;
@@ -262,16 +257,12 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.cancel-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
-                inputs = trElement.querySelectorAll('.form-control');
+                input = trElement.querySelector('.form-control');
                 select = trElement.querySelector('.custom-select');
-                i = 0;
-                inputs.forEach(element => {
-                    element.removeAttribute('readOnly');
-                    values[i] = element.value;
-                    i++;
-                });
+                input.removeAttribute('readOnly');
+                values[0] = input.value;
                 select.removeAttribute('disabled');
-                values[2] = select.value;
+                values[1] = select.value;
                 editButtons.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
@@ -284,19 +275,16 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.save-btn').classList.add('d-none');
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
-                inputs = trElement.querySelectorAll('.form-control')
+                input = trElement.querySelector('.form-control')
                 select = trElement.querySelector('.custom-select')
 
                 select.setAttribute('disabled', true);
-                inputs.forEach(element => {
-                    element.setAttribute('readOnly', true);
-                });
+                input.setAttribute('readOnly', true);
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
-                inputs[0].value = values[0];
-                inputs[1].value = values[1];
-                select.value = values[2];
+                inputs.value = values[0];
+                select.value = values[1];
             });
         });
         saveButtons.forEach(element => {
@@ -308,7 +296,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
 
-                inputs = trElement.querySelectorAll('.form-control')
+                input = trElement.querySelector('.form-control')
                 select = trElement.querySelector('.custom-select')
 
                 editButtons.forEach(element => {
@@ -319,8 +307,7 @@ $agency_id = $_COOKIE['agency_id'];
                 var formData = {
                     authorization: authorization.toString(),
                     agencies: [{
-                        type_id: inputs[0].value,
-                        type_name: inputs[1].value,
+                        type_name: inputs.value,
                         status_selected: select.value
                     }]
                 }
@@ -337,9 +324,7 @@ $agency_id = $_COOKIE['agency_id'];
                     }
                 })
                 select.setAttribute('disabled', true);
-                inputs.forEach(element => {
-                    element.setAttribute('readOnly', true);
-                });
+                input.setAttribute('readOnly', true);
             });
         });
     </script>

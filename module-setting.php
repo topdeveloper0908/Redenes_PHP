@@ -61,7 +61,7 @@ $agency_id = $_COOKIE['agency_id'];
                             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
                                     <h6 class="mr-3 mb-0" style="white-space:nowrap">User Group</h6>
-                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
+                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' style="width: 13rem">
                                     </select>
                                 </div>
                                 <div>
@@ -294,7 +294,7 @@ $agency_id = $_COOKIE['agency_id'];
                         }
                         tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
                     }
-                    tmp += "<td><select id='" + subkey + "Dropdown' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select id='" + subkey + "Dropdown' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                     for (let index = 0; index < element.default_forms.length; index++) {
                         tmp += "<option value='" + element.default_forms[index] + "'";
                         if (element.default_form_selected == element.default_forms[index]) {

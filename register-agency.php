@@ -71,7 +71,7 @@ if (strlen($user) == 0) {
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Type</label>
-                                            <select id="agency-type" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'></select>
+                                            <select id="agency-type" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'></select>
                                         </div>
                                     </div>
                                 </div>

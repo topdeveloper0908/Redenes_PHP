@@ -90,7 +90,7 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small pl-0">
                                                 <label>Agency Type</label>
-                                                <select onchange="changeUser(event)" name='agency-type' id='agency-type' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                                                <select onchange="changeUser(event)" name='agency-type' id='agency-type' aria-controls='dataTable' class='custom-select form-control-sm'>
                                                 </select>
                                             </div>
                                         </div>
@@ -104,19 +104,19 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Rank</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userRankDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                                <select id="userRankDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Group</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                                <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Status</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userStatusDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                                <select id="userStatusDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                     </div>

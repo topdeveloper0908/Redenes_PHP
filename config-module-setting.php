@@ -61,7 +61,7 @@ $agency_id = $_COOKIE['agency_id'];
                             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
                                     <h6 class="mr-3 mb-0" style="white-space:nowrap">Agency Type</h6>
-                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' style="width: 13rem">
+                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' style="width: 13rem">
                                     </select>
                                 </div>
                                 <div>
@@ -270,7 +270,7 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += "<tr>";
                     tmp += "<td style='text-transform:capitalize;'>" + key + "</td>";
                     tmp += "<td style='text-transform:capitalize;'>" + subkey.replace('_', ' ') + "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='view' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select onchange=valueChange(event) data-action='view' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                     for (let index = 0; index < 4; index++) {
                         tmp += "<option value='" + status[index] + "'";
                         if (element.view == status[index]) {
@@ -279,7 +279,7 @@ $agency_id = $_COOKIE['agency_id'];
                         tmp += ">" + status[index] + "</option>"
                     }
                     tmp += "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='edit' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select onchange=valueChange(event) data-action='edit' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                     for (let index = 0; index < 4; index++) {
                         tmp += "<option value='" + status[index] + "'";
                         if (element.edit == status[index]) {
@@ -288,7 +288,7 @@ $agency_id = $_COOKIE['agency_id'];
                         tmp += ">" + status[index] + "</option>"
                     }
                     tmp += "</td>";
-                    tmp += "<td><select onchange=valueChange(event) data-action='add' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select onchange=valueChange(event) data-action='add' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                     for (let index = 0; index < 4; index++) {
                         tmp += "<option value='" + status[index] + "'";
                         if (element.add == status[index]) {
@@ -298,7 +298,7 @@ $agency_id = $_COOKIE['agency_id'];
                     }
                     tmp += "</td>";
                     // for (let i = 0; i < 3; i++) {
-                    //     tmp += "<td><select name='dataTable_length' aria-controls='dataTable' id='" + subkey + "Dropdown' class='custom-select form-control form-control-sm' disabled>"
+                    //     tmp += "<td><select name='dataTable_length' aria-controls='dataTable' id='" + subkey + "Dropdown' class='custom-select form-control-sm' disabled>"
                     //     for (let index = 0; index < element.default_forms.length; index++) {
                     //         tmp += "<option value='" + element.default_forms[index] + "'";
                     //         if (element.default_form_selected == element.default_forms[index]) {
@@ -323,7 +323,7 @@ $agency_id = $_COOKIE['agency_id'];
                     //     }
                     //     tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
                     // }
-                    tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                    tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                     for (let index = 0; index < element.default_forms.length; index++) {
                         tmp += "<option value='" + element.default_forms[index] + "'";
                         if (element.default_form_selected == element.default_forms[index]) {

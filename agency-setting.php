@@ -99,7 +99,7 @@ $agency_id = $_COOKIE['agency_id'];
                                         </div>
                                         <div class="form-group">
                                             <label>Agency Type</label>
-                                            <select id="account-type" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                            <select id="account-type" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@ $agency_id = $_COOKIE['agency_id'];
                                         </div>
                                         <div class="form-group">
                                             <label>Alpha Numeric Pager Company</label>
-                                            <select id="agency-pagerCompany" onchange="changePagerCompany(event)" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled></select>
+                                            <select id="agency-pagerCompany" onchange="changePagerCompany(event)" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                         </div>
                                         <div class="form-group">
                                             <label>Alpha Numeric Pager Number</label>

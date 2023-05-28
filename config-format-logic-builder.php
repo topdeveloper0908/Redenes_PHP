@@ -54,7 +54,7 @@ if (strlen($user) == 0) {
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <?php include('sidebar.php'); ?>
+            <?php include('config-sidebar.php'); ?>
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
 
@@ -315,7 +315,7 @@ if (strlen($user) == 0) {
             function getData(agency_id) {
                 $.ajax({
                     type: "GET",
-                    url: "https://api.redenes.org/dev/v1/format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
                     async: false,
                     success: function(res) {
                         console.log(res);
@@ -535,7 +535,7 @@ if (strlen($user) == 0) {
 
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',
@@ -580,7 +580,7 @@ if (strlen($user) == 0) {
                 }
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',
@@ -924,7 +924,7 @@ if (strlen($user) == 0) {
                 console.log(formData);
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',
@@ -945,7 +945,7 @@ if (strlen($user) == 0) {
                 document.getElementById("my-loader-element").classList.add("loader");
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/format-logic-builder",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',

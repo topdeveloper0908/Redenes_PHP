@@ -156,16 +156,6 @@ $agency_id = $_COOKIE['agency_id'];
                 </div>
                 <div class="row align-items-center mb-4">
                     <div class="col-4">
-                        <h6 class="ml-2 mb-0 text-right">Description</h6>
-                    </div>
-                    <div class="col-8">
-                        <div class="d-flex align-items-center">
-                            <input type="text" class="form-control form-control-user" id="modal-description" placeholder="Enter Description...">
-                        </div>
-                    </div>
-                </div>
-                <div class="row align-items-center mb-4">
-                    <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Status</h6>
                     </div>
                     <div class="col-8">
@@ -178,6 +168,12 @@ $agency_id = $_COOKIE['agency_id'];
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="row align-items-center mb-4">
+                    <p style="max-width:23rem; margin:auto; text-align:justify">Amazon Web Services, Inc. is a subsidiary of Amazon that provides on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered, pay-as-you-go basis. Oftentimes, clients will use this in combination with autoscaling.</p>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <button type="submit" id="createModuleBtn" class='nav-link btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add Build</span></button>
                 </div>
             </form>
         </div>
@@ -251,7 +247,7 @@ $agency_id = $_COOKIE['agency_id'];
             const platform = ['Android', 'iOS', 'Web'];
             data.forEach(element => {
                 tmp += "<tr>";
-                tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.build_id + "></td>";
+                tmp += "<td>" + element.build_id + "</td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>";
                 platform.forEach
                 platform.forEach(subElement => {

@@ -139,7 +139,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='selectedUser' id='selectedUser' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='selectedUser' id='selectedUser' aria-controls='dataTable' class='custom-select form-control-sm'>
                             </select>
                         </div>
                     </div>

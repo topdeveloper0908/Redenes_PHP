@@ -450,3 +450,26 @@
 .bg-danger {
     background-color: #e74a3b;
 }
+
+table .custom-select:disabled {
+    background: white;
+    border-color: transparent;
+    text-align: center;
+    color: #6e707e;
+
+    &:focus {
+        outline: none !important;
+    }
+}
+
+table .form-control:read-only {
+    text-align: center;
+    background: white;
+    border-color: white;
+    color: #6e707e;
+
+    &:focus {
+        outline: 0 !important;
+        box-shadow: none;
+    }
+}

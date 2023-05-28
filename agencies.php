@@ -147,7 +147,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
                             </select>
                         </div>
                     </div>
@@ -226,7 +226,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<tr data-id='" + element.agency_id + "'>";
                 tmp += "<td>" + element.agency_id + "</td>";
                 tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < element.type.length; index++) {
                     tmp += "<option value='" + element.type[index] + "'";
                     if (element.type_selected == element.type[index]) {
@@ -235,7 +235,7 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += ">" + element.type[index] + "</option>"
                 }
                 tmp += "</td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < element.status.length; index++) {
                     tmp += "<option value='" + element.status[index] + "'";
                     if (element.status_selected == element.status[index]) {

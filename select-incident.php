@@ -192,7 +192,7 @@ if (strlen($user) == 0) {
                                 new Multiselect('#multi-dropdown' + j, object[j].pre_filled_selected);
                             } else {
                                 tmp = tmp + "<div class='form-group'><label>" + object[j].drop_down + "</label>";
-                                tmp = tmp + "<select id='incident_ob" + i.toString() + "_dropdown" + j.toString() + "' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'";
+                                tmp = tmp + "<select id='incident_ob" + i.toString() + "_dropdown" + j.toString() + "' name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'";
                                 if (content.status == 'false') {
                                     tmp = tmp + " disabled";
                                 }

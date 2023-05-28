@@ -49,7 +49,7 @@ if (strlen($user) == 0) {
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <?php include('sidebar.php'); ?>
+            <?php include('config-sidebar.php'); ?>
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
 
@@ -158,7 +158,7 @@ if (strlen($user) == 0) {
             async function getFormData() {
                 await $.ajax({
                     type: "GET",
-                    url: "https://api.redenes.org/dev/v1/form-builder/",
+                    url: "https://api.redenes.org/dev/v1/system-config-form-builder/",
                     data: {
                         agency_id: "<?php echo $agency_id; ?>",
                         authorization: "<?php echo $authorization; ?>",
@@ -261,7 +261,7 @@ if (strlen($user) == 0) {
                 document.getElementById("my-loader-element").classList.add("loader");
                 $.ajax({
                     type: "POST",
-                    url: "https://api.redenes.org/dev/v1/form-builder/",
+                    url: "https://api.redenes.org/dev/v1/system-config-form-builder/",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     contentType: 'application/json',
@@ -345,7 +345,7 @@ if (strlen($user) == 0) {
                     var mainData = [];
                     $.ajax({
                         type: "POST",
-                        url: "https://api.redenes.org/dev/v1/form-builder/",
+                        url: "https://api.redenes.org/dev/v1/system-config-form-builder/",
                         data: JSON.stringify(formData),
                         dataType: "json",
                         contentType: 'application/json',
