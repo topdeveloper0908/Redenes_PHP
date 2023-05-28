@@ -129,14 +129,14 @@ $agency_id = $_COOKIE['agency_id'];
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close" onclick="closeAddModal()">&times;</span>
-            <form id="createUserForm">
+            <form id="createBuildForm">
                 <div class="row align-items-center mb-4">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Platfrom</h6>
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select id="modal-platform" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select id="modal-platform" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'>
                                 <option value='Android'>Android</option>
                                 <option value='iOS'>iOS</option>
                                 <option value='Web'>Web</option>
@@ -150,7 +150,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <input type="text" class="form-control form-control-user" id="modal-version" placeholder="Enter Version...">
+                            <input type="text" class="form-control form-control-user" id="modal-version" placeholder="Enter Version..." required>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control form-control-sm'>
+                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
                                 <option value='Available'>Available</option>
                                 <option value='Not Available'>Not Available</option>
                                 <option value='Testing'>Testing</option>
@@ -170,7 +170,14 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                 </div>
                 <div class="row align-items-center mb-4">
-                    <p style="max-width:23rem; margin:auto; text-align:justify">Amazon Web Services, Inc. is a subsidiary of Amazon that provides on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered, pay-as-you-go basis. Oftentimes, clients will use this in combination with autoscaling.</p>
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Description</h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <textarea type="text" class="form-control form-control-user" id="modal-description" placeholder="Enter Version..." style="min-height: 10rem;" required></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class="row justify-content-center mt-4">
                     <button type="submit" id="createModuleBtn" class='nav-link btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add Build</span></button>
@@ -250,7 +257,7 @@ $agency_id = $_COOKIE['agency_id'];
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td>" + element.build_id + "</td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>";
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>";
                 platform.forEach
                 platform.forEach(subElement => {
                     tmp += "<option value='" + subElement + "'";
@@ -262,7 +269,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "</td>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.version + "></td>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.description + "></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
+                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < status.length; index++) {
                     tmp += "<option value='" + status[index] + "'";
                     if (element.status == status[index]) {
@@ -282,7 +289,7 @@ $agency_id = $_COOKIE['agency_id'];
         const editButtons = document.querySelectorAll('.edit-btn');
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
-        var values = ['', '', '', '', ''];
+        var values = ['', '', '', ''];
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
                 tdElement = e.currentTarget.parentNode;
@@ -304,8 +311,7 @@ $agency_id = $_COOKIE['agency_id'];
                 values[0] = inputs[0].value;
                 values[1] = selects[0].value;
                 values[2] = inputs[1].value;
-                values[3] = inputs[2].value;
-                values[4] = selects[1].value;
+                values[3] = selects[1].value;
                 editButtons.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
@@ -334,8 +340,7 @@ $agency_id = $_COOKIE['agency_id'];
                 inputs[0].value = values[0];
                 selects[0].value = values[1];
                 inputs[1].value = values[2];
-                inputs[2].value = values[3];
-                selects[1].value = values[4];
+                selects[1].value = values[3];
             });
         });
         saveButtons.forEach(element => {
@@ -358,10 +363,9 @@ $agency_id = $_COOKIE['agency_id'];
                 var formData = {
                     authorization: authorization.toString(),
                     build_numbers: [{
-                        build_id: inputs[0].value,
                         platform: selects[0].value,
-                        version: inputs[1].value,
-                        description: inputs[2].value,
+                        version: inputs[0].value,
+                        description: inputs[1].value,
                         status_selected: selects[1].value
                     }]
                 }
@@ -386,6 +390,34 @@ $agency_id = $_COOKIE['agency_id'];
                 });
             });
         });
+        $('#createBuildForm').submit(function(e) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            e.preventDefault();
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                platform: document.getElementById("modal-platform").value,
+                version: document.getElementById("modal-version").value,
+                status: document.getElementById("modal-status").value,
+                description: document.getElementById("modal-description").value
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/system-config-build-numbers/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                async: false,
+                contentType: 'application/json',
+                success: function(res) {
+                    closeAddModal();
+                    console.log(res);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+            $('#dataTable').dataTable();
+        })
     </script>
 </body>
 
