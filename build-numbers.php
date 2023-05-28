@@ -233,6 +233,7 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 success: function(res) {
                     var data = res.build_numbers;
+                    console.log(data);
                     writeData(data);
                     console.log(data);
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -245,6 +246,7 @@ $agency_id = $_COOKIE['agency_id'];
         function writeData(data) {
             var tmp = '';
             const platform = ['Android', 'iOS', 'Web'];
+            const status = ['Available', 'Not Available', 'Testing', 'Beta'];
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td>" + element.build_id + "</td>";
@@ -261,12 +263,12 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.version + "></td>";
                 tmp += "<td><input type='text' class='form-control bg-white border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.description + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control form-control-sm' disabled>"
-                for (let index = 0; index < element.status.length; index++) {
-                    tmp += "<option value='" + element.status[index] + "'";
-                    if (element.status_selected == element.status[index]) {
+                for (let index = 0; index < status.length; index++) {
+                    tmp += "<option value='" + status[index] + "'";
+                    if (element.status == status[index]) {
                         tmp += " selected";
                     }
-                    tmp += ">" + element.status[index] + "</option>"
+                    tmp += ">" + status[index] + "</option>"
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.updated_by + "</td>";
