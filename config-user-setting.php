@@ -252,12 +252,9 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
-                    user_setting_info = res.agency_types[0];
-                    for (const key in user_setting_info) {
-                        selected_user = key;
-                        writeData(selected_user);
-                        break;
-                    }
+                    console.log(res);
+                    user_setting_info = res;
+                    writeData();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -266,18 +263,18 @@ $agency_id = $_COOKIE['agency_id'];
         }
         getData(init_id);
 
-        function writeData(user) {
+        function writeData() {
             tmp = '';
-            for (let key in user_setting_info) {
-                tmp += "<option value='" + key + "'";
-                if (user == key) {
+            for (let key in user_setting_info.agency_types) {
+                tmp += "<option value='" + user_setting_info.agency_types[key] + "'";
+                if (selected_user == user_setting_info.agency_types[key]) {
                     tmp += " selected";
                 }
-                tmp += ">" + key + "</option>";
+                tmp += ">" + user_setting_info.agency_types[key] + "</option>";
             }
             document.getElementById('agency-type').innerHTML = tmp;
             // Write Agency Type
-            data = user_setting_info[user][0];
+            data = user_setting_info;
             ranks = data.user_ranks[0];
             tmp = '';
             for (const key in ranks) {
@@ -352,7 +349,7 @@ $agency_id = $_COOKIE['agency_id'];
                     if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
-                    if (key == user_setting_info[selected_user][0].auto_add_user_to_rank) {
+                    if (key == user_setting_info.auto_add_user_to_rank) {
                         tmp += " selected";
                     }
                     tmp += ">" + key + "</option>";
@@ -366,7 +363,7 @@ $agency_id = $_COOKIE['agency_id'];
             element = e.currentTarget;
             if (element.classList.value.indexOf('disabled') == -1) {
                 value = element.getAttribute('data-value');
-                delete user_setting_info[selected_user][0].user_ranks[0][value];
+                delete user_setting_info.user_ranks[0][value];
                 writeData(selected_user);
                 deletes = document.querySelectorAll('.delete-link');
                 deletes.forEach(element => {
@@ -381,10 +378,10 @@ $agency_id = $_COOKIE['agency_id'];
             if (value == '') {
                 window.alert('Empty value should not be added')
             } else {
-                if (user_setting_info[selected_user][0].user_ranks[0][value]) {
+                if (user_setting_info.user_ranks[0][value]) {
                     window.alert('The same name is exist')
                 } else {
-                    user_setting_info[selected_user][0].user_ranks[0][value] = false;
+                    user_setting_info.user_ranks[0][value] = false;
                     writeData(selected_user);
                     deletes = document.querySelectorAll('.delete-link');
                     deletes.forEach(element => {
@@ -398,9 +395,9 @@ $agency_id = $_COOKIE['agency_id'];
             key = e.currentTarget.getAttribute('id');
             key = key.slice(0, -5);
             if (e.currentTarget.checked == true) {
-                user_setting_info[selected_user][0].user_ranks[0][key] = 'true';
+                user_setting_info.user_ranks[0][key] = 'true';
             } else {
-                user_setting_info[selected_user][0].user_ranks[0][key] = 'false';
+                user_setting_info.user_ranks[0][key] = 'false';
             }
             writeData(selected_user);
             deletes = document.querySelectorAll('.delete-link');
@@ -416,7 +413,7 @@ $agency_id = $_COOKIE['agency_id'];
                     if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
-                    if (key == user_setting_info[selected_user][0].auto_add_user_to_group) {
+                    if (key == user_setting_info.auto_add_user_to_group) {
                         tmp += " selected";
                     }
                     tmp += ">" + key + "</option>";
@@ -430,7 +427,7 @@ $agency_id = $_COOKIE['agency_id'];
             element = e.currentTarget;
             if (element.classList.value.indexOf('disabled') == -1) {
                 value = element.getAttribute('data-value');
-                delete user_setting_info[selected_user][0].user_groups[0][value];
+                delete user_setting_info.user_groups[0][value];
                 writeData(selected_user);
                 deletes = document.querySelectorAll('.delete-link');
                 deletes.forEach(element => {
@@ -445,10 +442,10 @@ $agency_id = $_COOKIE['agency_id'];
             if (value == '') {
                 window.alert('Empty value should not be added')
             } else {
-                if (user_setting_info[selected_user][0].user_groups[0][value]) {
+                if (user_setting_info.user_groups[0][value]) {
                     window.alert('The same name is exist')
                 } else {
-                    user_setting_info[selected_user][0].user_groups[0][value] = false;
+                    user_setting_info.user_groups[0][value] = false;
                     writeData(selected_user);
                     deletes = document.querySelectorAll('.delete-link');
                     deletes.forEach(element => {
@@ -462,9 +459,9 @@ $agency_id = $_COOKIE['agency_id'];
             key = e.currentTarget.getAttribute('id');
             key = key.slice(0, -5);
             if (e.currentTarget.checked == true) {
-                user_setting_info[selected_user][0].user_groups[0][key] = 'true';
+                user_setting_info.user_groups[0][key] = 'true';
             } else {
-                user_setting_info[selected_user][0].user_groups[0][key] = 'false';
+                user_setting_info.user_groups[0][key] = 'false';
             }
             writeData(selected_user);
             deletes = document.querySelectorAll('.delete-link');
@@ -480,7 +477,7 @@ $agency_id = $_COOKIE['agency_id'];
                     if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
-                    if (key == user_setting_info[selected_user][0].auto_add_user_to_status) {
+                    if (key == user_setting_info.auto_add_user_to_status) {
                         tmp += " selected";
                     }
                     tmp += ">" + key + "</option>";
@@ -494,7 +491,7 @@ $agency_id = $_COOKIE['agency_id'];
             element = e.currentTarget;
             if (element.classList.value.indexOf('disabled') == -1) {
                 value = element.getAttribute('data-value');
-                delete user_setting_info[selected_user][0].user_status[0][value];
+                delete user_setting_info.user_status[0][value];
                 writeData(selected_user);
                 deletes = document.querySelectorAll('.delete-link');
                 deletes.forEach(element => {
@@ -509,10 +506,10 @@ $agency_id = $_COOKIE['agency_id'];
             if (value == '') {
                 window.alert('Empty value should not be added')
             } else {
-                if (user_setting_info[selected_user][0].user_status[0][value]) {
+                if (user_setting_info.user_status[0][value]) {
                     window.alert('The same name is exist')
                 } else {
-                    user_setting_info[selected_user][0].user_status[0][value] = false;
+                    user_setting_info.user_status[0][value] = false;
                     writeData(selected_user);
                     deletes = document.querySelectorAll('.delete-link');
                     deletes.forEach(element => {
@@ -526,9 +523,9 @@ $agency_id = $_COOKIE['agency_id'];
             key = e.currentTarget.getAttribute('id');
             key = key.slice(0, -5);
             if (e.currentTarget.checked == true) {
-                user_setting_info[selected_user][0].user_status[0][key] = 'true';
+                user_setting_info.user_status[0][key] = 'true';
             } else {
-                user_setting_info[selected_user][0].user_status[0][key] = 'false';
+                user_setting_info.user_status[0][key] = 'false';
             }
             writeData(selected_user);
             deletes = document.querySelectorAll('.delete-link');
@@ -596,13 +593,24 @@ $agency_id = $_COOKIE['agency_id'];
 
         function changeUser(e) {
             selected_user = e.currentTarget.value;
-            writeData(selected_user);
-            if (document.getElementById("edit-btn").classList.contains("d-none")) {
-                deletes = document.querySelectorAll('.delete-link');
-                deletes.forEach(element => {
-                    element.classList.remove('disabled');
-                });
-            }
+            $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/system-config-users-settings/",
+                data: {
+                    agency_id: init_id,
+                    authorization: "<?php echo $authorization; ?>",
+                    agency_type: selected_user
+                },
+                async: false,
+                success: function(res) {
+                    console.log(res);
+                    user_setting_info = res;
+                    writeData();
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
         }
 
         function saveData() {
