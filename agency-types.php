@@ -145,8 +145,10 @@ $agency_id = $_COOKIE['agency_id'];
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value='enabled'>Enabled</option>
-                                <option value='disabled'>Disabled</option>
+                                <option value="Available">Available</option>
+                                <option value="Not Available">Not Available</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Beta">Beta</option>
                             </select>
                         </div>
                     </div>
@@ -199,6 +201,8 @@ $agency_id = $_COOKIE['agency_id'];
 
         function closeAddModal() {
             modal.style.display = "none";
+            document.getElementById("modal-type-name").value = '';
+            document.getElementById("modal-status").value = 'Available';
         }
         init_id = "<?php echo $agency_id; ?>";
         async function getData(agency_id) {
@@ -347,7 +351,6 @@ $agency_id = $_COOKIE['agency_id'];
                 contentType: 'application/json',
                 success: function(res) {
                     closeAddModal();
-                    console.log(res);
                     var data = res.agencies;
                     writeData(data);
                     document.getElementById("my-loader-element").classList.remove("loader");

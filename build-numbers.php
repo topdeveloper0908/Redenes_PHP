@@ -227,6 +227,10 @@ $agency_id = $_COOKIE['agency_id'];
 
         function closeAddModal() {
             modal.style.display = "none";
+            document.getElementById("modal-platform").value = 'Android';
+            document.getElementById("modal-version").value = '';
+            document.getElementById("modal-status").value = 'Available';
+            document.getElementById("modal-description").value = '';
         }
         init_id = "<?php echo $agency_id; ?>";
         async function getData(agency_id) {
