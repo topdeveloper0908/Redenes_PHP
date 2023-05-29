@@ -252,6 +252,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
+                    console.log(res);
                     user_setting_info = res.agency_types[0];
                     for (const key in user_setting_info) {
                         selected_user = key;
@@ -284,10 +285,14 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if (ranks[key] == 'true') {
+                if (ranks[key] == 'true' || ranks[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + `</label></div><a onclick=removeUserRank(event) data-value='${key}' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>`;
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + `</label></div>`;
+                if (ranks[key] != 'disabled') {
+                    tmp += `<a onclick=removeUserRank(event) data-value='${key}' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>`
+                }
+                tmp += `</div>`;
             }
             document.getElementById('userRanksGroup').innerHTML = tmp;
             writeUserRank(ranks, 'read');
@@ -298,10 +303,14 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if (groups[key] == 'true') {
+                if (groups[key] == 'true' || groups[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserGroup(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div>";
+                if (groups[key] != 'disabled') {
+                    tmp += "<a onclick=removeUserGroup(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>"
+                }
+                tmp += "</div>";
             }
             document.getElementById('userGroupWrapper').innerHTML = tmp;
             writeUserGroup(groups, 'read');
@@ -312,10 +321,14 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addStatusToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
-                if (statuses[key] == 'true') {
+                if (statuses[key] == 'true' || statuses[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserStatus(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div>"
+                if (statuses[key] != 'disabled') {
+                    tmp += "<a onclick=removeUserStatus(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>";
+                }
+                tmp += "</div>";
             }
             document.getElementById('userStatusWrapper').innerHTML = tmp;
             writeUserStatus(statuses, 'read');
@@ -325,7 +338,7 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
                     if (key == user_setting_info[selected_user][0].auto_add_user_to_rank) {
@@ -392,7 +405,7 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
                     if (key == user_setting_info[selected_user][0].auto_add_user_to_group) {
@@ -456,7 +469,7 @@ $agency_id = $_COOKIE['agency_id'];
             var tmp = '';
             if (method == 'read') {
                 Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
                         tmp += "<option value='" + key + "'";
                     }
                     if (key == user_setting_info[selected_user][0].auto_add_user_to_status) {
