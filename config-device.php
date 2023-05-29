@@ -302,10 +302,8 @@ $agency_id = $_COOKIE['agency_id'];
                 var authorization = "<?php echo $authorization; ?>";
                 var formData = {
                     authorization: authorization.toString(),
-                    agencies: [{
-                        device_id: trElement.getAttribute('data-id'),
-                        status_selected: select.value,
-                    }]
+                    device_id: trElement.getAttribute('data-id'),
+                    status_selected: select.value,
                 }
                 $.ajax({
                     type: "POST",
