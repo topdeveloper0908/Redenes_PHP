@@ -222,24 +222,26 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
+            $('#dataTable').DataTable().destroy();
+            const status = ['Available', 'Not Available', 'Testing', 'Beta'];
             var tmp = '';
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td>" + element.type_id + "</td>";
                 tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.type_name + "></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
-                for (let index = 0; index < element.status.length; index++) {
-                    tmp += "<option value='" + element.status[index] + "'";
-                    if (element.status_selected == element.status[index]) {
+                for (let index = 0; index < status.length; index++) {
+                    tmp += "<option value='" + status[index] + "'";
+                    if (element.status == status[index]) {
                         tmp += " selected";
                     }
-                    tmp += ">" + element.status[index] + "</option>"
+                    tmp += ">" + status[index] + "</option>"
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.updated_by + "</td>";
                 tmp += "<td>" + element.updated_date + "</td>";
                 tmp += "<td>" + element.subscription + "</td>";
-                tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                tmp += "<td><button type='button' onclick='saveClick(event)' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' onclick='editClick(event)' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' onclick='cancelClick(event)' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 tmp += "</tr>";
             });
             document.getElementById('table-content').innerHTML = tmp;
@@ -249,84 +251,81 @@ $agency_id = $_COOKIE['agency_id'];
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
         var values = ['', ''];
-        editButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
-                tdElement.querySelector('.save-btn').classList.remove('d-none');
-                tdElement.querySelector('.cancel-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
 
-                input = trElement.querySelector('.form-control');
-                select = trElement.querySelector('.custom-select');
-                input.removeAttribute('readOnly');
-                values[0] = input.value;
-                select.removeAttribute('disabled');
-                values[1] = select.value;
-                editButtons.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
+        function editClick(e) {
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
+            tdElement.querySelector('.save-btn').classList.remove('d-none');
+            tdElement.querySelector('.cancel-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
+
+            input = trElement.querySelector('.form-control');
+            select = trElement.querySelector('.custom-select');
+            input.removeAttribute('readOnly');
+            values[0] = input.value;
+            select.removeAttribute('disabled');
+            values[1] = select.value;
+            editButtons.forEach(element => {
+                element.setAttribute('disabled', true);
             });
-        });
-        cancelButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
-                tdElement.querySelector('.save-btn').classList.add('d-none');
-                tdElement.querySelector('.edit-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
-                input = trElement.querySelector('.form-control')
-                select = trElement.querySelector('.custom-select')
+        }
 
-                select.setAttribute('disabled', true);
-                input.setAttribute('readOnly', true);
-                editButtons.forEach(element => {
-                    element.removeAttribute('disabled');
-                });
-                inputs.value = values[0];
-                select.value = values[1];
+        function cancelClick(e) {
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
+            tdElement.querySelector('.save-btn').classList.add('d-none');
+            tdElement.querySelector('.edit-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
+            input = trElement.querySelector('.form-control')
+            select = trElement.querySelector('.custom-select')
+
+            select.setAttribute('disabled', true);
+            input.setAttribute('readOnly', true);
+            editButtons.forEach(element => {
+                element.removeAttribute('disabled');
             });
-        });
-        saveButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
+            input.value = values[0];
+            select.value = values[1];
+        }
 
-                tdElement.querySelector('.cancel-btn').classList.add('d-none');
-                tdElement.querySelector('.edit-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
+        function saveClick(e) {
 
-                input = trElement.querySelector('.form-control')
-                select = trElement.querySelector('.custom-select')
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
 
-                editButtons.forEach(element => {
-                    element.removeAttribute('disabled');
-                });
-                document.getElementById("my-loader-element").classList.add("loader");
-                var authorization = "<?php echo $authorization; ?>";
-                var formData = {
-                    authorization: authorization.toString(),
-                    agencies: [{
-                        type_name: input.value,
-                        status_selected: select.value
-                    }]
+            tdElement.querySelector('.cancel-btn').classList.add('d-none');
+            tdElement.querySelector('.edit-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
+
+            input = trElement.querySelector('.form-control')
+            select = trElement.querySelector('.custom-select')
+
+            editButtons.forEach(element => {
+                element.removeAttribute('disabled');
+            });
+            document.getElementById("my-loader-element").classList.add("loader");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                type_name: input.value,
+                status_selected: select.value
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/system-config-agency-types",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
-                $.ajax({
-                    type: "POST",
-                    url: "https://api.redenes.org/dev/v1/system-config-agency-types",
-                    data: JSON.stringify(formData),
-                    dataType: "json",
-                    contentType: 'application/json',
-                    success: function(res) {
-                        // To hide the loader
-                        document.getElementById("my-loader-element").classList.remove("loader");
-                        document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    }
-                })
-                select.setAttribute('disabled', true);
-                input.setAttribute('readOnly', true);
-            });
-        });
+            })
+            select.setAttribute('disabled', true);
+            input.setAttribute('readOnly', true);
+        }
         $('#createTypeForm').submit(function(e) {
             document.getElementById("my-loader-element").classList.add("loader");
             e.preventDefault();
@@ -335,7 +334,7 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 agency_id: init_id,
                 type_name: document.getElementById("modal-type-name").value,
-                status: document.getElementById("modal-status").value,
+                status_selected: document.getElementById("modal-status").value,
             }
             $.ajax({
                 type: "POST",
@@ -346,6 +345,9 @@ $agency_id = $_COOKIE['agency_id'];
                 contentType: 'application/json',
                 success: function(res) {
                     closeAddModal();
+                    console.log(res);
+                    var data = res.agencies;
+                    writeData(data);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
