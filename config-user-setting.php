@@ -282,7 +282,11 @@ $agency_id = $_COOKIE['agency_id'];
             ranks = data.user_ranks[0];
             tmp = '';
             for (const key in ranks) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (ranks[key] != 'disabled') {
+                    tmp += " editable-check";
+                }
+                tmp += "' onchange='addRankToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
                 if (ranks[key] == 'true' || ranks[key] == 'disabled') {
@@ -300,7 +304,11 @@ $agency_id = $_COOKIE['agency_id'];
             groups = data.user_groups[0];
             tmp = '';
             for (const key in groups) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='" + key + "Check'";
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (groups[key] != 'disabled') {
+                    tmp += " editable-check";
+                }
+                tmp += "' onchange='addGroupToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
                 if (groups[key] == 'true' || groups[key] == 'disabled') {
@@ -318,7 +326,11 @@ $agency_id = $_COOKIE['agency_id'];
             statuses = data.user_status[0];
             tmp = '';
             for (const key in statuses) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addStatusToList(event)' id='" + key + "Check'";
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (statuses[key] != 'disabled') {
+                    tmp += " editable-check";
+                }
+                tmp += "' onchange='addStatusToList(event)' id='" + key + "Check'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none"))
                     tmp += " disabled";
                 if (statuses[key] == 'true' || statuses[key] == 'disabled') {
@@ -391,9 +403,6 @@ $agency_id = $_COOKIE['agency_id'];
             } else {
                 user_setting_info[selected_user][0].user_ranks[0][key] = 'false';
             }
-            console.log('change');
-            console.log(user_setting_info);
-            console.log(user_setting_info_2);
             writeData(selected_user);
             deletes = document.querySelectorAll('.delete-link');
             deletes.forEach(element => {
@@ -530,7 +539,7 @@ $agency_id = $_COOKIE['agency_id'];
         }
 
         function saveEnable() {
-            var checks = document.querySelectorAll('.custom-control-input');
+            var checks = document.querySelectorAll('.editable-check');
             checks.forEach(element => {
                 element.removeAttribute("disabled");
             });
@@ -560,7 +569,7 @@ $agency_id = $_COOKIE['agency_id'];
         function cancelSave() {
             user_setting_info = user_setting_info_2;
             writeData(selected_user);
-            var inputs = document.querySelectorAll('.custom-control-input');
+            var inputs = document.querySelectorAll('.editable-check');
             inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
@@ -610,7 +619,7 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
-                    var inputs = document.querySelectorAll('.custom-control-input');
+                    var inputs = document.querySelectorAll('.editable-check');
                     inputs.forEach(element => {
                         element.setAttribute("disabled", true);
                     });
