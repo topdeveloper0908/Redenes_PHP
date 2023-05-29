@@ -252,7 +252,6 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
-                    console.log(res);
                     user_setting_info = res.agency_types[0];
                     for (const key in user_setting_info) {
                         selected_user = key;
@@ -284,10 +283,10 @@ $agency_id = $_COOKIE['agency_id'];
             for (const key in ranks) {
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
                 if (ranks[key] != 'disabled') {
-                    tmp += " editable-check";
+                    tmp += " editable-check 'onchange='addRankToList(event)'";
                 }
-                tmp += "' onchange='addRankToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += " id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || ranks[key] == 'disabled')
                     tmp += " disabled";
                 if (ranks[key] == 'true' || ranks[key] == 'disabled') {
                     tmp += " checked";
@@ -306,10 +305,10 @@ $agency_id = $_COOKIE['agency_id'];
             for (const key in groups) {
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
                 if (groups[key] != 'disabled') {
-                    tmp += " editable-check";
+                    tmp += " editable-check ' onchange='addGroupToList(event)'";
                 }
-                tmp += "' onchange='addGroupToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += " id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || groups[key] == 'disabled')
                     tmp += " disabled";
                 if (groups[key] == 'true' || groups[key] == 'disabled') {
                     tmp += " checked";
@@ -328,10 +327,10 @@ $agency_id = $_COOKIE['agency_id'];
             for (const key in statuses) {
                 tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
                 if (statuses[key] != 'disabled') {
-                    tmp += " editable-check";
+                    tmp += " editable-check ' onchange='addStatusToList(event)'";
                 }
-                tmp += "' onchange='addStatusToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
+                tmp += " id='" + key + "Check'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || statuses[key] == 'disabled')
                     tmp += " disabled";
                 if (statuses[key] == 'true' || statuses[key] == 'disabled') {
                     tmp += " checked";
@@ -569,7 +568,7 @@ $agency_id = $_COOKIE['agency_id'];
         function cancelSave() {
             user_setting_info = user_setting_info_2;
             writeData(selected_user);
-            var inputs = document.querySelectorAll('.editable-check');
+            var inputs = document.querySelectorAll('.custom-control-input');
             inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
