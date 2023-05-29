@@ -221,6 +221,7 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
+            console.log(data);
             var tmp = '';
             data.forEach(element => {
                 tmp += "<tr data-id='" + element.agency_id + "'>";
@@ -245,8 +246,8 @@ $agency_id = $_COOKIE['agency_id'];
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.sign_up_date + "</td>";
-                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
-                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
+                tmp += "<td><input type='date' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.trial_end + "></td>";
+                tmp += "<td><input type='date' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.subscription + "></td>";
                 tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.phone + "></td>";
                 tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.email + "></td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
@@ -332,16 +333,14 @@ $agency_id = $_COOKIE['agency_id'];
                 var authorization = "<?php echo $authorization; ?>";
                 var formData = {
                     authorization: authorization.toString(),
-                    agencies: [{
-                        agency_id: trElement.getAttribute('data-id'),
-                        type_name: inputs[0].value,
-                        type_selected: selects[0].value,
-                        status_selected: selects[1].value,
-                        trial_end: inputs[1].value,
-                        subscription: inputs[2].value,
-                        phone: inputs[3].value,
-                        email: inputs[4].value,
-                    }]
+                    agency_id: trElement.getAttribute('data-id'),
+                    agency_name: inputs[0].value,
+                    type_selected: selects[0].value,
+                    status_selected: selects[1].value,
+                    trial_end: inputs[1].value,
+                    subscription: inputs[2].value,
+                    phone: inputs[3].value,
+                    email: inputs[4].value,
                 }
                 $.ajax({
                     type: "POST",
