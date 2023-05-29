@@ -572,6 +572,10 @@ $agency_id = $_COOKIE['agency_id'];
             inputs.forEach(element => {
                 element.setAttribute("disabled", true);
             });
+            var selects = document.querySelectorAll('.custom-select');
+            selects.forEach(element => {
+                element.setAttribute("disabled", true);
+            });
             var inputs = document.querySelectorAll('.form-control');
             inputs.forEach(element => {
                 element.setAttribute("readOnly", true);
@@ -584,7 +588,7 @@ $agency_id = $_COOKIE['agency_id'];
             buttons.forEach(element => {
                 element.setAttribute("disabled", true);
             });
-            document.getElementById("agency-type").removeAttribute("readOnly");
+            document.getElementById("agency-type").removeAttribute("disabled");
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
@@ -634,6 +638,11 @@ $agency_id = $_COOKIE['agency_id'];
                     inputs.forEach(element => {
                         element.setAttribute("readOnly", true);
                     });
+                    var selects = document.querySelectorAll('.custom-select');
+                    selects.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    document.getElementById("agency-type").removeAttribute("disabled");
                 }
             })
         }
