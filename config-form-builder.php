@@ -196,68 +196,119 @@ if (strlen($user) == 0) {
             $("#getJSON").click(function(e) {
                 e.preventDefault();
                 elements = $('.frmb').children();
+                var mainData = [];
                 array = [];
+                buttonArray = [];
                 for (let index = 0; index < elements.length; index++) {
                     const element = elements[index];
                     if (element.type == 'button') {
                         var object = {
-                            type: 'button',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            textColor: $(element).find('.textColor-wrap .fld-textColor')[0].value,
-                            buttonColor: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value,
-                            action1: $(element).find('.action1-wrap .custom-select')[0].value,
-                            action2: $(element).find('.action2-wrap .custom-select')[0].value,
-                            action3: $(element).find('.action3-wrap .custom-select')[0].value,
-                            action4: $(element).find('.action4-wrap .custom-select')[0].value,
+                            button: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            text: $(element).find('.textColor-wrap .fld-textColor')[0].value.substring(1),
+                            background: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value.substring(1),
+                            clicked: 'false'
+                            // action1: $(element).find('.action1-wrap .custom-select')[0].value,
+                            // action2: $(element).find('.action2-wrap .custom-select')[0].value,
+                            // action3: $(element).find('.action3-wrap .custom-select')[0].value,
+                            // action4: $(element).find('.action4-wrap .custom-select')[0].value,
                         };
-                        array.push(object);
+                        buttonArray.push(object);
                     } else if (element.type == 'checkbox-group') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
                         var object = {
-                            type: 'checkbox',
-                            label: $(element).find('.option-label')[0].value,
-                            selected: $(element).find('.option-selected')[0].value,
-                        };
-                        array.push(object);
-                    } else if (element.type == 'hidden') {
-                        var object = {
-                            type: 'divider',
-                            dividerColor: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
+                            check_box: $(element).find('.option-label')[0].value,
+                            pre_filled: $(element).find('.option-selected')[0].value,
                         };
                         array.push(object);
                     } else if (element.type == 'header') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        if (index != 0) {
+                            mainData.push(array);
+                            array = [];
+                        }
                         var object = {
-                            type: 'header',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            title: $(element).find('.label-wrap .fld-label')[0].innerHTML,
                         };
                         array.push(object);
                     } else if (element.type == 'text') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
                         var object = {
-                            type: 'text',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            prefiled: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            text_box: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            pre_filed: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                        };
+                        array.push(object);
+                    } else if (element.type == 'hidden') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        var object = {
+                            divider: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value.substring(1),
                         };
                         array.push(object);
                     } else if (element.type == 'select') {
-                        var object = {
-                            type: 'dropdown',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            multiple: $(element).find('.input-wrap .fld-multiple')[0].checked,
-                            values: []
-                        };
-                        subelements = $(element).find('.form-group .sortable-options').children();
-                        for (let j = 0; j < subelements.length; j++) {
-                            object.values.push({
-                                label: $(subelements[j]).find('.option-label')[0].value,
-                                selected: $(subelements[j]).find('.option-selected')[0].value
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
                             });
+                            buttonArray = [];
                         }
-                        array.push(object);
+                        var object = {
+                            drop_down: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            multiple: $(element).find('.input-wrap .fld-multiple')[0].checked == true ? 'true' : 'false',
+                            pre_filled: [],
+                            pre_filled_selected: []
+                        };
+                        if (object.multiple == 'false') {
+                            subelements = $(element).find('.form-group .sortable-options').children();
+                            for (let j = 0; j < subelements.length; j++) {
+                                object.pre_filled.push($(subelements[j]).find('.option-label')[0].value);
+                                if ($(subelements[j]).find('.option-selected')[0].value == 'true') {
+                                    object.pre_filled_selected.push($(subelements[j]).find('.option-label')[0].value);
+                                }
+                            }
+                            array.push(object);
+                        } else {
+                            subelements = $(element).find('.form-group .form-control').children();
+                            for (let j = 0; j < subelements.length; j++) {
+                                object.pre_filled.push($(subelements[j])[0].innerHTML);
+                                if ($(subelements[j])[0].selected == true) {
+                                    object.pre_filled_selected.push($(subelements[j])[0].innerHTML);
+                                }
+                            }
+                            array.push(object);
+                        }
+                    }
+                    if (index == elements.length - 1) {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        mainData.push(array);
                     }
                 }
-                // formData.form_data_html = $('.frmb').html();
-                // formData.form_data_json = array;
+                formData.form_data_html = $('.frmb').html();
+                formData.form_data_json = mainData;
                 formData.button = 'save';
-                console.log(formData);
                 document.getElementById("my-loader-element").classList.add("loader");
                 $.ajax({
                     type: "POST",
