@@ -165,6 +165,7 @@ if (strlen($user) == 0) {
                         form_id: "<?php echo $form_id; ?>"
                     },
                     success: function(res) {
+                        console.log(res);
                         // id = $('.frmb').attr('id');
                         $('.frmb').removeClass('empty');
                         formData = res;
@@ -258,20 +259,20 @@ if (strlen($user) == 0) {
                 formData.button = 'save';
                 console.log(formData);
                 document.getElementById("my-loader-element").classList.add("loader");
-                // $.ajax({
-                //     type: "POST",
-                //     url: "https://api.redenes.org/dev/v1/form-builder/",
-                //     data: JSON.stringify(formData),
-                //     dataType: "json",
-                //     contentType: 'application/json',
-                //     success: function(res) {
-                //         console.log(res);
-                //         document.getElementById("alert").classList.remove("d-none");
-                //         document.getElementById("alert-title").innerHTML = res.status;
-                //         document.getElementById("my-loader-element").classList.remove("loader");
-                //         document.getElementById("my-loader-wrapper").classList.add("d-none");
-                //     }
-                // })
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.redenes.org/dev/v1/form-builder/",
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function(res) {
+                        console.log(res);
+                        document.getElementById("alert").classList.remove("d-none");
+                        document.getElementById("alert-title").innerHTML = res.status;
+                        document.getElementById("my-loader-element").classList.remove("loader");
+                        document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    }
+                })
             });
             $("#preview").click(function(e) {
                 e.preventDefault();
@@ -341,25 +342,24 @@ if (strlen($user) == 0) {
                     // formData.form_data_html = $('.frmb').html();
                     // formData.form_data_json = array;
                     formData.button = 'preview';
-                    console.log(formData);
                     var mainData = [];
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: "https://api.redenes.org/dev/v1/form-builder/",
-                    //     data: JSON.stringify(formData),
-                    //     dataType: "json",
-                    //     contentType: 'application/json',
-                    //     success: function(res) {
-                    //         console.log(res.objects);
-                    //         mainData = res.objects
-                    //         writeData();
-                    //     }
-                    // })
+                    $.ajax({
+                        type: "POST",
+                        url: "https://api.redenes.org/dev/v1/form-builder/",
+                        data: JSON.stringify(formData),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function(res) {
+                            console.log(res.objects);
+                            mainData = res.objects
+                            writeData();
+                        }
+                    })
 
                     function writeData() {
                         var tmp = '';
-                        for (var i = 0; i < formData.length; i++) {
-                            object = formData[i];
+                        for (var i = 0; i < mainData.length; i++) {
+                            object = mainData[i];
                             tmp = tmp + "<div class='card shadow mb-4'><div class='card-header py-3'><label class='m-0 font-weight-bold text-primary'>" + object[0].title + "</label></div><div class='card-body'>";
                             for (var j = 1; j < object.length; j++) {
                                 if (Object.keys(object[j])[0] == 'text_box') {
