@@ -245,7 +245,9 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
+            console.log(data);
             var tmp = '';
+            const status = ['Active', 'Non Active', 'Suspended'];
             data.forEach(element => {
                 tmp += "<tr data-id='" + element.user_id + "'>";
                 tmp += "<td>" + element.user_id + "</td>";
@@ -253,12 +255,12 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<td>" + element.join_date + "</td>";
                 tmp += "<td>" + element.last_login + "</td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
-                for (let index = 0; index < element.status.length; index++) {
-                    tmp += "<option value='" + element.status[index] + "'";
-                    if (element.status_selected == element.status[index]) {
+                for (let index = 0; index < status.length; index++) {
+                    tmp += "<option value='" + status[index] + "'";
+                    if (element.status_selected == status[index]) {
                         tmp += " selected";
                     }
-                    tmp += ">" + element.status[index] + "</option>"
+                    tmp += ">" + status[index] + "</option>"
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.agencies + "</td>";

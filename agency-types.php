@@ -145,10 +145,10 @@ $agency_id = $_COOKIE['agency_id'];
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value="Available">Available</option>
-                                <option value="Not Available">Not Available</option>
-                                <option value="Testing">Testing</option>
-                                <option value="Beta">Beta</option>
+                                <option value="Available">Development</option>
+                                <option value="Not Available">Beta</option>
+                                <option value="Testing">Active</option>
+                                <option value="Beta">Non Active</option>
                             </select>
                         </div>
                     </div>
@@ -226,20 +226,25 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
+            console.log(data);
             $('#dataTable').DataTable().destroy();
-            const status = ['Available', 'Not Available', 'Testing', 'Beta'];
+            const status = ['Development', 'Beta', 'Active', 'Non Active'];
             var tmp = '';
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td>" + element.type_id + "</td>";
                 tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value='" + element.type_name + "'></td>";
-                tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
-                for (let index = 0; index < status.length; index++) {
-                    tmp += "<option value='" + status[index] + "'";
-                    if (element.status == status[index]) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + status[index] + "</option>"
+                tmp += "<td><select name='dataTable_length' onchange=statusChange(event) aria-controls='dataTable' data-subscription='" + element.subscriptions + "' class='custom-select form-control-sm' disabled>"
+                if (element.status == 'Development') {
+                    tmp += "<option value='Development' selected>Development</option><option value='Beta'>Beta</option>"
+                } else if (element.status == 'Beta') {
+                    tmp += "<option value='Beta' selected>Beta</option><option value='Active'>Active</option><option value='Non Active'>Non Active</option>"
+                } else if (element.status == 'Active' && element.subscriptions == 0) {
+                    tmp += "<option value='Active' selected>Active</option><option value='Non Active'>Non Active</option>"
+                } else if (element.status == 'Active' && element.subscriptions != 0) {
+                    tmp += "<option value='Active' selected>Active</option>"
+                } else if (element.status == 'Non Active') {
+                    tmp += "<option value='Development'>Development</option><option value='Beta'>Beta</option><option value='Active'>Active</option><option value='Non Active' selected>Non Active</option>"
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.updated_by + "</td>";
@@ -290,6 +295,19 @@ $agency_id = $_COOKIE['agency_id'];
             });
             input.value = values[0];
             select.value = values[1];
+            if (values[1] == 'Development') {
+                tmp = "<option value='Development' selected>Development</option><option value='Beta'>Beta</option>"
+                select.innerHTML = tmp;
+            } else if (values[1] == 'Beta') {
+                tmp = "<option value='Beta' selected>Beta</option><option value='Active'>Active</option><option value='Non Active'>Non Active</option>"
+                select.innerHTML = tmp;
+            } else if (values[1] == 'Active' && select.getAttribute('data-subscription') == 0) {
+                tmp = "<option value='Active' selected>Active</option><option value='Non Active'>Non Active</option>"
+                select.innerHTML = tmp;
+            } else if (values[1] == 'Non Active') {
+                tmp = "<option value='Development'>Development</option><option value='Beta'>Beta</option><option value='Active'>Active</option><option value='Non Active' selected>Non Active</option>"
+                select.innerHTML = tmp;
+            }
         }
 
         function saveClick(e) {
@@ -359,6 +377,23 @@ $agency_id = $_COOKIE['agency_id'];
             })
             $('#dataTable').dataTable();
         })
+
+        function statusChange(e) {
+            console.log(e.currentTarget.value);
+            if (e.currentTarget.value == 'Development') {
+                tmp = "<option value='Development' selected>Development</option><option value='Beta'>Beta</option>"
+                e.currentTarget.innerHTML = tmp;
+            } else if (e.currentTarget.value == 'Beta') {
+                tmp = "<option value='Beta' selected>Beta</option><option value='Active'>Active</option><option value='Non Active'>Non Active</option>"
+                e.currentTarget.innerHTML = tmp;
+            } else if (e.currentTarget.value == 'Active' && e.currentTarget.getAttribute('data-subscription') == 0) {
+                tmp = "<option value='Active' selected>Active</option><option value='Non Active'>Non Active</option>"
+                e.currentTarget.innerHTML = tmp;
+            } else if (e.currentTarget.value == 'Non Active') {
+                tmp = "<option value='Development'>Development</option><option value='Beta'>Beta</option><option value='Active'>Active</option><option value='Non Active' selected>Non Active</option>"
+                e.currentTarget.innerHTML = tmp;
+            }
+        }
     </script>
 </body>
 

@@ -161,10 +161,10 @@ $agency_id = $_COOKIE['agency_id'];
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value='Available'>Available</option>
-                                <option value='Not Available'>Not Available</option>
-                                <option value='Testing'>Testing</option>
-                                <option value='Beta'>Beta</option>
+                                <option value='Available'>Development</option>
+                                <option value='Not Available'>Beta</option>
+                                <option value='Testing'>Production</option>
+                                <option value='Beta'>Past Production</option>
                             </select>
                         </div>
                     </div>
@@ -256,7 +256,7 @@ $agency_id = $_COOKIE['agency_id'];
             $('#dataTable').DataTable().destroy();
             var tmp = '';
             const platform = ['Android', 'iOS', 'Web'];
-            const status = ['Available', 'Not Available', 'Testing', 'Beta'];
+            const status = ['Development', 'Beta', 'Production', 'Past Production'];
             data.forEach(element => {
                 tmp += "<tr>";
                 tmp += "<td>" + element.build_id + "</td>";
