@@ -252,7 +252,6 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
-                    console.log(res);
                     user_setting_info = res;
                     writeData();
                     // To hide the loader
@@ -603,7 +602,6 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async: false,
                 success: function(res) {
-                    console.log(res);
                     user_setting_info = res;
                     writeData();
                     // To hide the loader
@@ -615,10 +613,19 @@ $agency_id = $_COOKIE['agency_id'];
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
+            if (!selected_user) {
+                selected_user = user_setting_info.agency_types[0];
+            }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
-                agency_types: user_setting_info
+                agency_type: selected_user,
+                auto_add_user_to_rank: user_setting_info.auto_add_user_to_rank,
+                auto_add_user_to_group: user_setting_info.auto_add_user_to_group,
+                auto_add_user_to_status: user_setting_info.auto_add_user_to_status,
+                user_ranks: user_setting_info.user_ranks,
+                user_groups: user_setting_info.user_groups,
+                user_status: user_setting_info.user_status,
             };
             $.ajax({
                 type: "POST",
