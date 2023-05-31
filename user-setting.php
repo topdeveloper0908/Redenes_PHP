@@ -141,7 +141,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <label>Custom</label>
                                                 <div class="d-flex">
                                                     <input type="text" class="form-control form-control-user" id="userRanks" aria-describedby="emailHelp" placeholder="Enter User Rank..." readOnly>
-                                                    <button type="button" onClick="addRank()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
+                                                    <button type="button" onClick="addUserRank()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -166,7 +166,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <label>Custom</label>
                                                 <div class="d-flex">
                                                     <input type="text" class="form-control form-control-user" id="userGroup" aria-describedby="emailHelp" placeholder="Enter User Group..." readOnly>
-                                                    <button type="button" onClick="addGroup()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
+                                                    <button type="button" onClick="addUserGroup()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -191,7 +191,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <label>Custom</label>
                                                 <div class="d-flex">
                                                     <input type="text" class="form-control form-control-user" id="userStatus" aria-describedby="emailHelp" placeholder="Enter User Status..." readOnly>
-                                                    <button type="button" onClick="addStatus()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
+                                                    <button type="button" onClick="addUserStatus()" class="btn btn-success btn-icon-split mx-2 add-button" style="min-width: 5.5rem" disabled>
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-plus"></i>
                                                         </span>
@@ -245,6 +245,7 @@ $agency_id = $_COOKIE['agency_id'];
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
         var user_setting_info;
+        var user_setting_info_2;
         init_id = "<?php echo $agency_id; ?>";
 
         function getData(agency_id) {
@@ -267,72 +268,277 @@ $agency_id = $_COOKIE['agency_id'];
         }
         getData(init_id);
 
-        function saveData() {
-            var authorization = "<?php echo $authorization; ?>";
-            var formData = {
-                authorization: authorization.toString(),
-                agency_id: init_id,
-                agency_user_settings: [{
-                    auto_add_email_domain: document.getElementById('emailDomain').value,
-                }]
-            };
-            elements = $('#userStatusWrapper').children();
-            var tmp = {};
-            for (let index = 0; index < elements.length; index++) {
-                const element = $(elements[index]).find('.custom-control-input');
-                tmp[element[0].id.slice(0, -5)] = element[0].checked;
+        function writeData() {
+            document.getElementById('registerID').value = init_id;
+            if (user_setting_info.auto_add_email_domain) {
+                document.getElementById('emailDomain').value = user_setting_info.auto_add_email_domain;
             }
-            formData.agency_user_settings[0].user_status = [tmp];
-            elements = $('#userGroupWrapper').children();
-            tmp = {};
-            for (let index = 0; index < elements.length; index++) {
-                const element = $(elements[index]).find('.custom-control-input');
-                tmp[element[0].id.slice(0, -5)] = element[0].checked;
+            // Write Agency Type
+            data = user_setting_info;
+            ranks = data.user_ranks[0];
+            tmp = '';
+            for (const key in ranks) {
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (ranks[key] != 'disabled') {
+                    tmp += " editable-check 'onchange='addRankToList(event)'";
+                }
+                tmp += " id='" + key + "Check_Ranks'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || ranks[key] == 'disabled')
+                    tmp += " disabled";
+                if (ranks[key] == 'true' || ranks[key] == 'disabled') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Ranks'>" + key + `</label></div>`;
+                if (ranks[key] != 'disabled') {
+                    tmp += `<a onclick=removeUserRank(event) data-value='${key}' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>`
+                }
+                tmp += `</div>`;
             }
-            formData.agency_user_settings[0].user_rank = [tmp];
-            elements = $('#userRanksGroup').children();
-            tmp = {};
-            for (let index = 0; index < elements.length; index++) {
-                const element = $(elements[index]).find('.custom-control-input');
-                tmp[element[0].id.slice(0, -5)] = element[0].checked;
+            document.getElementById('userRanksGroup').innerHTML = tmp;
+            writeUserRank(ranks, 'read');
+
+            groups = data.user_groups[0];
+            tmp = '';
+            for (const key in groups) {
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (groups[key] != 'disabled') {
+                    tmp += " editable-check ' onchange='addGroupToList(event)'";
+                }
+                tmp += " id='" + key + "Check_Group'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || groups[key] == 'disabled')
+                    tmp += " disabled";
+                if (groups[key] == 'true' || groups[key] == 'disabled') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Group'>" + key + "</label></div>";
+                if (groups[key] != 'disabled') {
+                    tmp += "<a onclick=removeUserGroup(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>"
+                }
+                tmp += "</div>";
             }
-            formData.agency_user_settings[0].user_group = [tmp];
-            formData.agency_user_settings[0].auto_add_user_to_group = document.getElementById("userGroupDropdown").value;
-            formData.agency_user_settings[0].auto_add_user_to_status = document.getElementById("userStatusDropdown").value;
-            formData.agency_user_settings[0].auto_add_user_to_rank = document.getElementById("userRankDropdown").value;
-            console.log(JSON.stringify(formData));
-            $.ajax({
-                type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-user-settings/",
-                data: JSON.stringify(formData),
-                dataType: "json",
-                contentType: 'application/json',
-                success: function(res) {
-                    document.getElementById("edit-btn").classList.remove("d-none");
-                    document.getElementById("save-btn").classList.add("d-none");
-                    document.getElementById("cancel-btn").classList.add("d-none");
-                    var inputs = document.querySelectorAll('.custom-control-input');
-                    inputs.forEach(element => {
-                        element.setAttribute("disabled", true);
-                    });
-                    var buttons = document.querySelectorAll('.add-button');
-                    buttons.forEach(element => {
-                        element.setAttribute("disabled", true);
-                    });
-                    var deleteLinks = document.querySelectorAll('.delete-link');
-                    deleteLinks.forEach(element => {
-                        element.classList.add("disabled");
-                    });
-                    var inputs = document.querySelectorAll('.form-control');
-                    inputs.forEach(element => {
-                        element.setAttribute("readOnly", true);
+            document.getElementById('userGroupWrapper').innerHTML = tmp;
+            writeUserGroup(groups, 'read');
+
+            statuses = data.user_status[0];
+            tmp = '';
+            for (const key in statuses) {
+                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input";
+                if (statuses[key] != 'disabled') {
+                    tmp += " editable-check ' onchange='addStatusToList(event)'";
+                }
+                tmp += " id='" + key + "Check_Statu'";
+                if (!document.getElementById("edit-btn").classList.contains("d-none") || statuses[key] == 'disabled')
+                    tmp += " disabled";
+                if (statuses[key] == 'true' || statuses[key] == 'disabled') {
+                    tmp += " checked";
+                }
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Statu'>" + key + "</label></div>"
+                if (statuses[key] != 'disabled') {
+                    tmp += "<a onclick=removeUserStatus(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>";
+                }
+                tmp += "</div>";
+            }
+            document.getElementById('userStatusWrapper').innerHTML = tmp;
+            writeUserStatus(statuses, 'read');
+        }
+
+        function writeUserRank(data, method) {
+            var tmp = '';
+            if (method == 'read') {
+                Object.keys(data).forEach(key => {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
+                        tmp += "<option value='" + key + "'";
+                    }
+                    if (key == user_setting_info.auto_add_user_to_rank) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + key + "</option>";
+                });
+            }
+            document.getElementById('userRankDropdown').innerHTML = tmp;
+        }
+
+        function removeUserRank(e, key) {
+            e.preventDefault();
+            element = e.currentTarget;
+            if (element.classList.value.indexOf('disabled') == -1) {
+                value = element.getAttribute('data-value');
+                delete user_setting_info.user_ranks[0][value];
+                writeData();
+                deletes = document.querySelectorAll('.delete-link');
+                deletes.forEach(element => {
+                    element.classList.remove('disabled');
+                });
+            }
+        }
+
+        function addUserRank() {
+            var tmp;
+            var value = document.getElementById('userRanks').value;
+            if (value == '') {
+                window.alert('Empty value should not be added')
+            } else {
+                if (user_setting_info.user_ranks[0][value]) {
+                    window.alert('The same name is exist')
+                } else {
+                    user_setting_info.user_ranks[0][value] = false;
+                    writeData();
+                    deletes = document.querySelectorAll('.delete-link');
+                    deletes.forEach(element => {
+                        element.classList.remove('disabled');
                     });
                 }
-            })
+            }
+            document.getElementById('userRanks').value = '';
+        }
+
+        function addRankToList(e) {
+            key = e.currentTarget.getAttribute('id');
+            key = key.slice(0, -11);
+            if (e.currentTarget.checked == true) {
+                user_setting_info.user_ranks[0][key] = 'true';
+            } else {
+                user_setting_info.user_ranks[0][key] = 'false';
+            }
+            writeData();
+            deletes = document.querySelectorAll('.delete-link');
+            deletes.forEach(element => {
+                element.classList.remove('disabled');
+            });
+        }
+
+        function writeUserGroup(data, method) {
+            var tmp = '';
+            if (method == 'read') {
+                Object.keys(data).forEach(key => {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
+                        tmp += "<option value='" + key + "'";
+                    }
+                    if (key == user_setting_info.auto_add_user_to_group) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + key + "</option>";
+                });
+            }
+            document.getElementById('userGroupDropdown').innerHTML = tmp;
+        }
+
+        function removeUserGroup(e) {
+            e.preventDefault();
+            element = e.currentTarget;
+            if (element.classList.value.indexOf('disabled') == -1) {
+                value = element.getAttribute('data-value');
+                delete user_setting_info.user_groups[0][value];
+                writeData();
+                deletes = document.querySelectorAll('.delete-link');
+                deletes.forEach(element => {
+                    element.classList.remove('disabled');
+                });
+            }
+        }
+
+        function addUserGroup() {
+            var tmp;
+            var value = document.getElementById('userGroup').value;
+            if (value == '') {
+                window.alert('Empty value should not be added')
+            } else {
+                if (user_setting_info.user_groups[0][value]) {
+                    window.alert('The same name is exist')
+                } else {
+                    user_setting_info.user_groups[0][value] = false;
+                    writeData();
+                    deletes = document.querySelectorAll('.delete-link');
+                    deletes.forEach(element => {
+                        element.classList.remove('disabled');
+                    });
+                }
+            }
+            document.getElementById('userGroup').value = '';
+        }
+
+        function addGroupToList(e) {
+            key = e.currentTarget.getAttribute('id');
+            key = key.slice(0, -11);
+            if (e.currentTarget.checked == true) {
+                user_setting_info.user_groups[0][key] = 'true';
+            } else {
+                user_setting_info.user_groups[0][key] = 'false';
+            }
+            writeData();
+            deletes = document.querySelectorAll('.delete-link');
+            deletes.forEach(element => {
+                element.classList.remove('disabled');
+            });
+        }
+
+        function writeUserStatus(data, method) {
+            var tmp = '';
+            if (method == 'read') {
+                Object.keys(data).forEach(key => {
+                    if (data[key] == 'true' || data[key] == 'disabled') {
+                        tmp += "<option value='" + key + "'";
+                    }
+                    if (key == user_setting_info.auto_add_user_to_status) {
+                        tmp += " selected";
+                    }
+                    tmp += ">" + key + "</option>";
+                });
+            }
+            document.getElementById('userStatusDropdown').innerHTML = tmp;
+        }
+
+        function removeUserStatus(e) {
+            e.preventDefault();
+            element = e.currentTarget;
+            if (element.classList.value.indexOf('disabled') == -1) {
+                value = element.getAttribute('data-value');
+                delete user_setting_info.user_status[0][value];
+                writeData();
+                deletes = document.querySelectorAll('.delete-link');
+                deletes.forEach(element => {
+                    element.classList.remove('disabled');
+                });
+            }
+        }
+
+        function addUserStatus() {
+            var tmp;
+            var value = document.getElementById('userStatus').value;
+            if (value == '') {
+                window.alert('Empty value should not be added')
+            } else {
+                if (user_setting_info.user_status[0][value]) {
+                    window.alert('The same name is exist')
+                } else {
+                    user_setting_info.user_status[0][value] = false;
+                    writeData();
+                    deletes = document.querySelectorAll('.delete-link');
+                    deletes.forEach(element => {
+                        element.classList.remove('disabled');
+                    });
+                }
+            }
+            document.getElementById('userStatus').value = '';
+        }
+
+        function addStatusToList(e) {
+            key = e.currentTarget.getAttribute('id');
+            key = key.slice(0, -11);
+            if (e.currentTarget.checked == true) {
+                user_setting_info.user_status[0][key] = 'true';
+            } else {
+                user_setting_info.user_status[0][key] = 'false';
+            }
+            writeData();
+            deletes = document.querySelectorAll('.delete-link');
+            deletes.forEach(element => {
+                element.classList.remove('disabled');
+            });
         }
 
         function saveEnable() {
-            var checks = document.querySelectorAll('.custom-control-input');
+            var checks = document.querySelectorAll('.editable-check');
             checks.forEach(element => {
                 element.removeAttribute("disabled");
             });
@@ -352,16 +558,23 @@ $agency_id = $_COOKIE['agency_id'];
             deleteLinks.forEach(element => {
                 element.classList.remove("disabled");
             });
-            document.getElementById("registerID").setAttribute("readOnly", true);
+            document.getElementById("registerID").setAttribute("readonly", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
+
+            user_setting_info_2 = structuredClone(user_setting_info);
         }
 
         function cancelSave() {
+            user_setting_info = user_setting_info_2;
             writeData();
             var inputs = document.querySelectorAll('.custom-control-input');
             inputs.forEach(element => {
+                element.setAttribute("disabled", true);
+            });
+            var selects = document.querySelectorAll('.custom-select');
+            selects.forEach(element => {
                 element.setAttribute("disabled", true);
             });
             var inputs = document.querySelectorAll('.form-control');
@@ -372,283 +585,61 @@ $agency_id = $_COOKIE['agency_id'];
             deleteLinks.forEach(element => {
                 element.classList.add("disabled");
             });
+            var buttons = document.querySelectorAll('.add-button');
+            buttons.forEach(element => {
+                element.setAttribute("disabled", true);
+            });
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
         }
 
-        function writeData() {
-            document.getElementById('registerID').value = init_id;
-            if (user_setting_info.auto_add_email_domain) {
-                document.getElementById('emailDomain').value = user_setting_info.auto_add_email_domain;
-            }
-            ranks = user_setting_info.user_ranks[0];
-            tmp = '';
-            group = document.getElementById('userRanksGroup');
-            for (const key in ranks) {
-                console.log(ranks[key]);
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                    tmp += " disabled";
-                if (ranks[key] == 'true') {
-                    tmp += " checked";
+        function saveData() {
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                auto_add_email_domain: document.getElementById('emailDomain').value,
+                auto_add_user_to_rank: user_setting_info.auto_add_user_to_rank,
+                auto_add_user_to_group: user_setting_info.auto_add_user_to_group,
+                auto_add_user_to_status: user_setting_info.auto_add_user_to_status,
+                user_ranks: user_setting_info.user_ranks,
+                user_groups: user_setting_info.user_groups,
+                user_status: user_setting_info.user_status,
+            };
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-users-settings/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log(res);
+                    document.getElementById("edit-btn").classList.remove("d-none");
+                    document.getElementById("save-btn").classList.add("d-none");
+                    document.getElementById("cancel-btn").classList.add("d-none");
+                    var inputs = document.querySelectorAll('.editable-check');
+                    inputs.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    var buttons = document.querySelectorAll('.add-button');
+                    buttons.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    var deleteLinks = document.querySelectorAll('.delete-link');
+                    deleteLinks.forEach(element => {
+                        element.classList.add("disabled");
+                    });
+                    var inputs = document.querySelectorAll('.form-control');
+                    inputs.forEach(element => {
+                        element.setAttribute("readOnly", true);
+                    });
+                    var selects = document.querySelectorAll('.custom-select');
+                    selects.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    document.getElementById("agency-type").removeAttribute("disabled");
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserRank(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
-            }
-            document.getElementById('userRanksGroup').innerHTML = tmp;
-            writeUserRank(ranks, 'read');
-
-            groups = user_setting_info.user_groups[0];
-            tmp = '';
-            group = document.getElementById('userGroupWrapper');
-            for (const key in groups) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                    tmp += " disabled";
-                if (groups[key] == 'true') {
-                    tmp += " checked";
-                }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserGroup(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
-            }
-            document.getElementById('userGroupWrapper').innerHTML = tmp;
-            writeUserGroup(groups, 'read');
-
-            statuses = user_setting_info.user_status[0];
-            tmp = '';
-            group = document.getElementById('userStatusWrapper');
-            for (const key in statuses) {
-                tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + key + "Check'";
-                if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                    tmp += " disabled";
-                if (statuses[key] == 'true') {
-                    tmp += " checked";
-                }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div><a onclick=removeUserStatus(event) class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a></div>";
-            }
-            document.getElementById('userStatusWrapper').innerHTML = tmp;
-            writeUserStatus(statuses, 'read');
-        }
-
-        function writeUserRank(data, method) {
-            var tmp = '';
-            if (method == 'read') {
-                Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
-                        tmp += "<option value='" + key + "'";
-                    }
-                    if (key == user_setting_info.auto_add_user_to_rank) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + key + "</option>";
-                });
-            }
-            document.getElementById('userRankDropdown').innerHTML = tmp;
-        }
-
-        function removeUserRank(e, key) {
-            e.preventDefault();
-            element = e.currentTarget;
-            console.log(element.classList.value.indexOf('disabled'));
-            if (element.classList.value.indexOf('disabled') == -1) {
-                $(element).parent().remove();
-                addRankToList(e);
-            }
-        }
-
-        function addRank() {
-            var tmp;
-            var value = document.getElementById('userRanks').value;
-            if (value == '') {
-                window.alert('Empty value should not be added')
-            } else {
-                group = document.getElementById('userRanksGroup');
-                inputs = $(group).find('.custom-control-input');
-                status = false;
-                for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];
-                    if (element.id == value + 'Check') {
-                        status = true;
-                    }
-                }
-                if (status == true) {
-                    window.alert('The same name is exist')
-                } else {
-                    group = document.getElementById('userRanksGroup');
-                    inputs = $(group).find('.custom-control-input');
-                    tmp = document.getElementById('userRanksGroup').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addRankToList(event)' id='" + value + "Check'";
-                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                        tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
-                    document.getElementById('userRanksGroup').innerHTML = tmp;
-                    inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length - 1; index++) {
-                        inputs1[index].checked = inputs[index].checked;
-                    }
-                }
-            }
-        }
-
-        function addRankToList(e) {
-            var tmp = '';
-            group = document.getElementById('userRanksGroup');
-            inputs = $(group).find('.custom-control-input');
-            for (let index = 0; index < inputs.length; index++) {
-                if (inputs[index].checked == true) {
-                    let str = inputs[index].id;
-                    str = str.substring(0, str.length - 5);
-                    tmp += "<option value='" + str + "'>" + str + "</option>";
-                }
-            }
-            document.getElementById('userRankDropdown').innerHTML = tmp;
-        }
-
-        function writeUserGroup(data, method) {
-            var tmp = '';
-            if (method == 'read') {
-                Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
-                        tmp += "<option value='" + key + "'";
-                    }
-                    if (key == user_setting_info.auto_add_user_to_group) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + key + "</option>";
-                });
-            }
-            document.getElementById('userGroupDropdown').innerHTML = tmp;
-        }
-
-        function removeUserGroup(e, key) {
-            e.preventDefault();
-            element = e.currentTarget;
-            console.log(element.classList.value.indexOf('disabled'));
-            if (element.classList.value.indexOf('disabled') == -1) {
-                $(element).parent().remove();
-                addGroupToList(e);
-            }
-        }
-
-        function addGroup() {
-            var tmp;
-            var value = document.getElementById('userGroup').value;
-            if (value == '') {
-                window.alert('Empty value should not be added')
-            } else {
-                group = document.getElementById('userGroupWrapper');
-                inputs = $(group).find('.custom-control-input');
-                status = false;
-                for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];
-                    if (element.id == value + 'Check') {
-                        status = true;
-                    }
-                }
-                if (status == true) {
-                    window.alert('The same name is exist')
-                } else {
-                    group = document.getElementById('userGroupWrapper');
-                    inputs = $(group).find('.custom-control-input');
-                    tmp = document.getElementById('userGroupWrapper').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addGroupToList(event)' id='" + value + "Check'";
-                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                        tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
-                    document.getElementById('userGroupWrapper').innerHTML = tmp;
-                    inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length - 1; index++) {
-                        inputs1[index].checked = inputs[index].checked;
-                    }
-                }
-            }
-        }
-
-        function addGroupToList() {
-            var tmp = '';
-            group = document.getElementById('userGroupWrapper');
-            inputs = $(group).find('.custom-control-input');
-            for (let index = 0; index < inputs.length; index++) {
-                if (inputs[index].checked == true) {
-                    let str = inputs[index].id;
-                    str = str.substring(0, str.length - 5);
-                    tmp += "<option value='" + str + "'>" + str + "</option>";
-                }
-            }
-            document.getElementById('userGroupDropdown').innerHTML = tmp;
-        }
-
-        function writeUserStatus(data, method) {
-            var tmp = '';
-            if (method == 'read') {
-                Object.keys(data).forEach(key => {
-                    if (data[key] == 'true') {
-                        tmp += "<option value='" + key + "'";
-                    }
-                    if (key == user_setting_info.auto_add_user_to_status) {
-                        tmp += " selected";
-                    }
-                    tmp += ">" + key + "</option>";
-                });
-            }
-            document.getElementById('userStatusDropdown').innerHTML = tmp;
-        }
-
-        function removeUserStatus(e, key) {
-            e.preventDefault();
-            element = e.currentTarget;
-            console.log(element.classList.value.indexOf('disabled'));
-            if (element.classList.value.indexOf('disabled') == -1) {
-                $(element).parent().remove();
-                addStatusToList(e);
-            }
-        }
-
-        function addStatus() {
-            var tmp;
-            var value = document.getElementById('userStatus').value;
-            if (value == '') {
-                window.alert('Empty value should not be added')
-            } else {
-                group = document.getElementById('userStatusWrapper');
-                inputs = $(group).find('.custom-control-input');
-                status = false;
-                for (let index = 0; index < inputs.length; index++) {
-                    const element = inputs[index];
-                    if (element.id == value + 'Check') {
-                        status = true;
-                    }
-                }
-                if (status == true) {
-                    window.alert('The same name is exist')
-                } else {
-                    group = document.getElementById('userStatusWrapper');
-                    inputs = $(group).find('.custom-control-input');
-                    tmp = document.getElementById('userStatusWrapper').innerHTML;
-                    tmp += "<div class='form-group'><div class='custom-control custom-checkbox small'><input type='checkbox' class='custom-control-input' onchange='addStatusToList(event)' id='" + value + "Check'";
-                    if (!document.getElementById("edit-btn").classList.contains("d-none"))
-                        tmp += " disabled";
-                    tmp += "><label class='custom-control-label' for='" + value + "Check'>" + value + "</label></div></div>";
-                    document.getElementById('userStatusWrapper').innerHTML = tmp;
-                    inputs1 = $(group).find('.custom-control-input');
-                    for (let index = 0; index < inputs1.length - 1; index++) {
-                        inputs1[index].checked = inputs[index].checked;
-                    }
-                }
-            }
-        }
-
-        function addStatusToList(e) {
-            var tmp = '';
-            group = document.getElementById('userStatusWrapper');
-            inputs = $(group).find('.custom-control-input');
-            for (let index = 0; index < inputs.length; index++) {
-                if (inputs[index].checked == true) {
-                    let str = inputs[index].id;
-                    str = str.substring(0, str.length - 5);
-                    tmp += "<option value='" + str + "'>" + str + "</option>";
-                }
-            }
-            document.getElementById('userStatusDropdown').innerHTML = tmp;
+            })
         }
     </script>
 </body>
