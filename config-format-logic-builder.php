@@ -9,7 +9,9 @@ if (strlen($user) == 0) {
 } else {
     $_SESSION['user'] = $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
+
     $agency_id = $_COOKIE['agency_id'];
+
     $format_id = $_REQUEST['format_id'];
 ?>
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -310,12 +312,14 @@ if (strlen($user) == 0) {
         <script src="js/main.js"></script>
         <script>
             init_id = "<?php echo $agency_id; ?>";
+            authorization = "<?php echo $authorization; ?>";
             actinoNumber = 0;
 
             function getData(agency_id) {
+
                 $.ajax({
                     type: "GET",
-                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=737b1459-25b4-4397-915f-f1f949c9d612&agency_id=737b1459-25b4-4397-915f-f1f949c9d611",
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=" + authorization + "&agency_id=" + init_id,
                     async: false,
                     success: function(res) {
                         console.log(res);
@@ -334,7 +338,6 @@ if (strlen($user) == 0) {
                 var tmp = '';
                 row = 0;
                 // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
-                console.log(data);
                 writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected);
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
@@ -478,7 +481,7 @@ if (strlen($user) == 0) {
                 tmp += ">False</option>";
                 document.getElementById('formatOffline').innerHTML = tmp;
                 tmp = '';
-                if (groupsSelected != '') {
+                if (groupsSelected != '' && groupsSelected) {
                     tmp = tmp + "<div class='form-group mb-0'>";
                     tmp += "<div class='multiselect mb-3 bg-white selection' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect' title='" + groupsSelected.join(',') + "'><span class='text'>" + groupsSelected.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
@@ -487,7 +490,8 @@ if (strlen($user) == 0) {
                     tmp += "<div class='multiselect mb-3 bg-white' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
                 }
-                tmp += " <div class='dropdown-container'>"
+                tmp += " <div class='dropdown-container'>";
+
                 for (var k = 0; k < groups.length; k++) {
                     tmp += "<option value='" + groups[k] + "' class='option-item";
                     if (groupsSelected.indexOf(groups[k]) != -1) {
@@ -550,7 +554,6 @@ if (strlen($user) == 0) {
             }
 
             function writeModal(name, content, row, col, item_number) {
-                console.log(content);
                 var tmp = '';
                 document.getElementById("modalDropdownName1").innerHTML = name;
                 for (let index = 0; index < content.length; index++) {
@@ -921,7 +924,6 @@ if (strlen($user) == 0) {
                 e.preventDefault();
                 document.getElementById("my-loader-element").classList.add("loader");
                 formData = getAllData();
-                console.log(formData);
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder",

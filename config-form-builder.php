@@ -175,9 +175,13 @@ if (strlen($user) == 0) {
                         actions.push(res.action_four);
                         // To hide the loader
                         var mainHeader = "<li class='header-field form-field' type='header' id='main-header'><div class='field-actions'><a type='edit' id='main-header' class='toggle-form btn formbuilder-icon-pencil' title='Edit'></a></div><label class='field-label'>Header</label><span class='required-asterisk' style=''> *</span><span class='tooltip-element' tooltip='undefined' style='display:none'>?</span><div class='prev-holder'><div class='formbuilder-header form-group field-header-1681859716095-preview'><header name='header-1681859716095-preview' id='header-1681859716095-preview'>Section</header></div></div><div id='frmb-1681859665978-fld-1-holder' class='frm-holder' data-field-id='frmb-1681859665978-fld-1'><div class='form-elements'><div class='form-group label-wrap' style='display: block'><label for='label-frmb-1681859665978-fld-1'>Label</label><div class='input-wrap'><div name='label' placeholder='Label' class='fld-label form-control' id='label-frmb-1681859665978-fld-1' contenteditable='true'>Header</div></div></div><a class='close-field'>Close</a></div></div></li>";
-                        if (res.form_data_html)
-                            $('.frmb').html(mainHeader + res.form_data_html);
-                        else
+                        if (res.form_data_html) {
+                            if (res.form_data_html.indexOf('main-header') > -1) {
+                                $('.frmb').html(res.form_data_html);
+                            } else {
+                                $('.frmb').html(mainHeader + res.form_data_html);
+                            }
+                        } else
                             $('.frmb').html(mainHeader);
                         if (res.format_type == 'Display') {
                             $(".formbuilder-icon-checkbox-group").addClass("d-none");
@@ -559,7 +563,7 @@ if (strlen($user) == 0) {
             }
 
             function goPreviousPage() {
-                window.location.replace('module-format');
+                window.location.replace('config-module-format');
             }
         </script>
         <!-- Form Builder JavaScript-->
