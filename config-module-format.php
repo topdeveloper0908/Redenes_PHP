@@ -312,7 +312,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    window.location.replace('config-form-builder?form_id=' + res.format_id);
+                    window.location.replace('config-form-builder?form_id=' + res.form_id);
                 }
             })
         })
