@@ -554,6 +554,7 @@ $agency_id = $_COOKIE['agency_id'];
             deleteLinks.forEach(element => {
                 element.classList.remove("disabled");
             });
+            document.getElementById("agency-type").setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
