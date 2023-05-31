@@ -281,13 +281,13 @@ $agency_id = $_COOKIE['agency_id'];
                 if (ranks[key] != 'disabled') {
                     tmp += " editable-check 'onchange='addRankToList(event)'";
                 }
-                tmp += " id='" + key + "Check'";
+                tmp += " id='" + key + "Check_Ranks'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none") || ranks[key] == 'disabled')
                     tmp += " disabled";
                 if (ranks[key] == 'true' || ranks[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + `</label></div>`;
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Ranks'>" + key + `</label></div>`;
                 if (ranks[key] != 'disabled') {
                     tmp += `<a onclick=removeUserRank(event) data-value='${key}' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>`
                 }
@@ -303,13 +303,13 @@ $agency_id = $_COOKIE['agency_id'];
                 if (groups[key] != 'disabled') {
                     tmp += " editable-check ' onchange='addGroupToList(event)'";
                 }
-                tmp += " id='" + key + "Check'";
+                tmp += " id='" + key + "Check_Group'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none") || groups[key] == 'disabled')
                     tmp += " disabled";
                 if (groups[key] == 'true' || groups[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div>";
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Group'>" + key + "</label></div>";
                 if (groups[key] != 'disabled') {
                     tmp += "<a onclick=removeUserGroup(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>"
                 }
@@ -325,13 +325,13 @@ $agency_id = $_COOKIE['agency_id'];
                 if (statuses[key] != 'disabled') {
                     tmp += " editable-check ' onchange='addStatusToList(event)'";
                 }
-                tmp += " id='" + key + "Check'";
+                tmp += " id='" + key + "Check_Statu'";
                 if (!document.getElementById("edit-btn").classList.contains("d-none") || statuses[key] == 'disabled')
                     tmp += " disabled";
                 if (statuses[key] == 'true' || statuses[key] == 'disabled') {
                     tmp += " checked";
                 }
-                tmp += "><label class='custom-control-label' for='" + key + "Check'>" + key + "</label></div>"
+                tmp += "><label class='custom-control-label' for='" + key + "Check_Statu'>" + key + "</label></div>"
                 if (statuses[key] != 'disabled') {
                     tmp += "<a onclick=removeUserStatus(event) data-value='" + key + "' class='delete-link disabled' href='#'><i class='fas fa-trash text-danger'></i></a>";
                 }
@@ -392,7 +392,7 @@ $agency_id = $_COOKIE['agency_id'];
 
         function addRankToList(e) {
             key = e.currentTarget.getAttribute('id');
-            key = key.slice(0, -5);
+            key = key.slice(0, -11);
             if (e.currentTarget.checked == true) {
                 user_setting_info.user_ranks[0][key] = 'true';
             } else {
@@ -456,7 +456,7 @@ $agency_id = $_COOKIE['agency_id'];
 
         function addGroupToList(e) {
             key = e.currentTarget.getAttribute('id');
-            key = key.slice(0, -5);
+            key = key.slice(0, -11);
             if (e.currentTarget.checked == true) {
                 user_setting_info.user_groups[0][key] = 'true';
             } else {
@@ -520,7 +520,7 @@ $agency_id = $_COOKIE['agency_id'];
 
         function addStatusToList(e) {
             key = e.currentTarget.getAttribute('id');
-            key = key.slice(0, -5);
+            key = key.slice(0, -11);
             if (e.currentTarget.checked == true) {
                 user_setting_info.user_status[0][key] = 'true';
             } else {
