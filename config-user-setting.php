@@ -388,6 +388,7 @@ $agency_id = $_COOKIE['agency_id'];
                     });
                 }
             }
+            document.getElementById('userRanks').value = '';
         }
 
         function addRankToList(e) {
@@ -452,6 +453,7 @@ $agency_id = $_COOKIE['agency_id'];
                     });
                 }
             }
+            document.getElementById('userGroup').value = '';
         }
 
         function addGroupToList(e) {
@@ -516,6 +518,7 @@ $agency_id = $_COOKIE['agency_id'];
                     });
                 }
             }
+            document.getElementById('userStatus').value = '';
         }
 
         function addStatusToList(e) {
