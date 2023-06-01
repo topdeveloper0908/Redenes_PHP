@@ -157,6 +157,7 @@
             .placeholder-wrap,
             .other-wrap,
             .preFilled-wrap,
+            .dividerColor-wrap,
             .access-wrap {
                 display: none !important;
             }
@@ -177,6 +178,18 @@
         .option-label {
             width: 100% !important;
         }
+    }
+}
+
+.display-form .header-field {
+
+    .frm-holder,
+    .toggle-form {
+        display: none !important;
+    }
+
+    .field-label {
+        margin-bottom: 0 !important;
     }
 }
 
@@ -472,5 +485,22 @@ table .form-control:read-only {
     &:focus {
         outline: 0 !important;
         box-shadow: none;
+    }
+}
+
+.form-wrap.form-builder .frmb {
+    transition: all 0.3s ease 0s !important;
+}
+
+#main-header {
+    opacity: 1 !important;
+    top: 0px !important;
+    position: absolute !important;
+    left: 0px !important;
+    right: 0px !important;
+    height: 40px;
+
+    &.editing {
+        height: 116px;
     }
 }

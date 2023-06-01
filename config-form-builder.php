@@ -173,9 +173,10 @@ if (strlen($user) == 0) {
                         actions.push(res.action_two);
                         actions.push(res.action_three);
                         actions.push(res.action_four);
+                        var form_builder = document.querySelector(".stage-wrap");
                         // To hide the loader
-                        var mainHeader = "<li class='header-field form-field' type='header' id='main-header'><div class='field-actions'><a type='edit' id='main-header' class='toggle-form btn formbuilder-icon-pencil' title='Edit'></a></div><label class='field-label'>Header</label><span class='required-asterisk' style=''> *</span><span class='tooltip-element' tooltip='undefined' style='display:none'>?</span><div class='prev-holder'><div class='formbuilder-header form-group field-header-1681859716095-preview'><header name='header-1681859716095-preview' id='header-1681859716095-preview'>Section</header></div></div><div id='frmb-1681859665978-fld-1-holder' class='frm-holder' data-field-id='frmb-1681859665978-fld-1'><div class='form-elements'><div class='form-group label-wrap' style='display: block'><label for='label-frmb-1681859665978-fld-1'>Label</label><div class='input-wrap'><div name='label' placeholder='Label' class='fld-label form-control' id='label-frmb-1681859665978-fld-1' contenteditable='true'>Header</div></div></div><a class='close-field'>Close</a></div></div></li>";
-                        if (res.form_data_html) {
+                        var mainHeader = "<li class='header-field form-field' type='header' id='main-header'><div class='field-actions'><a type='edit' onclick=mainHeaderClose() id='main-header-edit' class='toggle-form btn formbuilder-icon-pencil' title='Edit'></a></div><label class='field-label'>Header</label><span class='required-asterisk' style=''> *</span><span class='tooltip-element' tooltip='undefined' style='display:none'>?</span><div class='prev-holder'><div class='formbuilder-header form-group field-header-1681859716095-preview'><header name='header-1681859716095-preview' id='header-1681859716095-preview'>Section</header></div></div><div id='frmb-1681859665978-fld-1-holder' class='frm-holder' data-field-id='frmb-1681859665978-fld-1'><div class='form-elements'><div class='form-group label-wrap' style='display: block'><label for='label-frmb-1681859665978-fld-1'>Label</label><div class='input-wrap'><div name='label' placeholder='Label' class='fld-label form-control' id='label-frmb-1681859665978-fld-1' contenteditable='true'>Header</div></div></div><a onclick=mainHeaderClose() class='close-field'>Close</a></div></div></li>";
+                        if (res.form_data_html && res.form_data_html != "") {
                             if (res.form_data_html.indexOf('main-header') > -1) {
                                 $('.frmb').html(res.form_data_html);
                             } else {
@@ -187,14 +188,29 @@ if (strlen($user) == 0) {
                             $(".formbuilder-icon-checkbox-group").addClass("d-none");
                             $(".formbuilder-icon-button").addClass("d-none");
                             $(".formbuilder-icon-select").addClass("d-none");
+                            form_builder = document.querySelector(".stage-wrap");
+                            form_builder.classList.add('display-form');
                         }
                         document.getElementById("module").innerHTML = res.module;
                         document.getElementById("form").innerHTML = res.format_name;
                         document.getElementById("formType").innerHTML = res.format_type;
                         document.getElementById("my-loader-element").classList.remove("loader");
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
+
+                        form_builder.style.paddingTop = '43px';
+                        var mainHeaderDom = $(document.getElementById("main-header"));
                     }
+
                 })
+            }
+
+            function mainHeaderClose() {
+                var form_builder = document.querySelector(".stage-wrap");
+                if (form_builder.children[0].classList.contains('editing')) {
+                    form_builder.style.paddingTop = '43px';
+                } else {
+                    form_builder.style.paddingTop = '119px';
+                }
             }
             getFormData();
             $("#getJSON").click(function(e) {
@@ -251,11 +267,20 @@ if (strlen($user) == 0) {
                             });
                             buttonArray = [];
                         }
-                        var object = {
-                            text_box: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            pre_filed: $(element).find('.input-wrap .fld-preFilled')[0].value,
-                        };
-                        array.push(object);
+                        var form_builder = document.querySelector(".stage-wrap");
+                        if (form_builder.classList.contains('display-form')) {
+                            var object = {
+                                field: "Text Field",
+                                value: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            };
+                            array.push(object);
+                        } else {
+                            var object = {
+                                text_box: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                pre_filed: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            };
+                            array.push(object);
+                        }
                     } else if (element.type == 'hidden') {
                         if (buttonArray.length != 0) {
                             array.push({
