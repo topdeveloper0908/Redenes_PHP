@@ -259,7 +259,7 @@ $agency_id = $_COOKIE['agency_id'];
         const editButtons = document.querySelectorAll('.edit-btn');
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
-        var values = ['', '', '', '', '', '', '', ''];
+        var values = ['', '', '', '', '', '', ''];
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
                 tdElement = e.currentTarget.parentNode;
@@ -305,13 +305,16 @@ $agency_id = $_COOKIE['agency_id'];
                 editButtons.forEach(element => {
                     element.removeAttribute('disabled');
                 });
+                console.log(values);
+                console.log(selects[0]);
+                console.log(selects[1]);
                 inputs[0].value = values[0];
-                inputs[1].value = values[3];
-                inputs[2].value = values[4];
-                inputs[3].value = values[5];
-                inputs[4].value = values[6];
-                selects[0].value = values[1];
-                selects[1].value = values[2];
+                inputs[1].value = values[1];
+                inputs[2].value = values[2];
+                inputs[3].value = values[3];
+                inputs[4].value = values[4];
+                selects[0].value = values[5];
+                selects[1].value = values[6];
             });
         });
         saveButtons.forEach(element => {
