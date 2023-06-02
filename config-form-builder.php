@@ -488,7 +488,12 @@ if (strlen($user) == 0) {
                     //         writeData();
                     //     }
                     // })
-                    writeData();
+                    var form_builder = document.querySelector(".stage-wrap");
+                    if (form_builder.classList.contains('display-form')) {
+                        writeDisplayData();
+                    } else {
+                        writeData();
+                    }
 
                     function writeData() {
                         console.log(mainData);
@@ -566,6 +571,31 @@ if (strlen($user) == 0) {
                                 }
                             }
                             tmp = tmp + "</div></div>";
+                        }
+                        document.getElementById("build-preview").innerHTML = tmp;
+                    }
+
+                    function writeDisplayData() {
+                        var tmp = '';
+                        for (var i = 0; i < mainData.length; i++) {
+                            object = mainData[i];
+                            tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #" + object[0].color +
+                                ";'><a class='incident-link' href='online-form?form_id=" + object[0].form_id +
+                                "'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
+                            for (var j = 1; j < object.length; j++) {
+                                if (object[j].divider) {
+                                    tmp += "<div class='custom-control custom-border mt-4 mr-5' style='border-color: #" + object[j]
+                                        .divider + "'/></div>";
+                                } else {
+                                    tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>" +
+                                        object[j].field + ": " + object[j].value + "</div>";
+                                }
+                            }
+                            tmp = tmp + "<div class='font-weight-bold text-uppercase mt-2 mb-0' style='color:" + object[0].color +
+                                "'>" + object[0].form_id + "</div>";
+                            tmp = tmp + "</div>"
+                            tmp = tmp + "<div class='col-auto'><img src='" + object[0].icon + "'></div>";
+                            tmp = tmp + "</div></div></a></div>";
                         }
                         document.getElementById("build-preview").innerHTML = tmp;
                     }
