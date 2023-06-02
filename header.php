@@ -87,3 +87,14 @@ if (strlen($user) == 0) {
 
 </nav>
 <!-- End of Topbar -->
+<script>
+    // To show the loader
+    var currentUrl = window.location.href;
+    if (currentUrl.includes('build-numbers') ||
+        currentUrl.includes('agencies') ||
+        currentUrl.includes('agency-types') ||
+        currentUrl.includes('config')
+    ) {
+        document.getElementById('agency-title').innerHTML = "Rescue Solutions Network";
+    }
+</script>
