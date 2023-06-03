@@ -312,6 +312,7 @@ if (strlen($user) == 0) {
         <script src="js/main.js"></script>
         <script>
             init_id = "<?php echo $agency_id; ?>";
+            format_id = "<?php echo $format_id; ?>";
             authorization = "<?php echo $authorization; ?>";
             actinoNumber = 0;
 
@@ -319,7 +320,7 @@ if (strlen($user) == 0) {
 
                 $.ajax({
                     type: "GET",
-                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=" + authorization + "&agency_id=" + init_id,
+                    url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=" + authorization + "&agency_id=" + init_id + "&format_id=" + format_id,
                     async: false,
                     success: function(res) {
                         console.log(res);
