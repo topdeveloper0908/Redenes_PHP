@@ -112,9 +112,17 @@ if (strlen($user) == 0) {
                                 <h4 class="mr-2 mb-0">Offline: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="formatOffline" style="max-width: 40rem;"></select>
                             </div>
-                            <div class="d-flex align-items-center mb-2">
+                            <div class="d-flex align-items-center">
                                 <h4 class="mr-2">Groups: </h4>
                                 <div id="groupsWrapper" style="flex: 1; max-width: 40rem"></div>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <h4 class="mr-2 mb-0">Modal: </h4>
+                                <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="modalStatus" style="max-width: 40rem;"></select>
+                            </div>
+                            <div class="d-flex align-items-center mb-4">
+                                <h4 class="mr-2 mb-0">Page Title: </h4>
+                                <input type='text' class='form-control small' placeholder='Enter Page Title...' aria-label='Search' aria-describedby='basic-addon2' style="flex: 1; max-width: 40rem">
                             </div>
                         </div>
                         <div class="card shadow mb-4">
@@ -339,16 +347,18 @@ if (strlen($user) == 0) {
                 var tmp = '';
                 row = 0;
                 // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
-                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected);
+                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected, data.modal);
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
                     for (var j = 0; j < objects[i].length; j++) {
                         if (data.type == 'Display') {
                             if (Object.keys(objects[i][j])[0] == 'title') {
                                 tmp += "<tr>";
-                                tmp += "<td>Header</td>";
+                                tmp += "<td>Section</td>";
                                 tmp += "<td>" + objects[i][j].title + "</td>";
-                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "<td></td><td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
                                 row++;
                             } else if (Object.keys(objects[i][j])[0] == 'divider') {
@@ -372,7 +382,7 @@ if (strlen($user) == 0) {
 
                             if (Object.keys(objects[i][j])[0] == 'title') {
                                 tmp += "<tr>";
-                                tmp += "<td>Header</td>";
+                                tmp += "<td>Section</td>";
                                 tmp += "<td>" + objects[i][j].title + "</td>";
                                 tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
@@ -494,7 +504,7 @@ if (strlen($user) == 0) {
                 }
             }
 
-            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected) {
+            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected, modal) {
                 document.getElementById('formatName').innerHTML = name;
                 document.getElementById('moduleName').innerHTML = module;
                 document.getElementById('formatType').innerHTML = type;
@@ -509,6 +519,16 @@ if (strlen($user) == 0) {
                 }
                 tmp += ">False</option>";
                 document.getElementById('formatOffline').innerHTML = tmp;
+                var tmp = "<option value='true'";
+                if (modal == 'true') {
+                    tmp += ' selected';
+                }
+                tmp += ">True</option><option value='false'";
+                if (modal == 'false') {
+                    tmp += ' selected';
+                }
+                tmp += ">False</option>";
+                document.getElementById('modalStatus').innerHTML = tmp;
                 tmp = '';
                 if (groupsSelected != '' && groupsSelected) {
                     tmp = tmp + "<div class='form-group mb-0'>";
@@ -658,7 +678,7 @@ if (strlen($user) == 0) {
             }
 
             function goPreviousPage() {
-                window.location.replace('module-format');
+                window.location.replace('config-module-format');
             }
 
             function saveAction(e, row, col, item_number) {
