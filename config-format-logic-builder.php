@@ -343,86 +343,114 @@ if (strlen($user) == 0) {
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
                     for (var j = 0; j < objects[i].length; j++) {
-
-                        if (Object.keys(objects[i][j])[0] == 'title') {
-                            tmp += "<tr>";
-                            tmp += "<td>Header</td>";
-                            tmp += "<td>" + objects[i][j].title + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'drop_down') {
-                            tmp += "<tr>";
-                            tmp += "<td>Drop Down</td>";
-                            tmp += "<td>" + objects[i][j].drop_down + "</td>";
-                            tmp += "<td>" + objects[i][j].pre_filled[0] + "</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                            for (var k = 1; k < objects[i][j].pre_filled.length; k++) {
+                        if (data.type == 'Display') {
+                            if (Object.keys(objects[i][j])[0] == 'title') {
                                 tmp += "<tr>";
-                                tmp += "<td></td><td></td>";
-                                tmp += "<td>" + objects[i][j].pre_filled[k] + "</td>";
-                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + (row) + ",0," +
-                                    k + ")'>Add Action</button>" + "</td>";
-                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "<td>Header</td>";
+                                tmp += "<td>" + objects[i][j].title + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
                                 row++;
-                            }
-                        } else if (Object.keys(objects[i][j])[0] == 'buttons') {
-                            for (var k = 0; k < objects[i][j].buttons.length; k++) {
+                            } else if (Object.keys(objects[i][j])[0] == 'divider') {
                                 tmp += "<tr>";
-                                tmp += "<td>Button</td>";
-                                tmp += "<td>" + objects[i][j].buttons[k].button + "</td>";
-                                tmp += "<td>True</td>";
+                                tmp += "<td>Divider</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else {
+                                tmp += "<tr>";
+                                tmp += "<td>Text Box</td>";
+                                tmp += "<td>" + 'Text Field' + "</td>";
+                                tmp += "<td>" + objects[i][j].value + "</td>";
                                 tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
                                     ")'>Add Action</button>" + "</td>";
                                 tmp += "<td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
                                 row++;
                             }
-                        } else if (Object.keys(objects[i][j])[0] == 'button') {
-                            tmp += "<tr>";
-                            tmp += "<td>Button</td>";
-                            tmp += "<td>" + objects[i][j].button.button + "</td>";
-                            tmp += "<td>True</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'text_box') {
-                            tmp += "<tr>";
-                            tmp += "<td>Text Box</td>";
-                            tmp += "<td>" + objects[i][j].text_box + "</td>";
-                            tmp += "<td>" + objects[i][j].pre_filled + "</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'check_box') {
-                            tmp += "<tr>";
-                            tmp += "<td>Check Box</td>";
-                            tmp += "<td>" + objects[i][j].check_box + "</td>";
-                            tmp += "<td>True</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            tmp += "<tr><td></td><td></td><td>False</td><td>" +
-                                "<button class='btn btn-primary' onclick='addAction(event," + (row + 1) + ",0,1" +
-                                ")'>Add Action</button>" + "</td><td></td><td></td><td></td><td></td><td></td></tr>";
-                            row += 2;
-                        } else if (Object.keys(objects[i][j])[0] == 'divider') {
-                            tmp += "<tr>";
-                            tmp += "<td>Divider</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
+                        } else {
+
+                            if (Object.keys(objects[i][j])[0] == 'title') {
+                                tmp += "<tr>";
+                                tmp += "<td>Header</td>";
+                                tmp += "<td>" + objects[i][j].title + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'drop_down') {
+                                tmp += "<tr>";
+                                tmp += "<td>Drop Down</td>";
+                                tmp += "<td>" + objects[i][j].drop_down + "</td>";
+                                tmp += "<td>" + objects[i][j].pre_filled[0] + "</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                                for (var k = 1; k < objects[i][j].pre_filled.length; k++) {
+                                    tmp += "<tr>";
+                                    tmp += "<td></td><td></td>";
+                                    tmp += "<td>" + objects[i][j].pre_filled[k] + "</td>";
+                                    tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + (row) + ",0," +
+                                        k + ")'>Add Action</button>" + "</td>";
+                                    tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                    tmp += "</tr>";
+                                    row++;
+                                }
+                            } else if (Object.keys(objects[i][j])[0] == 'buttons') {
+                                for (var k = 0; k < objects[i][j].buttons.length; k++) {
+                                    tmp += "<tr>";
+                                    tmp += "<td>Button</td>";
+                                    tmp += "<td>" + objects[i][j].buttons[k].button + "</td>";
+                                    tmp += "<td>True</td>";
+                                    tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                        ")'>Add Action</button>" + "</td>";
+                                    tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                    tmp += "</tr>";
+                                    row++;
+                                }
+                            } else if (Object.keys(objects[i][j])[0] == 'button') {
+                                tmp += "<tr>";
+                                tmp += "<td>Button</td>";
+                                tmp += "<td>" + objects[i][j].button.button + "</td>";
+                                tmp += "<td>True</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'text_box') {
+                                tmp += "<tr>";
+                                tmp += "<td>Text Box</td>";
+                                tmp += "<td>" + objects[i][j].text_box + "</td>";
+                                tmp += "<td>" + objects[i][j].pre_filled + "</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'check_box') {
+                                tmp += "<tr>";
+                                tmp += "<td>Check Box</td>";
+                                tmp += "<td>" + objects[i][j].check_box + "</td>";
+                                tmp += "<td>True</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                tmp += "<tr><td></td><td></td><td>False</td><td>" +
+                                    "<button class='btn btn-primary' onclick='addAction(event," + (row + 1) + ",0,1" +
+                                    ")'>Add Action</button>" + "</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                row += 2;
+                            } else if (Object.keys(objects[i][j])[0] == 'divider') {
+                                tmp += "<tr>";
+                                tmp += "<td>Divider</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            }
                         }
+
 
                     }
                 }
