@@ -109,19 +109,19 @@ if (strlen($user) == 0) {
                                 </div>
                             </div>
                             <div class="d-flex align-items-center mt-4 mb-2">
-                                <h4 class="mr-2 mb-0">Offline: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Offline: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="formatOffline" style="max-width: 40rem;"></select>
                             </div>
                             <div class="d-flex align-items-center">
-                                <h4 class="mr-2">Groups: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Groups: </h4>
                                 <div id="groupsWrapper" style="flex: 1; max-width: 40rem"></div>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <h4 class="mr-2 mb-0">Modal: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Modal: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="modalStatus" style="max-width: 40rem;"></select>
                             </div>
                             <div class="d-flex align-items-center mb-4">
-                                <h4 class="mr-2 mb-0">Page Title: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Page Title: </h4>
                                 <input type='text' class='form-control small' placeholder='Enter Page Title...' aria-label='Search' aria-describedby='basic-addon2' style="flex: 1; max-width: 40rem">
                             </div>
                         </div>
