@@ -67,6 +67,11 @@ $agency_id = $_COOKIE['agency_id'];
                                 <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create New Format</span></button>
                             </div>
                         </div>
+                        <div class="d-flex align-items-center mb-4" style="max-width: 30rem">
+                            <h4 class="mb-0 text-right  mr-2" style="white-space: nowrap;">Agency Types</h4>
+                            <select id="agency-types" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'>
+                            </select>
+                        </div>
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
@@ -264,12 +269,21 @@ $agency_id = $_COOKIE['agency_id'];
                     console.log(res);
                     var data = res.agencies_users;
                     writeData(data);
+                    writeAgencyType(res.agency_types);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
         getData(init_id);
+
+        function writeAgencyType(mainData) {
+            tmp = '';
+            mainData.forEach(element => {
+                tmp += "<option value=" + element.type_name + ">" + element.type_name + "</option>";
+            })
+            document.getElementById('agency-types').innerHTML = tmp;
+        }
 
         function writeData(mainData) {
             var tmp = '';
