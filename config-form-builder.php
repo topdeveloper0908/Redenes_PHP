@@ -200,7 +200,6 @@ if (strlen($user) == 0) {
                         form_builder.style.paddingTop = '43px';
                         var mainHeaderDom = $(document.getElementById("main-header"));
                     }
-
                 })
             }
 
@@ -471,23 +470,6 @@ if (strlen($user) == 0) {
                             mainData.push(array);
                         }
                     }
-                    // formData.form_data_html = $('.frmb').html();
-                    // formData.form_data_json = array;
-                    // formData.button = 'preview';
-                    // var mainData = [];
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: "https://api.redenes.org/dev/v1/system-config-form-builder/",
-                    //     data: JSON.stringify(formData),
-                    //     dataType: "json",
-                    //     contentType: 'application/json',
-                    //     success: function(res) {
-                    //         console.log(mainData);
-                    //         console.log(res.objects);
-                    //         mainData = res.objects
-                    //         writeData();
-                    //     }
-                    // })
                     var form_builder = document.querySelector(".stage-wrap");
                     if (form_builder.classList.contains('display-form')) {
                         writeDisplayData();

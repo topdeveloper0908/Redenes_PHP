@@ -107,12 +107,20 @@ if (strlen($user) == 0) {
                                 </div>
                             </div>
                             <div class="d-flex align-items-center mt-4 mb-2">
-                                <h4 class="mr-2 mb-0">Offline: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Offline: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="formatOffline" style="max-width: 40rem;"></select>
                             </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <h4 class="mr-2">Groups: </h4>
+                            <div class="d-flex align-items-center">
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Groups: </h4>
                                 <div id="groupsWrapper" style="flex: 1; max-width: 40rem"></div>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Modal: </h4>
+                                <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="modalStatus" style="max-width: 40rem;"></select>
+                            </div>
+                            <div class="d-flex align-items-center mb-4">
+                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Page Title: </h4>
+                                <input type='text' class='form-control small' placeholder='Enter Page Title...' aria-label='Search' aria-describedby='basic-addon2' style="flex: 1; max-width: 40rem">
                             </div>
                         </div>
                         <div class="card shadow mb-4">
@@ -310,6 +318,8 @@ if (strlen($user) == 0) {
         <script src="js/main.js"></script>
         <script>
             init_id = "<?php echo $agency_id; ?>";
+            format_id = "<?php echo $format_id; ?>";
+            authorization = "<?php echo $authorization; ?>";
             actinoNumber = 0;
 
             function getData(agency_id) {
@@ -334,91 +344,120 @@ if (strlen($user) == 0) {
                 var tmp = '';
                 row = 0;
                 // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
-                console.log(data);
-                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected);
+                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected, data.modal);
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
                     for (var j = 0; j < objects[i].length; j++) {
-
-                        if (Object.keys(objects[i][j])[0] == 'title') {
-                            tmp += "<tr>";
-                            tmp += "<td>Header</td>";
-                            tmp += "<td>" + objects[i][j].title + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'drop_down') {
-                            tmp += "<tr>";
-                            tmp += "<td>Drop Down</td>";
-                            tmp += "<td>" + objects[i][j].drop_down + "</td>";
-                            tmp += "<td>" + objects[i][j].pre_filled[0] + "</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                            for (var k = 1; k < objects[i][j].pre_filled.length; k++) {
+                        if (data.type == 'Display') {
+                            if (Object.keys(objects[i][j])[0] == 'title') {
                                 tmp += "<tr>";
-                                tmp += "<td></td><td></td>";
-                                tmp += "<td>" + objects[i][j].pre_filled[k] + "</td>";
-                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + (row) + ",0," +
-                                    k + ")'>Add Action</button>" + "</td>";
+                                tmp += "<td>Section</td>";
+                                tmp += "<td>" + objects[i][j].title + "</td>";
+                                tmp += "<td></td><td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
                                 tmp += "<td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
                                 row++;
-                            }
-                        } else if (Object.keys(objects[i][j])[0] == 'buttons') {
-                            for (var k = 0; k < objects[i][j].buttons.length; k++) {
+                            } else if (Object.keys(objects[i][j])[0] == 'divider') {
                                 tmp += "<tr>";
-                                tmp += "<td>Button</td>";
-                                tmp += "<td>" + objects[i][j].buttons[k].button + "</td>";
-                                tmp += "<td>True</td>";
+                                tmp += "<td>Divider</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else {
+                                tmp += "<tr>";
+                                tmp += "<td>Text Box</td>";
+                                tmp += "<td>" + 'Text Field' + "</td>";
+                                tmp += "<td>" + objects[i][j].value + "</td>";
                                 tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
                                     ")'>Add Action</button>" + "</td>";
                                 tmp += "<td></td><td></td><td></td><td></td><td></td>";
                                 tmp += "</tr>";
                                 row++;
                             }
-                        } else if (Object.keys(objects[i][j])[0] == 'button') {
-                            tmp += "<tr>";
-                            tmp += "<td>Button</td>";
-                            tmp += "<td>" + objects[i][j].button.button + "</td>";
-                            tmp += "<td>True</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'text_box') {
-                            tmp += "<tr>";
-                            tmp += "<td>Text Box</td>";
-                            tmp += "<td>" + objects[i][j].text_box + "</td>";
-                            tmp += "<td>" + objects[i][j].pre_filled + "</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
-                        } else if (Object.keys(objects[i][j])[0] == 'check_box') {
-                            tmp += "<tr>";
-                            tmp += "<td>Check Box</td>";
-                            tmp += "<td>" + objects[i][j].check_box + "</td>";
-                            tmp += "<td>True</td>";
-                            tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
-                                ")'>Add Action</button>" + "</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            tmp += "<tr><td></td><td></td><td>False</td><td>" +
-                                "<button class='btn btn-primary' onclick='addAction(event," + (row + 1) + ",0,1" +
-                                ")'>Add Action</button>" + "</td><td></td><td></td><td></td><td></td><td></td></tr>";
-                            row += 2;
-                        } else if (Object.keys(objects[i][j])[0] == 'divider') {
-                            tmp += "<tr>";
-                            tmp += "<td>Divider</td>";
-                            tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                            tmp += "</tr>";
-                            row++;
+                        } else {
+
+                            if (Object.keys(objects[i][j])[0] == 'title') {
+                                tmp += "<tr>";
+                                tmp += "<td>Section</td>";
+                                tmp += "<td>" + objects[i][j].title + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'drop_down') {
+                                tmp += "<tr>";
+                                tmp += "<td>Drop Down</td>";
+                                tmp += "<td>" + objects[i][j].drop_down + "</td>";
+                                tmp += "<td>" + objects[i][j].pre_filled[0] + "</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                                for (var k = 1; k < objects[i][j].pre_filled.length; k++) {
+                                    tmp += "<tr>";
+                                    tmp += "<td></td><td></td>";
+                                    tmp += "<td>" + objects[i][j].pre_filled[k] + "</td>";
+                                    tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + (row) + ",0," +
+                                        k + ")'>Add Action</button>" + "</td>";
+                                    tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                    tmp += "</tr>";
+                                    row++;
+                                }
+                            } else if (Object.keys(objects[i][j])[0] == 'buttons') {
+                                for (var k = 0; k < objects[i][j].buttons.length; k++) {
+                                    tmp += "<tr>";
+                                    tmp += "<td>Button</td>";
+                                    tmp += "<td>" + objects[i][j].buttons[k].button + "</td>";
+                                    tmp += "<td>True</td>";
+                                    tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                        ")'>Add Action</button>" + "</td>";
+                                    tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                    tmp += "</tr>";
+                                    row++;
+                                }
+                            } else if (Object.keys(objects[i][j])[0] == 'button') {
+                                tmp += "<tr>";
+                                tmp += "<td>Button</td>";
+                                tmp += "<td>" + objects[i][j].button.button + "</td>";
+                                tmp += "<td>True</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'text_box') {
+                                tmp += "<tr>";
+                                tmp += "<td>Text Box</td>";
+                                tmp += "<td>" + objects[i][j].text_box + "</td>";
+                                tmp += "<td>" + objects[i][j].pre_filled + "</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            } else if (Object.keys(objects[i][j])[0] == 'check_box') {
+                                tmp += "<tr>";
+                                tmp += "<td>Check Box</td>";
+                                tmp += "<td>" + objects[i][j].check_box + "</td>";
+                                tmp += "<td>True</td>";
+                                tmp += "<td>" + "<button class='btn btn-primary' onclick='addAction(event," + row + ",0,0" +
+                                    ")'>Add Action</button>" + "</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                tmp += "<tr><td></td><td></td><td>False</td><td>" +
+                                    "<button class='btn btn-primary' onclick='addAction(event," + (row + 1) + ",0,1" +
+                                    ")'>Add Action</button>" + "</td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                row += 2;
+                            } else if (Object.keys(objects[i][j])[0] == 'divider') {
+                                tmp += "<tr>";
+                                tmp += "<td>Divider</td>";
+                                tmp += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                tmp += "</tr>";
+                                row++;
+                            }
                         }
+
 
                     }
                 }
@@ -462,7 +501,7 @@ if (strlen($user) == 0) {
                 }
             }
 
-            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected) {
+            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected, modal) {
                 document.getElementById('formatName').innerHTML = name;
                 document.getElementById('moduleName').innerHTML = module;
                 document.getElementById('formatType').innerHTML = type;
@@ -477,8 +516,18 @@ if (strlen($user) == 0) {
                 }
                 tmp += ">False</option>";
                 document.getElementById('formatOffline').innerHTML = tmp;
+                var tmp = "<option value='true'";
+                if (modal == 'true') {
+                    tmp += ' selected';
+                }
+                tmp += ">True</option><option value='false'";
+                if (modal == 'false') {
+                    tmp += ' selected';
+                }
+                tmp += ">False</option>";
+                document.getElementById('modalStatus').innerHTML = tmp;
                 tmp = '';
-                if (groupsSelected != '') {
+                if (groupsSelected != '' && groupsSelected) {
                     tmp = tmp + "<div class='form-group mb-0'>";
                     tmp += "<div class='multiselect mb-3 bg-white selection' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect' title='" + groupsSelected.join(',') + "'><span class='text'>" + groupsSelected.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
@@ -487,7 +536,8 @@ if (strlen($user) == 0) {
                     tmp += "<div class='multiselect mb-3 bg-white' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
                 }
-                tmp += " <div class='dropdown-container'>"
+                tmp += " <div class='dropdown-container'>";
+
                 for (var k = 0; k < groups.length; k++) {
                     tmp += "<option value='" + groups[k] + "' class='option-item";
                     if (groupsSelected.indexOf(groups[k]) != -1) {
@@ -550,7 +600,6 @@ if (strlen($user) == 0) {
             }
 
             function writeModal(name, content, row, col, item_number) {
-                console.log(content);
                 var tmp = '';
                 document.getElementById("modalDropdownName1").innerHTML = name;
                 for (let index = 0; index < content.length; index++) {
@@ -921,7 +970,6 @@ if (strlen($user) == 0) {
                 e.preventDefault();
                 document.getElementById("my-loader-element").classList.add("loader");
                 formData = getAllData();
-                console.log(formData);
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/format-logic-builder",

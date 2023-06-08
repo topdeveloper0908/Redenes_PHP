@@ -9,9 +9,7 @@ if (strlen($user) == 0) {
 } else {
     $_SESSION['user'] = $_COOKIE['name'];
     $authorization = $_COOKIE['authorization'];
-
     $agency_id = $_COOKIE['agency_id'];
-
     $format_id = $_REQUEST['format_id'];
 ?>
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -325,7 +323,6 @@ if (strlen($user) == 0) {
             actinoNumber = 0;
 
             function getData(agency_id) {
-
                 $.ajax({
                     type: "GET",
                     url: "https://api.redenes.org/dev/v1/system-config-format-logic-builder/?authorization=" + authorization + "&agency_id=" + init_id + "&format_id=" + format_id,

@@ -67,6 +67,11 @@ $agency_id = $_COOKIE['agency_id'];
                                 <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create New Format</span></button>
                             </div>
                         </div>
+                        <div class="d-flex align-items-center mb-4" style="max-width: 30rem">
+                            <h4 class="mb-0 text-right  mr-2" style="white-space: nowrap;">Agency Types</h4>
+                            <select onchange="changeAgency(event)" id="agency-types" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'>
+                            </select>
+                        </div>
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
@@ -261,9 +266,9 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async: false,
                 success: function(res) {
-                    console.log(res);
                     var data = res.agencies_users;
                     writeData(data);
+                    writeAgencyType(res.agency_types);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -271,7 +276,16 @@ $agency_id = $_COOKIE['agency_id'];
         }
         getData(init_id);
 
+        function writeAgencyType(mainData) {
+            tmp = '';
+            mainData.forEach(element => {
+                tmp += "<option value=" + element.type_name + ">" + element.type_name + "</option>";
+            })
+            document.getElementById('agency-types').innerHTML = tmp;
+        }
+
         function writeData(mainData) {
+            $('#dataTable').DataTable().destroy();
             var tmp = '';
             var index = 0;
             mainData.forEach(element => {
@@ -292,6 +306,7 @@ $agency_id = $_COOKIE['agency_id'];
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
+            $('#dataTable').dataTable();
         }
         $('#createModuleForm').submit(function(e) {
             document.getElementById("my-loader-element").classList.add("loader");
@@ -386,6 +401,27 @@ $agency_id = $_COOKIE['agency_id'];
         function confirmCancel() {
             localStorage.removeItem('deleteRow');
             closeDeleteModal();
+        }
+
+        function changeAgency(e) {
+            selected_type = e.currentTarget.value;
+            $.ajax({
+                type: "GET",
+                url: "https://api.redenes.org/dev/v1/format-modules/",
+                data: {
+                    agency_id: init_id,
+                    authorization: "<?php echo $authorization; ?>",
+                    agency_type: selected_type
+                },
+                async: false,
+                success: function(res) {
+                    var data = res.agencies_users;
+                    writeData(data);
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
         }
     </script>
     <!-- Page level custom scripts -->

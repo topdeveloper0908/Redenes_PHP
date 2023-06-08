@@ -173,91 +173,170 @@ if (strlen($user) == 0) {
                         actions.push(res.action_two);
                         actions.push(res.action_three);
                         actions.push(res.action_four);
+                        var form_builder = document.querySelector(".stage-wrap");
                         // To hide the loader
-                        var mainHeader = "<li class='header-field form-field' type='header' id='main-header'><div class='field-actions'><a type='edit' id='main-header' class='toggle-form btn formbuilder-icon-pencil' title='Edit'></a></div><label class='field-label'>Header</label><span class='required-asterisk' style=''> *</span><span class='tooltip-element' tooltip='undefined' style='display:none'>?</span><div class='prev-holder'><div class='formbuilder-header form-group field-header-1681859716095-preview'><header name='header-1681859716095-preview' id='header-1681859716095-preview'>Section</header></div></div><div id='frmb-1681859665978-fld-1-holder' class='frm-holder' data-field-id='frmb-1681859665978-fld-1'><div class='form-elements'><div class='form-group label-wrap' style='display: block'><label for='label-frmb-1681859665978-fld-1'>Label</label><div class='input-wrap'><div name='label' placeholder='Label' class='fld-label form-control' id='label-frmb-1681859665978-fld-1' contenteditable='true'>Header</div></div></div><a class='close-field'>Close</a></div></div></li>";
-                        if (res.form_data_html)
-                            $('.frmb').html(mainHeader + res.form_data_html);
-                        else
+                        var mainHeader = "<li class='header-field form-field' type='header' id='main-header'><div class='field-actions'><a type='edit' onclick=mainHeaderClose() id='main-header-edit' class='toggle-form btn formbuilder-icon-pencil' title='Edit'></a></div><label class='field-label'>Header</label><span class='required-asterisk' style=''> *</span><span class='tooltip-element' tooltip='undefined' style='display:none'>?</span><div class='prev-holder'><div class='formbuilder-header form-group field-header-1681859716095-preview'><header name='header-1681859716095-preview' id='header-1681859716095-preview'>Section</header></div></div><div id='frmb-1681859665978-fld-1-holder' class='frm-holder' data-field-id='frmb-1681859665978-fld-1'><div class='form-elements'><div class='form-group label-wrap' style='display: block'><label for='label-frmb-1681859665978-fld-1'>Label</label><div class='input-wrap'><div name='label' placeholder='Label' class='fld-label form-control' id='label-frmb-1681859665978-fld-1' contenteditable='true'>Header</div></div></div><a onclick=mainHeaderClose() class='close-field'>Close</a></div></div></li>";
+                        if (res.form_data_html && res.form_data_html != "") {
+                            if (res.form_data_html.indexOf('main-header') > -1) {
+                                $('.frmb').html(res.form_data_html);
+                            } else {
+                                $('.frmb').html(mainHeader + res.form_data_html);
+                            }
+                        } else
                             $('.frmb').html(mainHeader);
                         if (res.format_type == 'Display') {
                             $(".formbuilder-icon-checkbox-group").addClass("d-none");
                             $(".formbuilder-icon-button").addClass("d-none");
                             $(".formbuilder-icon-select").addClass("d-none");
+                            form_builder = document.querySelector(".stage-wrap");
+                            form_builder.classList.add('display-form');
                         }
                         document.getElementById("module").innerHTML = res.module;
                         document.getElementById("form").innerHTML = res.format_name;
                         document.getElementById("formType").innerHTML = res.format_type;
                         document.getElementById("my-loader-element").classList.remove("loader");
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
+
+                        form_builder.style.paddingTop = '43px';
+                        var mainHeaderDom = $(document.getElementById("main-header"));
                     }
                 })
+            }
+
+            function mainHeaderClose() {
+                var form_builder = document.querySelector(".stage-wrap");
+                if (form_builder.children[0].classList.contains('editing')) {
+                    form_builder.style.paddingTop = '43px';
+                } else {
+                    form_builder.style.paddingTop = '119px';
+                }
             }
             getFormData();
             $("#getJSON").click(function(e) {
                 e.preventDefault();
                 elements = $('.frmb').children();
+                var mainData = [];
                 array = [];
+                buttonArray = [];
                 for (let index = 0; index < elements.length; index++) {
                     const element = elements[index];
                     if (element.type == 'button') {
                         var object = {
-                            type: 'button',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            textColor: $(element).find('.textColor-wrap .fld-textColor')[0].value,
-                            buttonColor: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value,
-                            action1: $(element).find('.action1-wrap .custom-select')[0].value,
-                            action2: $(element).find('.action2-wrap .custom-select')[0].value,
-                            action3: $(element).find('.action3-wrap .custom-select')[0].value,
-                            action4: $(element).find('.action4-wrap .custom-select')[0].value,
+                            button: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            text: $(element).find('.textColor-wrap .fld-textColor')[0].value.substring(1),
+                            background: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value.substring(1),
+                            clicked: 'false'
+                            // action1: $(element).find('.action1-wrap .custom-select')[0].value,
+                            // action2: $(element).find('.action2-wrap .custom-select')[0].value,
+                            // action3: $(element).find('.action3-wrap .custom-select')[0].value,
+                            // action4: $(element).find('.action4-wrap .custom-select')[0].value,
                         };
-                        array.push(object);
+                        buttonArray.push(object);
                     } else if (element.type == 'checkbox-group') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
                         var object = {
-                            type: 'checkbox',
-                            label: $(element).find('.option-label')[0].value,
-                            selected: $(element).find('.option-selected')[0].value,
-                        };
-                        array.push(object);
-                    } else if (element.type == 'hidden') {
-                        var object = {
-                            type: 'divider',
-                            dividerColor: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
+                            check_box: $(element).find('.option-label')[0].value,
+                            pre_filled: $(element).find('.option-selected')[0].value,
                         };
                         array.push(object);
                     } else if (element.type == 'header') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        if (index != 0) {
+                            mainData.push(array);
+                            array = [];
+                        }
                         var object = {
-                            type: 'header',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            title: $(element).find('.label-wrap .fld-label')[0].innerHTML,
                         };
                         array.push(object);
                     } else if (element.type == 'text') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        var form_builder = document.querySelector(".stage-wrap");
+                        if (form_builder.classList.contains('display-form')) {
+                            var object = {
+                                field: "Text Field",
+                                value: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            };
+                            array.push(object);
+                        } else {
+                            var object = {
+                                text_box: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                pre_filed: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            };
+                            array.push(object);
+                        }
+                    } else if (element.type == 'hidden') {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
                         var object = {
-                            type: 'text',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            prefiled: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                            divider: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value.substring(1),
                         };
                         array.push(object);
                     } else if (element.type == 'select') {
-                        var object = {
-                            type: 'dropdown',
-                            label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                            multiple: $(element).find('.input-wrap .fld-multiple')[0].checked,
-                            values: []
-                        };
-                        subelements = $(element).find('.form-group .sortable-options').children();
-                        for (let j = 0; j < subelements.length; j++) {
-                            object.values.push({
-                                label: $(subelements[j]).find('.option-label')[0].value,
-                                selected: $(subelements[j]).find('.option-selected')[0].value
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
                             });
+                            buttonArray = [];
                         }
-                        array.push(object);
+                        var object = {
+                            drop_down: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                            multiple: $(element).find('.input-wrap .fld-multiple')[0].checked == true ? 'true' : 'false',
+                            pre_filled: [],
+                            pre_filled_selected: []
+                        };
+                        if (object.multiple == 'false') {
+                            subelements = $(element).find('.form-group .sortable-options').children();
+                            for (let j = 0; j < subelements.length; j++) {
+                                object.pre_filled.push($(subelements[j]).find('.option-label')[0].value);
+                                if ($(subelements[j]).find('.option-selected')[0].value == 'true') {
+                                    object.pre_filled_selected.push($(subelements[j]).find('.option-label')[0].value);
+                                }
+                            }
+                            array.push(object);
+                        } else {
+                            subelements = $(element).find('.form-group .form-control').children();
+                            for (let j = 0; j < subelements.length; j++) {
+                                object.pre_filled.push($(subelements[j])[0].innerHTML);
+                                if ($(subelements[j])[0].selected == true) {
+                                    object.pre_filled_selected.push($(subelements[j])[0].innerHTML);
+                                }
+                            }
+                            array.push(object);
+                        }
+                    }
+                    if (index == elements.length - 1) {
+                        if (buttonArray.length != 0) {
+                            array.push({
+                                buttons: buttonArray
+                            });
+                            buttonArray = [];
+                        }
+                        mainData.push(array);
                     }
                 }
-                // formData.form_data_html = $('.frmb').html();
-                // formData.form_data_json = array;
+                formData.form_data_html = $('.frmb').html();
+                formData.form_data_json = mainData;
                 formData.button = 'save';
-                console.log(formData);
                 document.getElementById("my-loader-element").classList.add("loader");
                 $.ajax({
                     type: "POST",
@@ -281,82 +360,125 @@ if (strlen($user) == 0) {
                     $("#build-preview").show();
                     $(this).text("Edit");
                     elements = $('.frmb').children();
+                    var mainData = [];
                     array = [];
+                    buttonArray = [];
                     for (let index = 0; index < elements.length; index++) {
                         const element = elements[index];
                         if (element.type == 'button') {
                             var object = {
-                                type: 'button',
-                                label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                                textColor: $(element).find('.textColor-wrap .fld-textColor')[0].value,
-                                buttonColor: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value,
-                                action1: $(element).find('.action1-wrap .custom-select')[0].value,
-                                action2: $(element).find('.action2-wrap .custom-select')[0].value,
-                                action3: $(element).find('.action3-wrap .custom-select')[0].value,
-                                action4: $(element).find('.action4-wrap .custom-select')[0].value,
+                                button: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                text: $(element).find('.textColor-wrap .fld-textColor')[0].value.substring(1),
+                                background: $(element).find('.buttonColor-wrap .fld-buttonColor')[0].value.substring(1),
+                                clicked: 'false'
+                                // action1: $(element).find('.action1-wrap .custom-select')[0].value,
+                                // action2: $(element).find('.action2-wrap .custom-select')[0].value,
+                                // action3: $(element).find('.action3-wrap .custom-select')[0].value,
+                                // action4: $(element).find('.action4-wrap .custom-select')[0].value,
                             };
-                            array.push(object);
+                            buttonArray.push(object);
                         } else if (element.type == 'checkbox-group') {
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
+                                });
+                                buttonArray = [];
+                            }
                             var object = {
-                                type: 'checkbox',
-                                label: $(element).find('.option-label')[0].value,
-                                selected: $(element).find('.option-selected')[0].value,
+                                check_box: $(element).find('.option-label')[0].value,
+                                pre_filled: $(element).find('.option-selected')[0].value,
                             };
                             array.push(object);
                         } else if (element.type == 'header') {
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
+                                });
+                                buttonArray = [];
+                            }
+                            if (index != 0) {
+                                mainData.push(array);
+                                array = [];
+                            }
                             var object = {
-                                type: 'header',
-                                label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                title: $(element).find('.label-wrap .fld-label')[0].innerHTML,
                             };
                             array.push(object);
                         } else if (element.type == 'text') {
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
+                                });
+                                buttonArray = [];
+                            }
                             var object = {
-                                type: 'text',
-                                label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                                prefiled: $(element).find('.input-wrap .fld-preFilled')[0].value,
+                                text_box: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                pre_filed: $(element).find('.input-wrap .fld-preFilled')[0].value,
                             };
                             array.push(object);
                         } else if (element.type == 'hidden') {
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
+                                });
+                                buttonArray = [];
+                            }
                             var object = {
-                                type: 'divider',
-                                dividerColor: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value,
+                                divider: $(element).find('.dividerColor-wrap .fld-dividerColor')[0].value.substring(1),
                             };
                             array.push(object);
                         } else if (element.type == 'select') {
-                            var object = {
-                                type: 'dropdown',
-                                label: $(element).find('.label-wrap .fld-label')[0].innerHTML,
-                                multiple: $(element).find('.input-wrap .fld-multiple')[0].checked,
-                                values: []
-                            };
-                            subelements = $(element).find('.form-group .sortable-options').children();
-                            for (let j = 0; j < subelements.length; j++) {
-                                object.values.push({
-                                    label: $(subelements[j]).find('.option-label')[0].value,
-                                    selected: $(subelements[j]).find('.option-selected')[0].value
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
                                 });
+                                buttonArray = [];
                             }
-                            array.push(object);
+                            var object = {
+                                drop_down: $(element).find('.label-wrap .fld-label')[0].innerHTML,
+                                multiple: $(element).find('.input-wrap .fld-multiple')[0].checked == true ? 'true' : 'false',
+                                pre_filled: [],
+                                pre_filled_selected: []
+                            };
+                            if (object.multiple == 'false') {
+                                subelements = $(element).find('.form-group .sortable-options').children();
+                                for (let j = 0; j < subelements.length; j++) {
+                                    object.pre_filled.push($(subelements[j]).find('.option-label')[0].value);
+                                    if ($(subelements[j]).find('.option-selected')[0].value == 'true') {
+                                        object.pre_filled_selected.push($(subelements[j]).find('.option-label')[0].value);
+                                    }
+                                }
+                                array.push(object);
+                            } else {
+                                subelements = $(element).find('.form-group .form-control').children();
+                                for (let j = 0; j < subelements.length; j++) {
+                                    object.pre_filled.push($(subelements[j])[0].innerHTML);
+                                    if ($(subelements[j])[0].selected == true) {
+                                        object.pre_filled_selected.push($(subelements[j])[0].innerHTML);
+                                    }
+                                }
+                                array.push(object);
+                            }
+                        }
+                        if (index == elements.length - 1) {
+                            if (buttonArray.length != 0) {
+                                array.push({
+                                    buttons: buttonArray
+                                });
+                                buttonArray = [];
+                            }
+                            mainData.push(array);
                         }
                     }
-                    // formData.form_data_html = $('.frmb').html();
-                    // formData.form_data_json = array;
-                    formData.button = 'preview';
-                    var mainData = [];
-                    $.ajax({
-                        type: "POST",
-                        url: "https://api.redenes.org/dev/v1/form-builder/",
-                        data: JSON.stringify(formData),
-                        dataType: "json",
-                        contentType: 'application/json',
-                        success: function(res) {
-                            console.log(res.objects);
-                            mainData = res.objects
-                            writeData();
-                        }
-                    })
+                    var form_builder = document.querySelector(".stage-wrap");
+                    if (form_builder.classList.contains('display-form')) {
+                        writeDisplayData();
+                    } else {
+                        writeData();
+                    }
 
                     function writeData() {
+                        console.log(mainData);
                         var tmp = '';
                         for (var i = 0; i < mainData.length; i++) {
                             object = mainData[i];
@@ -431,6 +553,31 @@ if (strlen($user) == 0) {
                                 }
                             }
                             tmp = tmp + "</div></div>";
+                        }
+                        document.getElementById("build-preview").innerHTML = tmp;
+                    }
+
+                    function writeDisplayData() {
+                        console.log(mainData);
+                        var tmp = '';
+                        for (var i = 0; i < mainData.length; i++) {
+                            object = mainData[i];
+                            tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #" + object[0].color +
+                                ";'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
+                            for (var j = 1; j < object.length; j++) {
+                                console.log(object[j]);
+                                if (object[j].divider) {
+                                    tmp += "<div class='custom-control custom-border mt-4 mr-5' style='border-color: #" + object[j]
+                                        .divider + "'/></div>";
+                                } else if (object[j].text_box) {
+                                    tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>" +
+                                        object[j].text_box + ": " + object[j].pre_filed + "</div>";
+                                } else {
+                                    tmp = tmp + "<div id='agency-address-unit' class='h5 mb-1 font-weight-bold text-gray-800'>" +
+                                        object[j].field + ": " + object[j].value + "</div>";
+                                }
+                            }
+                            tmp = tmp + "</div></div></div>";
                         }
                         document.getElementById("build-preview").innerHTML = tmp;
                     }
