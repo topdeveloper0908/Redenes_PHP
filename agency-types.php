@@ -144,11 +144,11 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value="Available">Development</option>
-                                <option value="Not Available">Beta</option>
-                                <option value="Testing">Active</option>
-                                <option value="Beta">Non Active</option>
+                            <select id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
+                                <option value="Development">Development</option>
+                                <option value="Beta">Beta</option>
+                                <option value="Active">Active</option>
+                                <option value="Non Active">Non Active</option>
                             </select>
                         </div>
                     </div>
@@ -202,7 +202,7 @@ $agency_id = $_COOKIE['agency_id'];
         function closeAddModal() {
             modal.style.display = "none";
             document.getElementById("modal-type-name").value = '';
-            document.getElementById("modal-status").value = 'Available';
+            document.getElementById("modal-status").value = 'Development';
         }
         init_id = "<?php echo $agency_id; ?>";
         async function getData(agency_id) {
@@ -226,7 +226,6 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
-            console.log(data);
             $('#dataTable').DataTable().destroy();
             const status = ['Development', 'Beta', 'Active', 'Non Active'];
             var tmp = '';

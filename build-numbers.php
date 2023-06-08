@@ -160,11 +160,11 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='modal-status' id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value='Available'>Development</option>
-                                <option value='Not Available'>Beta</option>
-                                <option value='Testing'>Production</option>
-                                <option value='Beta'>Past Production</option>
+                            <select id='modal-status' aria-controls='dataTable' class='custom-select form-control-sm'>
+                                <option value='Development'>Development</option>
+                                <option value='Beta'>Beta</option>
+                                <option value='Production'>Production</option>
+                                <option value='Past Production'>Past Production</option>
                             </select>
                         </div>
                     </div>
@@ -229,7 +229,7 @@ $agency_id = $_COOKIE['agency_id'];
             modal.style.display = "none";
             document.getElementById("modal-platform").value = 'Android';
             document.getElementById("modal-version").value = '';
-            document.getElementById("modal-status").value = 'Available';
+            document.getElementById("modal-status").value = 'Development';
             document.getElementById("modal-description").value = '';
         }
         init_id = "<?php echo $agency_id; ?>";
@@ -401,7 +401,7 @@ $agency_id = $_COOKIE['agency_id'];
                 agency_id: init_id,
                 platform: document.getElementById("modal-platform").value,
                 version: document.getElementById("modal-version").value,
-                status: document.getElementById("modal-status").value,
+                status_selected: document.getElementById("modal-status").value,
                 description: document.getElementById("modal-description").value
             }
             $.ajax({
