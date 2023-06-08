@@ -77,6 +77,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Last Login</th>
                                                 <th>Status</th>
                                                 <th>Agencies</th>
+                                                <th>Devices</th>
                                                 <th style="width: 14rem;">Edit</th>
                                             </tr>
                                         </thead>
@@ -88,6 +89,7 @@ $agency_id = $_COOKIE['agency_id'];
                                                 <th>Last Login</th>
                                                 <th>Status</th>
                                                 <th>Agencies</th>
+                                                <th>Devices</th>
                                                 <th style="width: 14rem;">Edit</th>
                                             </tr>
                                         </tfoot>
@@ -245,7 +247,6 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData(data) {
-            console.log(data);
             var tmp = '';
             const status = ['Active', 'Non Active', 'Suspended'];
             data.forEach(element => {
@@ -264,6 +265,7 @@ $agency_id = $_COOKIE['agency_id'];
                 }
                 tmp += "</td>";
                 tmp += "<td>" + element.agencies + "</td>";
+                tmp += "<td>" + element.devices + "</td>";
                 tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 tmp += "</tr>";
             });
