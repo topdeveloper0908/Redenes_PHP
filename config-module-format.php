@@ -278,8 +278,9 @@ $agency_id = $_COOKIE['agency_id'];
 
         function writeAgencyType(mainData) {
             tmp = '';
+            console.log(mainData);
             mainData.forEach(element => {
-                tmp += "<option value=" + element.type_name + ">" + element.type_name + "</option>";
+                tmp += "<option value='" + element.type_id + "'>" + element.type_name + "</option>";
             })
             document.getElementById('agency-types').innerHTML = tmp;
         }
@@ -316,7 +317,8 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 format_type: $('#formatType').val(),
                 module: $('#formatModule').val(),
-                format_name: $('#formatName').val()
+                format_name: $('#formatName').val(),
+                agency_type: $('#agency-types').val(),
             }
             $.ajax({
                 type: "POST",
@@ -405,6 +407,7 @@ $agency_id = $_COOKIE['agency_id'];
 
         function changeAgency(e) {
             selected_type = e.currentTarget.value;
+
             $.ajax({
                 type: "GET",
                 url: "https://api.redenes.org/dev/v1/system-config-format-modules/",
