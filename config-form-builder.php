@@ -480,7 +480,6 @@ if (strlen($user) == 0) {
                     }
 
                     function writeData() {
-                        console.log(mainData);
                         var tmp = '';
                         for (var i = 0; i < mainData.length; i++) {
                             object = mainData[i];
