@@ -302,7 +302,11 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "</select></td>";
                 tmp += "<td><a href='config-form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='config-format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
-                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                if (element.status == 'In Use') {
+                    tmp += "<td><a class='disabled btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                } else {
+                    tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event,'" + element.format_id + "')><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                }
                 tmp += "</tr>";
                 index++;
             });
@@ -374,6 +378,7 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("my-loader-wrapper").classList.remove("d-none");
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
+                agency_type: $('#agency-types').val(),
                 authorization: authorization.toString(),
                 delete: row
             }
@@ -388,11 +393,12 @@ $agency_id = $_COOKIE['agency_id'];
                         trs = document.getElementById("table-content").children;
                         for (let index = 0; index < trs.length; index++) {
                             const element = trs[index];
-                            console.log(trs[index]);
                             if (trs[index].getAttribute('data-id') == row) {
                                 trs[index].remove();
                             }
                         }
+                        $('#dataTable').DataTable().destroy();
+                        $('#dataTable').dataTable();
                         document.getElementById("my-loader-element").classList.remove("loader");
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
                     }

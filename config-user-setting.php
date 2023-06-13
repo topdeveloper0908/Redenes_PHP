@@ -252,7 +252,9 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
+                    console.log(res);
                     user_setting_info = res;
+                    selected_user = res.type_id;
                     writeData();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -264,13 +266,13 @@ $agency_id = $_COOKIE['agency_id'];
 
         function writeData() {
             tmp = '';
-            for (let key in user_setting_info.agency_types) {
-                tmp += "<option value='" + user_setting_info.agency_types[key] + "'";
-                if (selected_user == user_setting_info.agency_types[key]) {
+            user_setting_info.agency_types.forEach(element => {
+                tmp += "<option value='" + element.type_id + "'";
+                if (selected_user == element.type_id) {
                     tmp += " selected";
                 }
-                tmp += ">" + user_setting_info.agency_types[key] + "</option>";
-            }
+                tmp += ">" + element.type_name + "</option>";
+            });
             document.getElementById('agency-type').innerHTML = tmp;
             // Write Agency Type
             data = user_setting_info;
@@ -631,6 +633,7 @@ $agency_id = $_COOKIE['agency_id'];
                 user_groups: user_setting_info.user_groups,
                 user_status: user_setting_info.user_status,
             };
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/system-config-users-settings/",
