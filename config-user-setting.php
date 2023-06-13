@@ -254,7 +254,6 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     console.log(res);
                     user_setting_info = res;
-                    selected_user = res.type_id;
                     writeData();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -265,6 +264,7 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
 
         function writeData() {
+
             tmp = '';
             user_setting_info.agency_types.forEach(element => {
                 tmp += "<option value='" + element.type_id + "'";

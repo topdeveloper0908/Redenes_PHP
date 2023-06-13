@@ -181,7 +181,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.agency_type_selected, res.agency_types);
+                    writeDropdown(res.agency_types);
                     writeTable();
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");
@@ -366,15 +366,13 @@ $agency_id = $_COOKIE['agency_id'];
             module_setting[key][0][subkey][0][action] = value;
         }
 
-        function writeDropdown(selected, options) {
+        function writeDropdown(options) {
             tmp = '';
-            for (let index = 0; index < options.length; index++) {
-                const element = options[index];
-                tmp += "<option value='" + options[index] + "'";
-                if (options[index] == selected)
-                    tmp += " selected";
-                tmp += ">" + options[index] + "</option>";
-            }
+            options.forEach(element => {
+                tmp += "<option value='" + element.type_id + "'";
+                tmp += ">" + element.type_name + "</option>";
+
+            });
             document.getElementById('userGroupDropdown').innerHTML = tmp;
         }
 
@@ -388,8 +386,8 @@ $agency_id = $_COOKIE['agency_id'];
                     user_groups: e.target.value
                 },
                 success: function(res) {
+                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.user_group_selected, res.user_groups);
                     writeTable();
                 }
             })
