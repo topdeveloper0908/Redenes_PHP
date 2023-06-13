@@ -383,10 +383,9 @@ $agency_id = $_COOKIE['agency_id'];
                 data: {
                     agency_id: init_id,
                     authorization: "<?php echo $authorization; ?>",
-                    user_groups: e.target.value
+                    agency_type: e.target.value
                 },
                 success: function(res) {
-                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
                     writeTable();
                 }

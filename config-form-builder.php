@@ -260,6 +260,8 @@ if (strlen($user) == 0) {
                         };
                         array.push(object);
                     } else if (element.type == 'text') {
+                        inputID = $(element).find('.input-wrap .fld-preFilled')[0];       
+                        document.getElementById(inputID.id).setAttribute('value', inputID.value);
                         if (buttonArray.length != 0) {
                             array.push({
                                 buttons: buttonArray
@@ -338,6 +340,7 @@ if (strlen($user) == 0) {
                 formData.form_data_json = mainData;
                 formData.button = 'save';
                 document.getElementById("my-loader-element").classList.add("loader");
+                console.log(formData);
                 $.ajax({
                     type: "POST",
                     url: "https://api.redenes.org/dev/v1/system-config-form-builder/",
