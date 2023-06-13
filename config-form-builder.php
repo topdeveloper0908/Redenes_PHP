@@ -269,7 +269,7 @@ if (strlen($user) == 0) {
                         var form_builder = document.querySelector(".stage-wrap");
                         if (form_builder.classList.contains('display-form')) {
                             var object = {
-                                field: "Text Field",
+                                field: $(element).find('.label-wrap .fld-label')[0].innerHTML,
                                 value: $(element).find('.input-wrap .fld-preFilled')[0].value,
                             };
                             array.push(object);
