@@ -61,7 +61,7 @@ $agency_id = $_COOKIE['agency_id'];
                             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
                                     <h6 class="mr-3 mb-0" style="white-space:nowrap">Agency Type</h6>
-                                    <select onchange="changeUserGroup(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' style="width: 13rem">
+                                    <select onchange="changeUserGroup(event)" id="agencyTypes" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' style="width: 13rem">
                                     </select>
                                 </div>
                                 <div>
@@ -211,8 +211,10 @@ $agency_id = $_COOKIE['agency_id'];
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
+                agency_type: document.getElementById("agencyTypes").value,
                 agency_module_settings: [module_setting]
             };
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/system-config-module-settings/",
@@ -228,7 +230,7 @@ $agency_id = $_COOKIE['agency_id'];
                     selects.forEach(element => {
                         element.setAttribute("disabled", true);
                     });
-                    document.getElementById('userGroupDropdown').removeAttribute("disabled");
+                    document.getElementById('agencyTypes').removeAttribute("disabled");
                 }
             })
         }
@@ -238,7 +240,7 @@ $agency_id = $_COOKIE['agency_id'];
             selects.forEach(element => {
                 element.removeAttribute("disabled");
             });
-            document.getElementById('userGroupDropdown').setAttribute("disabled", true);
+            document.getElementById('agencyTypes').setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
@@ -255,7 +257,7 @@ $agency_id = $_COOKIE['agency_id'];
             selects.forEach(element => {
                 element.setAttribute("disabled", true);
             });
-            document.getElementById('userGroupDropdown').removeAttribute("disabled");
+            document.getElementById('agencyTypes').removeAttribute("disabled");
         }
 
         function writeTable() {
@@ -373,7 +375,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += ">" + element.type_name + "</option>";
 
             });
-            document.getElementById('userGroupDropdown').innerHTML = tmp;
+            document.getElementById('agencyTypes').innerHTML = tmp;
         }
 
         function changeUserGroup(e) {
