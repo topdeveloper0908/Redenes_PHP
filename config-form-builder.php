@@ -165,7 +165,6 @@ if (strlen($user) == 0) {
                         form_id: "<?php echo $form_id; ?>"
                     },
                     success: function(res) {
-                        console.log(res);
                         // id = $('.frmb').attr('id');
                         $('.frmb').removeClass('empty');
                         formData = res;
@@ -347,7 +346,6 @@ if (strlen($user) == 0) {
                     dataType: "json",
                     contentType: 'application/json',
                     success: function(res) {
-                        console.log(res);
                         document.getElementById("alert").classList.remove("d-none");
                         document.getElementById("alert-title").innerHTML = res.status;
                         document.getElementById("my-loader-element").classList.remove("loader");
@@ -559,14 +557,12 @@ if (strlen($user) == 0) {
                     }
 
                     function writeDisplayData() {
-                        console.log(mainData);
                         var tmp = '';
                         for (var i = 0; i < mainData.length; i++) {
                             object = mainData[i];
                             tmp = tmp + "<div class='card shadow py-2 my-2' style='border-left:0.25rem solid #" + object[0].color +
                                 ";'><div class='card-body'><div class='row no-gutters align-items-center'><div class='col mr-2'>";
                             for (var j = 1; j < object.length; j++) {
-                                console.log(object[j]);
                                 if (object[j].divider) {
                                     tmp += "<div class='custom-control custom-border mt-4 mr-5' style='border-color: #" + object[j]
                                         .divider + "'/></div>";
@@ -578,7 +574,7 @@ if (strlen($user) == 0) {
                                         object[j].field + ": " + object[j].value + "</div>";
                                 }
                             }
-                            tmp = tmp + "</div></div></div>";
+                            tmp = tmp + "</div></div></div></div>";
                         }
                         document.getElementById("build-preview").innerHTML = tmp;
                     }
