@@ -193,21 +193,6 @@ $agency_id = $_COOKIE['agency_id'];
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
-            // for (let key in module_setting) {
-            //     for (let subkey in module_setting[key][0]) {
-            //         for (let i = 0; i < 4; i++) {
-            //             if (i == 0) {
-            //                 module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-            //             } else if (i == 1) {
-            //                 module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-            //             } else if (i == 2) {
-            //                 module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-            //             } else {
-            //                 module_setting[key][0][subkey][0].default_form_selected = document.getElementById(subkey + 'Dropdown').value;
-            //             }
-            //         }
-            //     }
-            // }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,

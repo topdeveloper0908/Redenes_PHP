@@ -107,20 +107,24 @@ if (strlen($user) == 0) {
                                 </div>
                             </div>
                             <div class="d-flex align-items-center mt-4 mb-2">
-                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Offline: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 10rem">Offline: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="formatOffline" style="max-width: 40rem;"></select>
                             </div>
                             <div class="d-flex align-items-center">
-                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Groups: </h4>
+                                <h4 class="mr-2 mb-2 text-right" style="width: 10rem">Groups: </h4>
                                 <div id="groupsWrapper" style="flex: 1; max-width: 40rem"></div>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Modal: </h4>
+                                <h4 class="mr-2 mb-0 text-right" style="width: 10rem">Modal: </h4>
                                 <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="modalStatus" style="max-width: 40rem;"></select>
                             </div>
-                            <div class="d-flex align-items-center mb-4">
-                                <h4 class="mr-2 mb-0 text-right" style="width: 8rem">Page Title: </h4>
+                            <div class="d-flex align-items-center mb-2">
+                                <h4 class="mr-2 mb-0 text-right" style="width: 10rem">Page Title: </h4>
                                 <input type='text' class='form-control small' placeholder='Enter Page Title...' aria-label='Search' aria-describedby='basic-addon2' style="flex: 1; max-width: 40rem">
+                            </div>
+                            <div class="d-flex align-items-center mb-4">
+                                <h4 class="mr-2 mb-0 text-right" style="width: 10rem">Add Format: </h4>
+                                <select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' id="addFormat" style="max-width: 40rem;"></select>
                             </div>
                         </div>
                         <div class="card shadow mb-4">
@@ -344,7 +348,7 @@ if (strlen($user) == 0) {
                 var tmp = '';
                 row = 0;
                 // var button = "<button class='btn btn-primary' onclick='addAction(event)'>Add Action</button>";
-                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected, data.modal);
+                writeMetaData(data.form_id, data.navigation_title, data.form_name, data.module, data.type, data.offline, data.groups, data.group_pre_selected, data.modal, data.add_format);
                 objects = data.objects;
                 for (var i = 0; i < objects.length; i++) {
                     for (var j = 0; j < objects[i].length; j++) {
@@ -501,7 +505,7 @@ if (strlen($user) == 0) {
                 }
             }
 
-            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected, modal) {
+            function writeMetaData(id, pageTitle, name, module, type, offline, groups, groupsSelected, modal, addFormat) {
                 document.getElementById('formatName').innerHTML = name;
                 document.getElementById('moduleName').innerHTML = module;
                 document.getElementById('formatType').innerHTML = type;
@@ -529,11 +533,11 @@ if (strlen($user) == 0) {
                 tmp = '';
                 if (groupsSelected != '' && groupsSelected) {
                     tmp = tmp + "<div class='form-group mb-0'>";
-                    tmp += "<div class='multiselect mb-3 bg-white selection' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
+                    tmp += "<div class='multiselect mb-2 bg-white selection' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect' title='" + groupsSelected.join(',') + "'><span class='text'>" + groupsSelected.join(',') + "</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
                 } else {
                     tmp = tmp + "<div class='form-group mb-0'>";
-                    tmp += "<div class='multiselect mb-3 bg-white' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
+                    tmp += "<div class='multiselect mb-2 bg-white' id='groupsDropdown' multiple='multiple' data-target='groupsDropdown'>";
                     tmp += "<div class='title noselect'><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
                 }
                 tmp += " <div class='dropdown-container'>";
@@ -548,6 +552,12 @@ if (strlen($user) == 0) {
                 tmp += "</div></div></div>";
                 document.getElementById('groupsWrapper').innerHTML = tmp;
                 new Multiselect('#groupsDropdown', groupsSelected);
+                tmp = '';
+                addFormat.forEach(element => {
+                    tmp += "<option value='" + element.type_id + "' class='option-item";
+                    tmp += "'>" + element.type_name + "</option>";
+                });
+                document.getElementById('addFormat').innerHTML = tmp;
             }
             var modal = document.getElementById("myModal");
             var deleteModal = document.getElementById("deleteModal");
@@ -962,6 +972,7 @@ if (strlen($user) == 0) {
                     }
                 }
                 formData[0].offline = document.getElementById('formatOffline').value;
+                formData[0].add_format = document.getElementById('addFormat').value;
                 formData[0].groups = document.getElementById('groupsDropdown').children[0].getAttribute('title');
                 return formData[0];
             }
