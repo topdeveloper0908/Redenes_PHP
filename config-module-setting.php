@@ -316,11 +316,11 @@ $agency_id = $_COOKIE['agency_id'];
                     if (element.default_forms) {
                         tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                         for (let index = 0; index < element.default_forms.length; index++) {
-                            tmp += "<option value='" + element.default_forms[index] + "'";
-                            if (element.default_form_selected == element.default_forms[index]) {
+                            tmp += "<option value='" + element.default_forms[index].format_id + "'";
+                            if (element.default_form_selected == element.default_forms[index].format_id) {
                                 tmp += " selected";
                             }
-                            tmp += ">" + element.default_forms[index] + "</option>"
+                            tmp += ">" + element.default_forms[index].format_name + "</option>"
                         }
                         tmp += "</td>";
                     } else {
@@ -329,11 +329,11 @@ $agency_id = $_COOKIE['agency_id'];
                     if (element.default_forms) {
                         tmp += "<td><select onchange=valueChange(event) data-action='new_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                         for (let index = 0; index < element.default_forms.length; index++) {
-                            tmp += "<option value='" + element.default_forms[index] + "'";
-                            if (element.new_form_selected == element.default_forms[index]) {
+                            tmp += "<option value='" + element.default_forms[index].format_id + "'";
+                            if (element.new_form_selected == element.default_forms[index].format_id) {
                                 tmp += " selected";
                             }
-                            tmp += ">" + element.default_forms[index] + "</option>"
+                            tmp += ">" + element.default_forms[index].format_name + "</option>"
                         }
                         tmp += "</td>";
                     } else {
