@@ -193,13 +193,21 @@ $agency_id = $_COOKIE['agency_id'];
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
+            data = module_setting;
+            for (let key in data) {
+                for (let subkey in data[key][0]) {
+                    element = data[key][0][subkey][0];
+                    if(element.default_forms) {
+                        delete data[key][0][subkey][0].default_forms;
+                    }
+                }
+            }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
                 agency_type: document.getElementById("agencyTypes").value,
                 agency_module_settings: [module_setting]
             };
-            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/system-config-module-settings/",
