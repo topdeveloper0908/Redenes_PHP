@@ -104,19 +104,19 @@ $agency_id = $_COOKIE['agency_id'];
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Rank</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userRankDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
+                                                <select onchange="changeRankDropdown(event)" id="userRankDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Group</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
+                                                <select onchange="changeGroupDropdown(event)" id="userGroupDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <h6 class="m-0 mt-4 mb-2">Auto Add User to Status</h6>
                                             <div class="custom-control custom-checkbox small flex-grow-1 pl-0">
-                                                <select id="userStatusDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
+                                                <select onchange="changeStatusDropdown(event)" id="userStatusDropdown" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled></select>
                                             </div>
                                         </div>
                                     </div>
@@ -616,7 +616,15 @@ $agency_id = $_COOKIE['agency_id'];
                 }
             })
         }
-
+        function changeRankDropdown(e) {
+            user_setting_info.auto_add_user_to_rank = e.currentTarget.value;
+        }
+        function changeGroupDropdown(e) {
+            user_setting_info.auto_add_user_to_group = e.currentTarget.value;
+        }
+        function changeStatusDropdown(e) {
+            user_setting_info.auto_add_user_to_status = e.currentTarget.value;
+        }
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
             if (!selected_user) {
