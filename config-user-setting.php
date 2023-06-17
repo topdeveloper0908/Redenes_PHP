@@ -620,7 +620,7 @@ $agency_id = $_COOKIE['agency_id'];
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
             if (!selected_user) {
-                selected_user = user_setting_info.agency_types[0];
+                selected_user = user_setting_info.agency_types[0].type_id;
             }
             var formData = {
                 authorization: authorization.toString(),
