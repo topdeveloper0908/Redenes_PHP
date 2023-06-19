@@ -210,7 +210,6 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
-                    console.log(res);
                     // To hide the loader
                     writeData(res.agencies);
                     document.getElementById("my-loader-element").classList.remove("loader");
