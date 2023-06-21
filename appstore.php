@@ -6,20 +6,16 @@ session_start();
     <body>
         <script>
             function getDevice() {
-                var phoneModel;
-                var phoneVersion;    
-                console.log()
+                console.log(navigator.userAgent.toLowerCase());
                 if(navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/) == null) {
-                    phoneModel = 'Null';
-                    phoneVersion = 'Null';    
                     window.location = "https://www.redenes.org";
                 }
                 else {
-                    if(navigator.userAgent.toLowerCase().match(/(android)/) == null) {
-                        window.location = "https://www.apple.com";
+                    if(navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod)/) == null) {
+                        window.location = "https://www.google.com";
                     }
                     else {
-                        window.location = "https://www.google.com";
+                        window.location = "https://www.apple.com";
                     }
                 }
             }
