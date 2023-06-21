@@ -576,6 +576,7 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById('integrationClosedCall').value = 'true';
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    clearModal();
                 }
             })
         })
