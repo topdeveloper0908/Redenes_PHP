@@ -19,10 +19,10 @@ session_start();
                             phoneModel = navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android)/)[1];
                             phoneVersion = navigator.userAgent.toLowerCase().match(/(iphone os|cpu os|android) ([\d_]+)/)[2];
                             if(phoneModel == 'android') {
-                                window.location.replace("www.google.com");
+                                window.location = "https://www.google.com";
                             }
                             else {
-                                window.location.replace("www.apple.com");
+                                window.location = "https://www.apple.com";
                             }
                         }
 
