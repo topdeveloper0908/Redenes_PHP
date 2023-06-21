@@ -257,17 +257,17 @@ $agency_id = $_COOKIE['agency_id'];
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
 
-        const modalType = document.getElementById('integrationType');
-        const modalState = document.getElementById('integrationState');
-        const modalStateWrapper = document.getElementById('integrationStateWrapper');
-        const modalAgency = document.getElementById('integrationAgency');
-        const modalAgencyWrapper = document.getElementById('integrationAgencyWrapper');
-        const modalAgencyInput = document.getElementById('integrationAgencyInput');
-        const modalActiveCall = document.getElementById('integrationActiveCall');
-        const modalActiveCallWrapper = document.getElementById('integrationActiveCallWrapper');
-        const modalClosedCall = document.getElementById('integrationClosedCall');
-        const modalClosedCallWrapper = document.getElementById('integrationClosedCallWrapper');
-        const modalBtnWrapper = document.getElementById("integrationSubmitBtnWrapper");
+        var modalType = document.getElementById('integrationType');
+        var modalState = document.getElementById('integrationState');
+        var modalStateWrapper = document.getElementById('integrationStateWrapper');
+        var modalAgency = document.getElementById('integrationAgency');
+        var modalAgencyWrapper = document.getElementById('integrationAgencyWrapper');
+        var modalAgencyInput = document.getElementById('integrationAgencyInput');
+        var modalActiveCall = document.getElementById('integrationActiveCall');
+        var modalActiveCallWrapper = document.getElementById('integrationActiveCallWrapper');
+        var modalClosedCall = document.getElementById('integrationClosedCall');
+        var modalClosedCallWrapper = document.getElementById('integrationClosedCallWrapper');
+        var modalBtnWrapper = document.getElementById("integrationSubmitBtnWrapper");
 
         var values=[false,false,false];
         editButtons.forEach(element => {
@@ -401,18 +401,26 @@ $agency_id = $_COOKIE['agency_id'];
         }
         closeBtn.onclick = function() {
             modal.style.display = "none";
-            document.getElementById('integrationState').innerHTML = '';
-            document.getElementById('integrationAgency').innerHTML = '';
-            document.getElementById('integrationActiveCall').value = 'true';
-            document.getElementById('integrationClosedCall').value = 'true';
+            clearModal();
+        }
+        function clearModal() {
+            document.getElementById('createModuleForm').innerHTML = "<div class='row align-items-center'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>Type</h6></div><div class='col-8'><div class='d-flex align-items-center'><select onchange=changeIntegrationType(event) name='integrationType' id='integrationType' aria-controls='dataTable' class='custom-select form-control-sm'><option disabled selected hidden>Choose Type</option><option value='Pulse Point'>Pulse Point</option><option value='CHP'>CHP</option><option value='Active Alert'>Active Alert</option></select></div></div></div><div class='row align-items-center my-4 d-none' id='integrationStateWrapper'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>State</h6></div><div class='col-8'><div class='d-flex align-items-center'><select onchange=changeIntegrationState(event) id='integrationState' name='integrationState' aria-controls='dataTable' class='custom-select form-control-sm' require></select></div></div></div><div class='row align-items-center my-4 d-none'  id='integrationAgencyWrapper'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>Agency</h6></div><div class='col-8'><div class='d-flex align-items-center'><select onchange=changeIntegrationAgency(event) id='integrationAgency' name='integrationAgency' aria-controls='dataTable' class='custom-select form-control-sm' require></select><input type='text' class='form-control form-control-user d-none' id='integrationAgencyInput' placeholder='Enter Agency...'></div></div></div><div class='row align-items-center my-4 d-none' id='integrationActiveCallWrapper'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>Active Calls</h6></div><div class='col-8'><div class='d-flex align-items-center'><select id='integrationActiveCall' name='integrationActiveCall' aria-controls='dataTable' class='custom-select form-control-sm' require><option value='true'>True</option><option value='false'>False</option></select></div></div></div><div class='row align-items-center my-4 d-none'  id='integrationClosedCallWrapper'><div class='col-4'><h6 class='ml-2 mb-0 text-right'>Closed Calls</h6></div><div class='col-8'><div class='d-flex align-items-center'><select id='integrationClosedCall' name='integrationClosedCall' aria-controls='dataTable' class='custom-select form-control-sm'><option value='true'>True</option><option value='false'>False</option></select></div></div></div><div class='row justify-content-center mt-4 d-none' id='integrationSubmitBtnWrapper'><button type='submit' id='createModuleBtn' class='nav-link btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add</span></button></div>";
+            modalType = document.getElementById('integrationType');
+            modalState = document.getElementById('integrationState');
+            modalStateWrapper = document.getElementById('integrationStateWrapper');
+            modalAgency = document.getElementById('integrationAgency');
+            modalAgencyWrapper = document.getElementById('integrationAgencyWrapper');
+            modalAgencyInput = document.getElementById('integrationAgencyInput');
+            modalActiveCall = document.getElementById('integrationActiveCall');
+            modalActiveCallWrapper = document.getElementById('integrationActiveCallWrapper');
+            modalClosedCall = document.getElementById('integrationClosedCall');
+            modalClosedCallWrapper = document.getElementById('integrationClosedCallWrapper');
+            modalBtnWrapper = document.getElementById("integrationSubmitBtnWrapper");
         }
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
-                document.getElementById('integrationState').innerHTML = '';
-                document.getElementById('integrationAgency').innerHTML = '';
-                document.getElementById('integrationActiveCall').value = 'true';
-                document.getElementById('integrationClosedCall').value = 'true';
+                modal.style.display = 'none';
+                clearModal();
             }
         }
         function changeIntegrationType(e) {

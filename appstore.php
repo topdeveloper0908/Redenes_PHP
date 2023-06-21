@@ -30,7 +30,6 @@ session_start();
                         var url = new URL(window.location.href);
                         var params = url.searchParams;
 
-                        var udid = params.get('rescue_text_id');
 
                     })
                 } else {
