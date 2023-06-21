@@ -123,7 +123,12 @@ session_start();
                         var index = 0;
                         if (data.agencies.length == 0) {
                             document.cookie = "authorization = " + data.authorization;
-                            window.location.replace("register-agency");
+                            if(data.system_admin == 'active') {
+                                window.location.replace("build-numbers");
+                            }
+                            else {
+                                window.location.replace("register-agency");
+                            }
                         }
                         data.agencies.forEach(element => {
                             auth = tmp + data.authorization

@@ -71,6 +71,13 @@ if (strlen($user) == 0) {
         </a>
     </li>
 
+    <li id="integration_item" class="nav-item">
+        <a class="nav-link" href="integration">
+            <i class="fas fa-fw fa-tools"></i>
+            <span>Integrations</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
@@ -155,6 +162,8 @@ if (strlen($user) == 0) {
         document.getElementById('users_item').classList.add('active');
     } else if (currentUrl.includes('devices')) {
         document.getElementById('devices_item').classList.add('active');
+    } else if (currentUrl.includes('integration')) {
+        document.getElementById('integration_item').classList.add('active');
     } else if (currentUrl.includes('system-config')) {
         document.getElementById('config_item').classList.add('active');
         document.getElementById('sidebar-title').innerHTML = 'System Config';
