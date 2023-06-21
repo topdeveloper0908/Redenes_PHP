@@ -97,7 +97,7 @@
                     cell_number: $("#Phone").val(),
                     email_address: $("#Email").val(),
                     password: $("#Password").val(),
-                    birth_date: $("#Date").val()
+                    birth_date: $("#Date").val(),
                     platform: "Website"
                 };
                 $.ajax({
