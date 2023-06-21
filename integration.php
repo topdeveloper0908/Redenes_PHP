@@ -132,14 +132,15 @@ $agency_id = $_COOKIE['agency_id'];
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select onchange=changeIntegrationType(event) name='integrationType' id='integrationType' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value="Pulse Point" selected>Pulse Point</option>
+                                <option disabled selected hidden>Choose Type</option>
+                                <option value="Pulse Point">Pulse Point</option>
                                 <option value="CHP">CHP</option>
                                 <option value="Active Alert">Active Alert</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center my-4" id="integrationStateWrapper">
+                <div class="row align-items-center my-4 d-none" id="integrationStateWrapper">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">State</h6>
                     </div>
@@ -150,44 +151,45 @@ $agency_id = $_COOKIE['agency_id'];
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center my-4">
+                <div class="row align-items-center my-4 d-none"  id="integrationAgencyWrapper">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Agency</h6>
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select id="integrationAgency" name='integrationAgency' aria-controls='dataTable' class='custom-select form-control-sm' require>
+                            <select onchange=changeIntegrationAgency(event) id="integrationAgency" name='integrationAgency' aria-controls='dataTable' class='custom-select form-control-sm' require>
                             </select>
+                            <input type="text" class="form-control form-control-user d-none" id="integrationAgencyInput" placeholder="Enter Agency...">
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center my-4">
+                <div class="row align-items-center my-4 d-none" id="integrationActiveCallWrapper">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Active Calls</h6>
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select id="integrationActiveCall" name='integrationActiveCall' aria-controls='dataTable' class='custom-select form-control-sm' require>
-                                <option value="true" selected>True</option>
+                                <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center my-4">
+                <div class="row align-items-center my-4 d-none"  id="integrationClosedCallWrapper">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">Closed Calls</h6>
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <select id="integrationClosedCall" name='integrationClosedCall' aria-controls='dataTable' class='custom-select form-control-sm'>
-                                <option value="true" selected>True</option>
+                                <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center mt-4">
+                <div class="row justify-content-center mt-4 d-none" id="integrationSubmitBtnWrapper">
                     <button type="submit" id="createModuleBtn" class='nav-link btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Add</span></button>
                 </div>
             </form>
@@ -255,6 +257,18 @@ $agency_id = $_COOKIE['agency_id'];
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
 
+        const modalType = document.getElementById('integrationType');
+        const modalState = document.getElementById('integrationState');
+        const modalStateWrapper = document.getElementById('integrationStateWrapper');
+        const modalAgency = document.getElementById('integrationAgency');
+        const modalAgencyWrapper = document.getElementById('integrationAgencyWrapper');
+        const modalAgencyInput = document.getElementById('integrationAgencyInput');
+        const modalActiveCall = document.getElementById('integrationActiveCall');
+        const modalActiveCallWrapper = document.getElementById('integrationActiveCallWrapper');
+        const modalClosedCall = document.getElementById('integrationClosedCall');
+        const modalClosedCallWrapper = document.getElementById('integrationClosedCallWrapper');
+        const modalBtnWrapper = document.getElementById("integrationSubmitBtnWrapper");
+
         var values=[false,false,false];
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
@@ -318,6 +332,7 @@ $agency_id = $_COOKIE['agency_id'];
                     closed_call: checkboxs[1].checked,
                     enabled: checkboxs[2].checked
                 }
+                console.log(formData);
                 document.getElementById("my-loader-element").classList.add("loader");                
                 $.ajax({
                     type: "POST",
@@ -326,7 +341,6 @@ $agency_id = $_COOKIE['agency_id'];
                     dataType: "json",
                     contentType:'application/json',
                     success: function (res) {
-                        console.log(res);
                         // To hide the loader
                         document.getElementById("my-loader-element").classList.remove("loader");                
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -406,52 +420,77 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("my-loader-element").classList.add("loader");                
             var authorization = "<?php echo $authorization;?>";
             document.getElementById("integrationAgency").innerHTML = '';                
-            document.getElementById("integrationState").innerHTML = '';                
-            $.ajax({
-                type: "GET",
-                url: "https://api.redenes.org/dev/v1/integrations?authorization="+authorization.toString()+"&type="+value,
-                dataType: "json",
-                contentType:'application/json',
-                success: function (res) {
-                    console.log(res);
-                    tmp = '';
-                    if(res.agencies) {
-                        document.getElementById('integrationStateWrapper').classList.add('d-none')
-                        res.agencies.forEach(element => {
-                            tmp += "<option value='" + element + "'>" + element + "</option>";
-                        });
-                        document.getElementById("integrationAgency").innerHTML = tmp;                
-                    }
-                    else if(res.states) {
-                        if(document.getElementById('integrationStateWrapper').classList.value.indexOf('d-none') > -1) {
-                            document.getElementById('integrationStateWrapper').classList.remove('d-none')
-                            $.ajax({
-                                type: "GET",
-                                url: "https://api.redenes.org/dev/v1/integrations?authorization="+authorization.toString()+"&type=Pulse Point&state="+e.currentTarget.value,
-                                dataType: "json",
-                                contentType:'application/json',
-                                success: function (response) {
-                                    console.log(response);
-                                    tmp = '';
-                                    if(response.agencies) {
-                                        response.agencies.forEach(subElement => {
-                                            tmp += "<option value='" + subElement + "'>" + subElement + "</option>";
-                                        });
-                                        document.getElementById("integrationAgency").innerHTML = tmp;                
-                                    }
-                                }
-                            })
+            document.getElementById("integrationState").innerHTML = ''; 
+            if(value != 'Active Alert') {
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.redenes.org/dev/v1/integrations?authorization="+authorization.toString()+"&type="+value,
+                    dataType: "json",
+                    contentType:'application/json',
+                    success: function (res) {
+                        console.log(res);
+                        if(modalAgency.classList.value.indexOf('d-none') == -1) {
+                            modalAgency.classList.add('d-none');
                         }
-                        res.states.forEach(element => {
-                            tmp += "<option value='" + element + "'>" + element + "</option>";
-                        });
-                        document.getElementById("integrationState").innerHTML = tmp;                
+                        if(modalAgencyInput.classList.value.indexOf('d-none') == -1) {
+                            modalAgencyInput.classList.add('d-none');
+                        }
+                        if(modalActiveCallWrapper.classList.value.indexOf('d-none') == -1) {
+                            modalActiveCallWrapper.classList.add('d-none');
+                        }
+                        if(modalClosedCallWrapper.classList.value.indexOf('d-none') == -1) {
+                            modalClosedCallWrapper.classList.add('d-none');
+                        }
+                        if(modalBtnWrapper.classList.value.indexOf('d-none') == -1) {
+                            modalBtnWrapper.classList.add('d-none');
+                        }
+                        if(res.agencies) {
+                            tmp = '<option disabled selected hidden>Choose Agency</option>';
+                            if(modalStateWrapper.classList.value.indexOf('d-none') == -1) {
+                                modalStateWrapper.classList.add('d-none');
+                            }
+                            modalAgencyWrapper.classList.remove('d-none');
+                            modalAgency.classList.remove('d-none');
+                            res.agencies.forEach(element => {
+                                tmp += "<option value='" + element + "'>" + element + "</option>";
+                            });
+                            document.getElementById("integrationAgency").innerHTML = tmp;                
+                        }
+                        else if(res.states) {
+                            tmp = '<option disabled selected hidden>Choose State</option>';
+                            if(modalStateWrapper.classList.value.indexOf('d-none') > -1) {
+                                modalStateWrapper.classList.remove('d-none')
+                            }
+                            if(modalAgencyWrapper.classList.value.indexOf('d-none') == -1) {
+                                modalAgencyWrapper.classList.add('d-none')
+                            }
+                            res.states.forEach(element => {
+                                tmp += "<option value='" + element + "'>" + element + "</option>";
+                            });
+                            modalState.innerHTML = tmp;                
+                        }
+                        // To hide the loader
+                        document.getElementById("my-loader-element").classList.remove("loader");                
+                        document.getElementById("my-loader-wrapper").classList.add("d-none");
                     }
-                    // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");                
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                })
+            }
+            else {
+                modalAgencyWrapper.classList.remove('d-none');
+                if(modalAgency.classList.value.indexOf('d-none') == -1) {
+                    modalAgency.classList.add('d-none')
                 }
-            })
+                if(modalStateWrapper.classList.value.indexOf('d-none') == -1) {
+                    modalStateWrapper.classList.add('d-none')
+                }
+                modalAgencyInput.classList.remove('d-none');
+                modalActiveCallWrapper.classList.remove("d-none");                
+                modalClosedCallWrapper.classList.remove("d-none");                
+                modalBtnWrapper.classList.remove("d-none");                
+                // To hide the loader
+                document.getElementById("my-loader-element").classList.remove("loader");                
+                document.getElementById("my-loader-wrapper").classList.add("d-none");
+            }
         }
         function changeIntegrationState(e) {
             document.getElementById("my-loader-element").classList.add("loader");                
@@ -463,12 +502,23 @@ $agency_id = $_COOKIE['agency_id'];
                 contentType:'application/json',
                 success: function (res) {
                     console.log(res);
-                    tmp = '';
+                    if(modalActiveCallWrapper.classList.value.indexOf('d-none') == -1) {
+                        modalActiveCallWrapper.classList.add('d-none');
+                    }
+                    if(modalClosedCallWrapper.classList.value.indexOf('d-none') == -1) {
+                        modalClosedCallWrapper.classList.add('d-none');
+                    }
+                    if(modalBtnWrapper.classList.value.indexOf('d-none') == -1) {
+                        modalBtnWrapper.classList.add('d-none');
+                    }
+                    tmp = '<option disabled selected hidden>Choose Agency</option>';    
+                    modalAgencyWrapper.classList.remove('d-none');
+                    modalAgency.classList.remove('d-none');
                     if(res.agencies) {
                         res.agencies.forEach(element => {
                             tmp += "<option value='" + element + "'>" + element + "</option>";
                         });
-                        document.getElementById("integrationAgency").innerHTML = tmp;                
+                        modalAgency.innerHTML = tmp;                
                     }
                     // To hide the loader
                     document.getElementById("my-loader-element").classList.remove("loader");                
@@ -476,17 +526,33 @@ $agency_id = $_COOKIE['agency_id'];
                 }
             })
         }
+        function changeIntegrationAgency(e) {
+            modalActiveCallWrapper.classList.remove("d-none");                
+            modalClosedCallWrapper.classList.remove("d-none");                
+            modalBtnWrapper.classList.remove("d-none");                
+        }
         $('#createModuleForm').submit(function(e) {
             document.getElementById("my-loader-element").classList.add("loader");
             e.preventDefault();
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
-                type: $('#integrationType').val(),
-                state: $('#integrationState').val(),
-                agency: $('#integrationAgency').val(),
-                active_calls: $('#integrationActiveCall').val(),
-                closed_calls: $('#integrationClosedCall').val()
+                type: modalType.value,
+                agency: modalAgency.value,
+                active_calls: modalActiveCall.value,
+                closed_calls: modalClosedCall.value
+            }
+            if(modalAgencyInput.classList.value.indexOf('d-none') == -1) {
+                if(modalAgencyInput.value == '') {
+                    window.alert('Input the Agency');
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    return;
+                }
+                formData.agency = modalAgencyInput.value;
+            }
+            if(modalStateWrapper.classList.value.indexOf('d-none') == -1) {
+                formData.state = modalState.value;
             }
             $.ajax({
                 type: "POST",
