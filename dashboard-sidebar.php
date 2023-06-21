@@ -151,7 +151,8 @@ if (strlen($user) == 0) {
             tmp = '';
             for (let index = 0; index < data.home.length; index++) {
                 const element = data.home[index];
-                if (element.state == 'false') {
+                console.log(element);
+                if (element.view == 'false') {
                     tmp += "<button class = 'collapse-item d-inline-block";
                     tmp += " disabled";
                     tmp += "'>" + element.name + "</button>";
@@ -177,7 +178,7 @@ if (strlen($user) == 0) {
             tmp = '';
             for (let index = 0; index < data.logs.length; index++) {
                 const element = data.logs[index];
-                if (element.state == 'false') {
+                if (element.view == 'false') {
                     tmp += "<button class = 'collapse-item d-inline-block";
                     tmp += " disabled";
                     tmp += "'>" + element.name + "</button>";
@@ -203,7 +204,7 @@ if (strlen($user) == 0) {
             tmp = '';
             for (let index = 0; index < data.alerts.length; index++) {
                 const element = data.alerts[index];
-                if (element.state == 'false') {
+                if (element.view == 'false') {
                     tmp += "<button class = 'collapse-item d-inline-block";
                     tmp += " disabled";
                     tmp += "'>" + element.name + "</button>";
@@ -229,7 +230,7 @@ if (strlen($user) == 0) {
             tmp = '';
             for (let index = 0; index < data.references.length; index++) {
                 const element = data.references[index];
-                if (element.state == 'false') {
+                if (element.view == 'false') {
                     tmp += "<button class = 'collapse-item d-inline-block";
                     tmp += " disabled";
                     tmp += "'>" + element.name + "</button>";
@@ -255,7 +256,7 @@ if (strlen($user) == 0) {
             tmp = '';
             for (let index = 0; index < data.account.length; index++) {
                 const element = data.account[index];
-                if (element.state == 'false') {
+                if (element.view == 'false') {
                     tmp += "<button class = 'collapse-item d-inline-block";
                     tmp += " disabled";
                     tmp += "'>" + element.name + "</button>";

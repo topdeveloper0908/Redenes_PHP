@@ -252,8 +252,8 @@ if (strlen($user) == 0) {
                                 object[j].field + ": " + object[j].value + "</div>";
                         }
                     }
-                    tmp = tmp + "<div class='font-weight-bold text-uppercase mt-2 mb-0' style='color:" + object[0].color +
-                        "'>" + object[0].form_id + "</div>";
+                    // tmp = tmp + "<div class='font-weight-bold text-uppercase mt-2 mb-0' style='color:" + object[0].color +
+                    //     "'>" + object[0].form_id + "</div>";
                     tmp = tmp + "</div>"
                     tmp = tmp + "<div class='col-auto'><img src='" + object[0].icon + "'></div>";
                     tmp = tmp + "</div></div></a></div>";
