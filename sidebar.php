@@ -10,7 +10,7 @@ if (strlen($user) == 0) {
 ?>
 <!-- Sidebar -->
 
-<ul class="navbar-nav bg-gradient-warning sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-orange sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="overview">
         <div class="sidebar-brand-text mx-3" id="sidebar-title">Admin</div>
@@ -158,7 +158,7 @@ if (strlen($user) == 0) {
     } else if (currentUrl.includes('system-config')) {
         document.getElementById('config_item').classList.add('active');
         document.getElementById('sidebar-title').innerHTML = 'System Config';
-        document.getElementById('accordionSidebar').classList.remove('bg-gradient-warning');
+        document.getElementById('accordionSidebar').classList.remove('bg-orange');
         document.getElementById('accordionSidebar').classList.add('bg-danger');
     }
 
