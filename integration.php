@@ -236,6 +236,7 @@ $agency_id = $_COOKIE['agency_id'];
         getData(init_id);
         var index = 0;
         function writeData(mainData) {
+            $('#dataTable').DataTable().destroy();
             var tmp = '';
             console.log(mainData);
             mainData.forEach(element => {
@@ -251,6 +252,7 @@ $agency_id = $_COOKIE['agency_id'];
                 index++;
             });
             document.getElementById('table-content').innerHTML = tmp;
+            $('#dataTable').dataTable();
         }
 
         const editButtons = document.querySelectorAll('.edit-btn');
