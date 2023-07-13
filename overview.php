@@ -73,7 +73,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-primary text-uppercase mb-1">Agency Name</div>
-                                                <div id="agency-name" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                <div id="agency-name" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-building fa-2x text-gray-300"></i>
@@ -88,7 +88,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-primary text-uppercase mb-1">Agency Abbreviation</div>
-                                                <div id="agency-abbreviation" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                <div id="agency-abbreviation" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-building fa-2x text-gray-300"></i>
@@ -103,7 +103,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-primary text-uppercase mb-1">Agency ID</div>
-                                                <div id="agency-id" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                <div id="agency-id" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-building fa-2x text-gray-300"></i>
@@ -118,7 +118,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-primary text-uppercase mb-1">Mutual Aid Agencies</div>
-                                                <div id="mutual-aid" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                <div id="mutual-aid" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-building fa-2x text-gray-300"></i>
@@ -138,7 +138,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Device Count</div>
-                                                <div id="device-count" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="device-count" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -153,7 +153,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Personal Paid Subscriptions</div>
-                                                <div id="personal-paid-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="personal-paid-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -168,7 +168,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Remaining Agency Subscriptions</div>
-                                                <div id="remaining-agency-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="remaining-agency-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -183,7 +183,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Incident Types</div>
-                                                <div id="incident-types" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="incident-types" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -203,7 +203,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Connect Devices</div>
-                                                <div id="connect-devices" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="connect-devices" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -218,7 +218,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Agency Paid Subscriptions</div>
-                                                <div id="agency-paid-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="agency-paid-subscriptions" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -233,7 +233,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-success text-uppercase mb-1">Registered Users</div>
-                                                <div id="registered-users" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="registered-users" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -248,7 +248,7 @@ if (strlen($user) == 0) {
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="font-weight-bold text-danger text-uppercase mb-1">Sign Up Date</div>
-                                                <div id="signup-date" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <div id="signup-date" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-desktop fa-2x text-gray-300"></i>
@@ -308,7 +308,7 @@ if (strlen($user) == 0) {
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="font-weight-bold text-warning text-uppercase mb-1">Phone Number</div>
-                                                    <div id="agency-phone-number" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                    <div id="agency-phone-number" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-phone fa-2x text-gray-300"></i>
@@ -321,7 +321,7 @@ if (strlen($user) == 0) {
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="font-weight-bold text-warning text-uppercase mb-1">Email Address</div>
-                                                    <div id="agency-email-address" class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                    <div id="agency-email-address" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-envelope fa-2x text-gray-300"></i>
@@ -339,7 +339,7 @@ if (strlen($user) == 0) {
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="font-weight-bold text-danger text-uppercase mb-1">Trial End Date</div>
-                                                    <div id="trial-end-date" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                    <div id="trial-end-date" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-phone-volume fa-2x text-gray-300"></i>
@@ -352,7 +352,7 @@ if (strlen($user) == 0) {
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="font-weight-bold text-danger text-uppercase mb-1">Subscription Expires</div>
-                                                    <div id="subscription-expires" class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                    <div id="subscription-expires" class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-network-wired fa-2x text-gray-300"></i>
