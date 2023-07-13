@@ -165,6 +165,14 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script>
+		function enableLoader(){
+			document.getElementById("my-loader-element").classList.add("loader");
+            document.getElementById("my-loader-wrapper").classList.remove("d-none");
+		}
+		function disableLoader(){
+			document.getElementById("my-loader-element").classList.remove("loader");
+            document.getElementById("my-loader-wrapper").classList.add("d-none");
+		}
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
         var module_setting;
@@ -181,21 +189,23 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.agency_types_selected, res.agency_types);
+                    writeDropdown(res.agency_types_selected, res.agency_groups);
                     writeTable(res.agencies_module_settings[0]);
                     // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    //document.getElementById("my-loader-element").classList.remove("loader");
+                    //document.getElementById("my-loader-wrapper").classList.add("d-none");
+					disableLoader();
                 }
             })
         }
         getData(init_id);
 
         function saveData() {
+			enableLoader();
             var authorization = "<?php echo $authorization; ?>";
             for (let key in module_setting) {
                 for (let subkey in module_setting[key][0]) {
-                    for (let i = 0; i < 3; i++) {
+                    for (let i = 0; i < 4; i++) {
                         if (i == 0) {
                             module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
                         } else if (i == 1) {
@@ -203,7 +213,10 @@ $agency_id = $_COOKIE['agency_id'];
                         } else if (i == 2) {
                             module_setting[key][0][subkey][0].add = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
                         } else {
-                            module_setting[key][0][subkey][0].default_form_selected = document.getElementById(subkey + 'Dropdown').value;
+							delete module_setting[key][0][subkey][0].default_forms;
+							if(document.getElementById(subkey + 'Dropdown') != null && document.getElementById(subkey + 'Dropdown').value != null){
+								module_setting[key][0][subkey][0].new_form_selected = document.getElementById(subkey + 'Dropdown').value;
+							}
                         }
                     }
                 }
@@ -211,6 +224,7 @@ $agency_id = $_COOKIE['agency_id'];
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
+				agency_groups: document.getElementById('userGroupDropdown').value,
                 agency_module_settings: [module_setting]
             };
             $.ajax({
@@ -233,20 +247,30 @@ $agency_id = $_COOKIE['agency_id'];
                         element.setAttribute("disabled", true);
                     });
                     document.getElementById('userGroupDropdown').removeAttribute("disabled");
-                }
+					disableLoader();
+                },
+				error: function(res){
+					console.log('Request Status: ' + res.status + ' Status Text: ' + res.statusText + ' ' + res.responseText);
+					document.getElementById("edit-btn").classList.remove("d-none");
+                    document.getElementById("save-btn").classList.add("d-none");
+                    document.getElementById("cancel-btn").classList.add("d-none");
+					getData(init_id);
+				}
             })
         }
 
         function saveEnable() {
             var inputs = document.querySelectorAll('.custom-control-input');
             inputs.forEach(element => {
-                if (element.classList.contains('always-check') == false) {
+                if (element.classList.contains('editable') == true) {
                     element.removeAttribute("disabled");
                 }
             });
             var selects = document.querySelectorAll('.custom-select');
             selects.forEach(element => {
-                element.removeAttribute("disabled");
+                if (element.classList.contains('editable') == true) {
+                    element.removeAttribute("disabled");
+                }
             });
             document.getElementById('userGroupDropdown').setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
@@ -280,43 +304,61 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += "<td style='text-transform:capitalize;'>" + key + "</td>";
                     tmp += "<td style='text-transform:capitalize;'>" + subkey.replace('_', ' ') + "</td>";
                     for (let i = 0; i < 3; i++) {
-                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input";
+						var chklblclsadd;
+                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input ";
                         if (element.add == 'always') {
-                            tmp += " always-check";
+                            tmp += " always-check ";
                         }
+						if ((element.view == 'true' || element.view == 'false') && i == 0) {
+                            tmp += " editable";
+							chklblclsadd = " editable";
+                        }
+                        if ((element.edit == 'true' || element.edit=='false')  && i == 1) {
+                            tmp += " editable";
+							chklblclsadd = " editable";
+                        }
+                        if ((element.add == 'true' || element.add == 'false') && i == 2) {
+                            tmp += " editable";
+							chklblclsadd = " editable";
+                        }
+						
                         tmp += "' id='" + subkey + "Check" + i + "' disabled ";
-                        if (element.add != 'false' && i == 0) {
+                        
+						if ((element.view == 'true' || element.view == 'enabled') && i == 0) {
                             tmp += " checked";
                         }
-                        if (element.edit != 'false' && i == 1) {
+                        if ((element.edit == 'true' || element.edit=='enabled')  && i == 1) {
                             tmp += " checked";
                         }
-                        if (element.view != 'false' && i == 2) {
+                        if ((element.add == 'true' || element.add == 'enabled') && i == 2) {
                             tmp += " checked";
                         }
-                        tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
+                        //tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
+                        tmp += ">";
+						tmp += "<label class='custom-control-label "+chklblclsadd+"' for='" + subkey + "Check" + i + "'></label>";
+						tmp += "</div></td>";
                     }
                     if (element.default_forms) {
-                        tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
+                        tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' id='"+subkey + 'Dropdown'+"' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                         for (let index = 0; index < element.default_forms.length; index++) {
-                            tmp += "<option value='" + element.default_forms[index] + "'";
-                            if (element.default_form_selected == element.default_forms[index]) {
+                            tmp += "<option value='" + element.default_forms[index].format_id + "'";
+                            if (element.default_form_selected == element.default_forms[index].format_id) {
                                 tmp += " selected";
                             }
-                            tmp += ">" + element.default_forms[index] + "</option>"
+                            tmp += ">" + element.default_forms[index].format_name + "</option>"
                         }
                         tmp += "</td>";
                     } else {
                         tmp += "<td>N/A</td>";
                     }
                     if (element.default_forms) {
-                        tmp += "<td><select onchange=valueChange(event) data-action='new_form_selected' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
+                        tmp += "<td><select onchange=valueChange(event) data-action='new_form_selected' id='"+subkey + 'Dropdown'+"' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                         for (let index = 0; index < element.default_forms.length; index++) {
-                            tmp += "<option value='" + element.default_forms[index] + "'";
-                            if (element.new_form_selected == element.default_forms[index]) {
+                            tmp += "<option value='" + element.default_forms[index].format_id+ "'";
+                            if (element.new_form_selected == element.default_forms[index].format_id) {
                                 tmp += " selected";
                             }
-                            tmp += ">" + element.default_forms[index] + "</option>"
+                            tmp += ">" + element.default_forms[index].format_name + "</option>"
                         }
                         tmp += "</td>";
                     } else {
