@@ -593,6 +593,15 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
         }
+	function changeRankDropdown(e) {
+            user_setting_info.auto_add_user_to_rank = e.currentTarget.value;
+        }
+        function changeGroupDropdown(e) {
+            user_setting_info.auto_add_user_to_group = e.currentTarget.value;
+        }
+        function changeStatusDropdown(e) {
+            user_setting_info.auto_add_user_to_status = e.currentTarget.value;
+        }
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
