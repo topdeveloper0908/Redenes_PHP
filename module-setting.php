@@ -213,7 +213,8 @@ $agency_id = $_COOKIE['agency_id'];
                         } else {
 							delete module_setting[key][0][subkey][0].default_forms;
 							if(document.getElementById(subkey + 'Dropdown') != null && document.getElementById(subkey + 'Dropdown').value != null){
-								module_setting[key][0][subkey][0].new_form_selected = document.getElementById(subkey + 'Dropdown').value;
+                                console.log('aa');
+								// module_setting[key][0][subkey][0].new_form_selected = document.getElementById(subkey + 'Dropdown').value;
 							}
                         }
                     }
