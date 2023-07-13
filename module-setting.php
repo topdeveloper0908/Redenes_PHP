@@ -225,6 +225,7 @@ $agency_id = $_COOKIE['agency_id'];
 				agency_groups: document.getElementById('userGroupDropdown').value,
                 agency_module_settings: [module_setting]
             };
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
@@ -232,7 +233,6 @@ $agency_id = $_COOKIE['agency_id'];
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
-                    console.log(res);
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
