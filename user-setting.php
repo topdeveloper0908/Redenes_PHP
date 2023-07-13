@@ -593,11 +593,21 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
         }
+	function changeRankDropdown(e) {
+            user_setting_info.auto_add_user_to_rank = e.currentTarget.value;
+        }
+        function changeGroupDropdown(e) {
+            user_setting_info.auto_add_user_to_group = e.currentTarget.value;
+        }
+        function changeStatusDropdown(e) {
+            user_setting_info.auto_add_user_to_status = e.currentTarget.value;
+        }
 
         function saveData() {
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
+                agency_id: init_id,
                 auto_add_email_domain: document.getElementById('emailDomain').value,
                 auto_add_user_to_rank: user_setting_info.auto_add_user_to_rank,
                 auto_add_user_to_group: user_setting_info.auto_add_user_to_group,
@@ -608,7 +618,7 @@ $agency_id = $_COOKIE['agency_id'];
             };
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-users-settings/",
+                url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType: 'application/json',
