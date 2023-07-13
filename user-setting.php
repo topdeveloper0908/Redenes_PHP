@@ -598,22 +598,26 @@ $agency_id = $_COOKIE['agency_id'];
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
+                agency_id: init_id,
                 auto_add_email_domain: document.getElementById('emailDomain').value,
-                auto_add_user_to_rank: user_setting_info.auto_add_user_to_rank,
-                auto_add_user_to_group: user_setting_info.auto_add_user_to_group,
-                auto_add_user_to_status: user_setting_info.auto_add_user_to_status,
+                auto_add_user_to_rank: document.getElementById('userRankDropdown').value,
+                auto_add_user_to_group: document.getElementById('userGroupDropdown').value,
+                auto_add_user_to_status: document.getElementById('userStatusDropdown').value,
                 user_ranks: user_setting_info.user_ranks,
                 user_groups: user_setting_info.user_groups,
                 user_status: user_setting_info.user_status,
             };
+            document.getElementById("my-loader-element").classList.add("loader");
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-users-settings/",
+                url: "https://api.redenes.org/dev/v1/agency-user-settings/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
                     console.log(res);
+                    user_setting_info = res.agencies_user_settings[0];
+                    writeData();
                     document.getElementById("edit-btn").classList.remove("d-none");
                     document.getElementById("save-btn").classList.add("d-none");
                     document.getElementById("cancel-btn").classList.add("d-none");
@@ -637,7 +641,8 @@ $agency_id = $_COOKIE['agency_id'];
                     selects.forEach(element => {
                         element.setAttribute("disabled", true);
                     });
-                    document.getElementById("agency-type").removeAttribute("disabled");
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
