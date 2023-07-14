@@ -168,13 +168,33 @@ $agency_id = $_COOKIE['agency_id'];
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center">
+                <div class="row align-items-center mb-4">
                     <div class="col-4">
                         <h6 class="ml-2 mb-0 text-right">User Phone </h6>
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
                             <input type='text' class='form-control small' name="userPhone" id="userPhone" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center mb-4">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">First Name </h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <input type='text' class='form-control small' name="userFirstname" id="userFirstName" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <h6 class="ml-2 mb-0 text-right">Last Name </h6>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <input type='text' class='form-control small' name="userLastName" id="userLastName" required />
                         </div>
                     </div>
                 </div>
@@ -323,7 +343,7 @@ $agency_id = $_COOKIE['agency_id'];
             }
             document.getElementById('groupType').innerHTML = tmp;
             tmp = '';
-            for (var i = 0; i < groups.length; i++) {
+            for (var i = 0; i < ranks.length; i++) {
                 tmp += "<option value='" + ranks[i] + "'>" + ranks[i] + "</option>";
             }
             document.getElementById('rankType').innerHTML = tmp;
@@ -338,7 +358,7 @@ $agency_id = $_COOKIE['agency_id'];
         const saveButtons = document.querySelectorAll('.save-btn');
         const cancelButtons = document.querySelectorAll('.cancel-btn');
 
-        var values = ['', '', '', '', false];
+        var values = [ '', '', '', false];
         editButtons.forEach(element => {
             element.addEventListener('click', function(e) {
                 tdElement = e.currentTarget.parentNode;
@@ -348,15 +368,12 @@ $agency_id = $_COOKIE['agency_id'];
                 e.currentTarget.classList.add('d-none');
 
                 checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control');
                 selects = trElement.querySelectorAll('.custom-select');
                 multiSelect = trElement.querySelector('.multiselect');
 
                 checkbox.removeAttribute('disabled');
-                input.removeAttribute('readOnly');
                 multiSelect.classList.remove('disabled');
-                values[0] = input.value;
-                i = 1;
+                i = 0;
                 selects.forEach(element => {
                     element.removeAttribute('disabled');
                     values[i] = element.value;
@@ -366,7 +383,7 @@ $agency_id = $_COOKIE['agency_id'];
                 editButtons.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
-                values[4] = checkbox.checked;
+                values[3] = checkbox.checked;
             });
         });
         cancelButtons.forEach(element => {
@@ -377,10 +394,8 @@ $agency_id = $_COOKIE['agency_id'];
                 tdElement.querySelector('.edit-btn').classList.remove('d-none');
                 e.currentTarget.classList.add('d-none');
                 checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control')
                 selects = trElement.querySelectorAll('.custom-select')
                 checkbox.setAttribute('disabled', true);
-                input.setAttribute('readOnly', true);
                 selects.forEach(element => {
                     element.setAttribute('disabled', true);
                 });
@@ -388,12 +403,12 @@ $agency_id = $_COOKIE['agency_id'];
                     element.removeAttribute('disabled');
                 });
                 multiSelect = trElement.querySelector('.multiselect');
+                multiSelect.classList.remove('active');
                 multiSelect.classList.add('disabled');
-                input.value = values[0];
-                selects[0].value = values[1];
-                selects[1].value = values[2];
-                selects[2].value = values[3];
-                checkbox.checked = values[4];
+                selects[0].value = values[0];
+                selects[1].value = values[1];
+                selects[2].value = values[2];
+                checkbox.checked = values[3];
             });
         });
         saveButtons.forEach(element => {
@@ -445,6 +460,7 @@ $agency_id = $_COOKIE['agency_id'];
                     element.setAttribute('disabled', true);
                 });
                 multiSelect = trElement.querySelector('.multiselect');
+                multiSelect.classList.remove('active');
                 multiSelect.classList.add('disabled');
             });
         });
@@ -530,6 +546,8 @@ $agency_id = $_COOKIE['agency_id'];
                 group: document.getElementById("groupType").value,
                 status: document.getElementById("statusType").value,
                 phone: document.getElementById("userPhone").value
+                firstname: document.getElementById("userFirstName").value
+                lastname: document.getElementById("userLastName").value
             }
             $.ajax({
                 type: "POST",
