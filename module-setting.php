@@ -296,10 +296,10 @@ $agency_id = $_COOKIE['agency_id'];
                     elementCount = 0;
                     for (let elementKey in element) {
                         tmp += "<td><div class='custom-control custom-checkbox'><input onchange=valueChange(event) data-action='" + elementKey +"' id="+ key + subkey + elementKey + 'Check' + " data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' type='checkbox' class='custom-control-input ";
-                        if(element[elementKey] != 'disabled')
+                        if(element[elementKey] != 'disabled' && element[elementKey] != 'enabled')
                             tmp += " editable"
                         tmp +="'";
-                        if(element[elementKey] == 'true') 
+                        if(element[elementKey] == 'true' || element[elementKey] == 'enabled') 
                             tmp += " checked"
                         tmp +=" disabled>";
                         tmp +="<label class='custom-control-label' for='" + key + subkey + elementKey + "Check" + "'></label>"
