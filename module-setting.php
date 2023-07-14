@@ -173,7 +173,7 @@ $agency_id = $_COOKIE['agency_id'];
 		}
         // To show the loader
         document.getElementById("my-loader-element").classList.add("loader");
-        var module_setting;
+        var module_setting, module_setting_2;
         init_id = "<?php echo $agency_id; ?>";
 
         function getData(agency_id) {
@@ -187,8 +187,9 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     console.log(res);
                     module_setting = res.agencies_module_settings[0];
+                    console.log(module_setting);
                     writeDropdown(res.agency_types_selected, res.agency_groups);
-                    writeTable(res.agencies_module_settings[0]);
+                    writeTable();
                     // To hide the loader
                     //document.getElementById("my-loader-element").classList.remove("loader");
                     //document.getElementById("my-loader-wrapper").classList.add("d-none");
@@ -201,22 +202,12 @@ $agency_id = $_COOKIE['agency_id'];
         function saveData() {
 			enableLoader();
             var authorization = "<?php echo $authorization; ?>";
-            for (let key in module_setting) {
-                for (let subkey in module_setting[key][0]) {
-                    for (let i = 0; i < 4; i++) {
-                        if (i == 0) {
-                            module_setting[key][0][subkey][0].view = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-                        } else if (i == 1) {
-                            module_setting[key][0][subkey][0].edit = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-                        } else if (i == 2) {
-                            module_setting[key][0][subkey][0].add = document.getElementById(subkey + 'Check' + i).checked ? 'true' : 'false';
-                        } else {
-							delete module_setting[key][0][subkey][0].default_forms;
-							if(document.getElementById(subkey + 'Dropdown') != null && document.getElementById(subkey + 'Dropdown').value != null){
-                                console.log('aa');
-								// module_setting[key][0][subkey][0].new_form_selected = document.getElementById(subkey + 'Dropdown').value;
-							}
-                        }
+            data = module_setting;
+            for (let key in data) {
+                for (let subkey in data[key][0]) {
+                    element = data[key][0][subkey][0];
+                    if(element.default_forms) {
+                        delete data[key][0][subkey][0].default_forms;
                     }
                 }
             }
@@ -224,9 +215,8 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 agency_id: init_id,
 				agency_groups: document.getElementById('userGroupDropdown').value,
-                agency_module_settings: [module_setting]
+                agency_module_settings: [data]
             };
-            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
@@ -267,18 +257,18 @@ $agency_id = $_COOKIE['agency_id'];
             });
             var selects = document.querySelectorAll('.custom-select');
             selects.forEach(element => {
-                if (element.classList.contains('editable') == true) {
-                    element.removeAttribute("disabled");
-                }
+                element.removeAttribute("disabled");
             });
             document.getElementById('userGroupDropdown').setAttribute("disabled", true);
             document.getElementById("edit-btn").classList.add("d-none");
             document.getElementById("save-btn").classList.remove("d-none");
             document.getElementById("cancel-btn").classList.remove("d-none");
+            module_setting_2 = structuredClone(module_setting);
         }
 
         function cancelSave() {
-            writeTable(module_setting);
+            module_setting = module_setting_2;
+            writeTable();
             document.getElementById("edit-btn").classList.remove("d-none");
             document.getElementById("save-btn").classList.add("d-none");
             document.getElementById("cancel-btn").classList.add("d-none");
@@ -289,7 +279,8 @@ $agency_id = $_COOKIE['agency_id'];
             });
         }
 
-        function writeTable(data) {
+        function writeTable() {
+            data = module_setting;
             tmp = '';
             for (let key in data) {
                 new_item = 0;
@@ -302,41 +293,56 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += "<tr>";
                     tmp += "<td style='text-transform:capitalize;'>" + key + "</td>";
                     tmp += "<td style='text-transform:capitalize;'>" + subkey.replace('_', ' ') + "</td>";
-                    for (let i = 0; i < 3; i++) {
-						var chklblclsadd;
-                        tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input ";
-                        if (element.add == 'always') {
-                            tmp += " always-check ";
-                        }
-						if ((element.view == 'true' || element.view == 'false') && i == 0) {
-                            tmp += " editable";
-							chklblclsadd = " editable";
-                        }
-                        if ((element.edit == 'true' || element.edit=='false')  && i == 1) {
-                            tmp += " editable";
-							chklblclsadd = " editable";
-                        }
-                        if ((element.add == 'true' || element.add == 'false') && i == 2) {
-                            tmp += " editable";
-							chklblclsadd = " editable";
-                        }
-						
-                        tmp += "' id='" + subkey + "Check" + i + "' disabled ";
-                        
-						if ((element.view == 'true' || element.view == 'enabled') && i == 0) {
-                            tmp += " checked";
-                        }
-                        if ((element.edit == 'true' || element.edit=='enabled')  && i == 1) {
-                            tmp += " checked";
-                        }
-                        if ((element.add == 'true' || element.add == 'enabled') && i == 2) {
-                            tmp += " checked";
-                        }
-                        //tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
-                        tmp += ">";
-						tmp += "<label class='custom-control-label "+chklblclsadd+"' for='" + subkey + "Check" + i + "'></label>";
-						tmp += "</div></td>";
+                    elementCount = 0;
+                    for (let elementKey in element) {
+                        tmp += "<td><div class='custom-control custom-checkbox'><input onchange=valueChange(event) data-action='" + elementKey +"' id="+ key + subkey + elementKey + 'Check' + " data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' type='checkbox' class='custom-control-input ";
+                        if(element[elementKey] != 'disabled')
+                            tmp += " editable"
+                        tmp +="'";
+                        if(element[elementKey] == 'true') 
+                            tmp += " checked"
+                        tmp +=" disabled>";
+                        tmp +="<label class='custom-control-label' for='" + key + subkey + elementKey + "Check" + "'></label>"
+                        tmp += "</div></td>";
+                        elementCount++;
+                        if(elementCount == 3)
+                            break;
                     }
+                    // for (let i = 0; i < 3; i++) {
+					// 	var chklblclsadd;
+                    //     tmp += "<td><div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input ";
+                    //     if (element.add == 'always') {
+                    //         tmp += " always-check ";
+                    //     }
+					// 	if ((element.view == 'true' || element.view == 'false') && i == 0) {
+                    //         tmp += " editable";
+					// 		chklblclsadd = " editable";
+                    //     }
+                    //     if ((element.edit == 'true' || element.edit=='false')  && i == 1) {
+                    //         tmp += " editable";
+					// 		chklblclsadd = " editable";
+                    //     }
+                    //     if ((element.add == 'true' || element.add == 'false') && i == 2) {
+                    //         tmp += " editable";
+					// 		chklblclsadd = " editable";
+                    //     }
+						
+                    //     tmp += "' id='" + subkey + "Check" + i + "' disabled ";
+                        
+					// 	if ((element.view == 'true' || element.view == 'enabled') && i == 0) {
+                    //         tmp += " checked";
+                    //     }
+                    //     if ((element.edit == 'true' || element.edit=='enabled')  && i == 1) {
+                    //         tmp += " checked";
+                    //     }
+                    //     if ((element.add == 'true' || element.add == 'enabled') && i == 2) {
+                    //         tmp += " checked";
+                    //     }
+                    //     //tmp += "><label class='custom-control-label' for='" + subkey + "Check" + i + "'></label></div></td>";
+                    //     tmp += ">";
+					// 	tmp += "<label class='custom-control-label "+chklblclsadd+"' for='" + subkey + "Check" + i + "'></label>";
+					// 	tmp += "</div></td>";
+                    // }
                     if (element.default_forms) {
                         tmp += "<td><select onchange=valueChange(event) data-action='default_form_selected' id='"+subkey + 'Dropdown'+"' data-key=" + key + " data-subKey=" + subkey + " name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                         for (let index = 0; index < element.default_forms.length; index++) {
@@ -357,7 +363,7 @@ $agency_id = $_COOKIE['agency_id'];
         }
 
         function valueChange(e) {
-            value = e.currentTarget.value;
+            value = e.currentTarget.checked;
             action = e.currentTarget.getAttribute('data-action');
             key = e.currentTarget.getAttribute('data-key');
             subkey = e.currentTarget.getAttribute('data-subKey');
@@ -388,7 +394,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     module_setting = res.agencies_module_settings[0];
                     writeDropdown(res.user_group_selected, res.user_groups);
-                    writeTable(res.agencies_module_settings[0]);
+                    writeTable();
                 }
             })
         }
