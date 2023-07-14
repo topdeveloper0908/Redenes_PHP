@@ -243,6 +243,7 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async: false,
                 success: function(res) {
+                    console.log(res);
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
                     writeModal(res.user_groups, res.user_ranks, res.user_status);
@@ -259,7 +260,7 @@ $agency_id = $_COOKIE['agency_id'];
             var defaultGroups = ""
             mainData.forEach(element => {
                 tmp += "<tr data-id='" + element.id + "'>";
-                tmp += "<td><input type='text' class='form-control bg-light border-0 small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value=" + element.name + "></td>";
+                tmp += "<td><input type='text' class='form-control small' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2' readOnly value='" + element.name + "'></td>";
                 tmp += "<td><select name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm' disabled>"
                 for (let index = 0; index < ranks.length; index++) {
                     tmp += "<option value='" + ranks[index] + "'";

@@ -425,12 +425,19 @@
 }
 
 .multiselect.disabled {
-    background-color: #eaecf4;
-
+    background-color: white;
+    border: none;
     &>.title>.close-icon:hover {
         border: 1px solid #d1d3e2;
         background: none;
         color: inherit;
+    }
+    .text {
+        width: 100%;
+        text-align: center;
+    }
+    .close-icon {
+        display: none !important;
     }
 }
 
