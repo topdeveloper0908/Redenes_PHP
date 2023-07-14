@@ -393,7 +393,6 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 success: function(res) {
                     module_setting = res.agencies_module_settings[0];
-                    writeDropdown(res.user_group_selected, res.user_groups);
                     writeTable();
                 }
             })
