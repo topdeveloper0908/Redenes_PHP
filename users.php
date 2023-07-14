@@ -152,8 +152,8 @@ $agency_id = $_COOKIE['agency_id'];
                     </div>
                     <div class="col-8">
                         <div class="d-flex align-items-center">
-                            <select name='groupType' id='groupType' aria-controls='dataTable' class='custom-select form-control-sm'>
-                            </select>
+                            <div id='groupType' class='w-100'>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -338,9 +338,15 @@ $agency_id = $_COOKIE['agency_id'];
 
         function writeModal(groups, ranks, statuses) {
             var tmp = '';
-            for (var i = 0; i < groups.length; i++) {
-                tmp += "<option value='" + groups[i] + "'>" + groups[i] + "</option>";
+            tmp = tmp + "<div class='form-group mb-0'>";
+            tmp += "<div class='multiselect selection' multiple='multiple' id='groupsModalDropdown' data-target='groupsModalDropdown'>";
+            tmp += "<div class='title noselect' title=''><span class='text'>Select</span><span class='close-icon'>&times;</span><span class='expand-icon'>&plus;</span></div>"
+            tmp += " <div class='dropdown-container text-left'>";
+            for (var k = 0; k < groups.length; k++) {
+                tmp += "<option value='" + groups[k] + "' class='option-item";
+                tmp += "'>" + groups[k] + "</option>";
             }
+            tmp += "</div></div></div>";
             document.getElementById('groupType').innerHTML = tmp;
             tmp = '';
             for (var i = 0; i < ranks.length; i++) {
@@ -352,6 +358,7 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "<option value='" + statuses[i] + "'>" + statuses[i] + "</option>";
             }
             document.getElementById('statusType').innerHTML = tmp;
+            new Multiselect('#groupsModalDropdown', '');
         }
 
         const editButtons = document.querySelectorAll('.edit-btn');
@@ -543,12 +550,13 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 agency_id: init_id,
                 rank: document.getElementById("rankType").value,
-                group: document.getElementById("groupType").value,
+                group: document.getElementById('groupsModalDropdown').children[0].getAttribute('title'),
                 status: document.getElementById("statusType").value,
-                phone: document.getElementById("userPhone").value
-                firstname: document.getElementById("userFirstName").value
+                phone: document.getElementById("userPhone").value,
+                firstname: document.getElementById("userFirstName").value,
                 lastname: document.getElementById("userLastName").value
             }
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-users/",
@@ -557,6 +565,7 @@ $agency_id = $_COOKIE['agency_id'];
                 async: false,
                 contentType: 'application/json',
                 success: function(res) {
+                    console.log(res);
                     modal.style.display = "none";
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
