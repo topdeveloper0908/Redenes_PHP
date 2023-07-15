@@ -68,8 +68,31 @@ $agency_id = $_COOKIE['agency_id'];
                             </div>
                         </div>
                         <div class="d-flex align-items-center mb-4" style="max-width: 30rem">
-                            <h4 class="mb-0 text-right  mr-2" style="white-space: nowrap;">Agency Types</h4>
-                            <select onchange="changeAgency(event)" id="agency-types" name='dataTable_length' aria-controls='dataTable' class='custom-select form-control-sm'>
+                            <h4 class="mb-0 text-right  mr-2" style="white-space: nowrap; width:15rem;">Modules</h4>
+                            <select onchange="changeModule(event)" id="agencyModule" name='agencyModule' aria-controls='dataTable' class='custom-select form-control-sm'>
+                                <option value="All" selected>All</option>
+                                <option value="Status">Status</option>
+                                <option value="Schedule">Schedule</option>
+                                <option value="Supplies">Supplies</option>
+                                <option value="Training">Training</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Vehicles">Vehicles</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Resources">Resources</option>
+                                <option value="New Incident">New Incident</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Mutual Aid">Mutual Aid</option>
+                                <option value="Locations">Locations</option>
+                                <option value="Maps">Maps</option>
+                                <option value="Communications">Communications</option>
+                                <option value="Internal">Internal</option>
+                                <option value="Incident Types">Incident Types</option>
+                                <option value="ICS">ICS</option>
+                                <option value="Personal Profile">Personal Profile</option>
+                                <option value="Agency Profile">Agency Profile</option>
+                                <option value="App Settings">App Settings</option>
+                                <option value="Certifications">Certifications</option>
+                                <option value="Connect Settings">Connect Settings</option>
                             </select>
                         </div>
 
@@ -255,7 +278,7 @@ $agency_id = $_COOKIE['agency_id'];
 
     <script>
         init_id = "<?php echo $agency_id; ?>";
-
+        var data;
         function getData(agency_id) {
             $.ajax({
                 type: "GET",
@@ -266,9 +289,9 @@ $agency_id = $_COOKIE['agency_id'];
                 },
                 async: false,
                 success: function(res) {
-                    var data = res.agencies_users;
+                    data = res.agencies_users;
                     writeData(data);
-                    writeAgencyType(res.agency_types);
+                    console.log(res);
                     document.getElementById("my-loader-element").classList.remove("loader");
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
@@ -403,25 +426,20 @@ $agency_id = $_COOKIE['agency_id'];
             closeDeleteModal();
         }
 
-        function changeAgency(e) {
-            selected_type = e.currentTarget.value;
-            $.ajax({
-                type: "GET",
-                url: "https://api.redenes.org/dev/v1/format-modules/",
-                data: {
-                    agency_id: init_id,
-                    authorization: "<?php echo $authorization; ?>",
-                    agency_type: selected_type
-                },
-                async: false,
-                success: function(res) {
-                    var data = res.agencies_users;
-                    writeData(data);
-                    // To hide the loader
-                    document.getElementById("my-loader-element").classList.remove("loader");
-                    document.getElementById("my-loader-wrapper").classList.add("d-none");
-                }
-            })
+        function changeModule(e) {
+            var tmp = [];
+            selectedModule = e.currentTarget.value;
+            if(selectedModule == 'All') {
+                writeData(data);
+            }
+            else {
+                data.forEach(element => {
+                    if(element.module == selectedModule) {
+                        tmp.push(element);
+                    }
+                });
+                writeData(tmp);
+            }
         }
     </script>
     <!-- Page level custom scripts -->
