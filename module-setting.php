@@ -185,9 +185,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
-                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
-                    console.log(module_setting);
                     writeDropdown(res.agency_types_selected, res.agency_groups);
                     writeTable();
                     // To hide the loader
@@ -217,35 +215,36 @@ $agency_id = $_COOKIE['agency_id'];
 				agency_groups: document.getElementById('userGroupDropdown').value,
                 agency_module_settings: [data]
             };
-            $.ajax({
-                type: "POST",
-                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
-                data: JSON.stringify(formData),
-                dataType: "json",
-                contentType: 'application/json',
-                success: function(res) {
-                    document.getElementById("edit-btn").classList.remove("d-none");
-                    document.getElementById("save-btn").classList.add("d-none");
-                    document.getElementById("cancel-btn").classList.add("d-none");
-                    var inputs = document.querySelectorAll('.custom-control-input');
-                    inputs.forEach(element => {
-                        element.setAttribute("disabled", true);
-                    });
-                    var selects = document.querySelectorAll('.custom-select');
-                    selects.forEach(element => {
-                        element.setAttribute("disabled", true);
-                    });
-                    document.getElementById('userGroupDropdown').removeAttribute("disabled");
-					disableLoader();
-                },
-				error: function(res){
-					console.log('Request Status: ' + res.status + ' Status Text: ' + res.statusText + ' ' + res.responseText);
-					document.getElementById("edit-btn").classList.remove("d-none");
-                    document.getElementById("save-btn").classList.add("d-none");
-                    document.getElementById("cancel-btn").classList.add("d-none");
-					getData(init_id);
-				}
-            })
+            console.log(formData);
+            // $.ajax({
+            //     type: "POST",
+            //     url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+            //     data: JSON.stringify(formData),
+            //     dataType: "json",
+            //     contentType: 'application/json',
+            //     success: function(res) {
+            //         document.getElementById("edit-btn").classList.remove("d-none");
+            //         document.getElementById("save-btn").classList.add("d-none");
+            //         document.getElementById("cancel-btn").classList.add("d-none");
+            //         var inputs = document.querySelectorAll('.custom-control-input');
+            //         inputs.forEach(element => {
+            //             element.setAttribute("disabled", true);
+            //         });
+            //         var selects = document.querySelectorAll('.custom-select');
+            //         selects.forEach(element => {
+            //             element.setAttribute("disabled", true);
+            //         });
+            //         document.getElementById('userGroupDropdown').removeAttribute("disabled");
+			// 		disableLoader();
+            //     },
+			// 	error: function(res){
+			// 		console.log('Request Status: ' + res.status + ' Status Text: ' + res.statusText + ' ' + res.responseText);
+			// 		document.getElementById("edit-btn").classList.remove("d-none");
+            //         document.getElementById("save-btn").classList.add("d-none");
+            //         document.getElementById("cancel-btn").classList.add("d-none");
+			// 		getData(init_id);
+			// 	}
+            // })
         }
 
         function saveEnable() {
@@ -367,7 +366,12 @@ $agency_id = $_COOKIE['agency_id'];
             action = e.currentTarget.getAttribute('data-action');
             key = e.currentTarget.getAttribute('data-key');
             subkey = e.currentTarget.getAttribute('data-subKey');
-            module_setting[key][0][subkey][0][action] = value;
+            if(value == true) {
+                module_setting[key][0][subkey][0][action] = 'true';
+            }
+            else if(value == false) {
+                module_setting[key][0][subkey][0][action] = 'false';
+            }
         }
 
         function writeDropdown(selected, options) {
@@ -383,6 +387,7 @@ $agency_id = $_COOKIE['agency_id'];
         }
 
         function changeUserGroup(e) {
+            enableLoader();
             $.ajax({
                 type: "GET",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
@@ -396,6 +401,7 @@ $agency_id = $_COOKIE['agency_id'];
                     writeTable();
                 }
             })
+            disableLoader();
         }
     </script>
 </body>
