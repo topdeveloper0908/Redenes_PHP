@@ -215,36 +215,35 @@ $agency_id = $_COOKIE['agency_id'];
 				agency_groups: document.getElementById('userGroupDropdown').value,
                 agency_module_settings: [data]
             };
-            console.log(formData);
-            // $.ajax({
-            //     type: "POST",
-            //     url: "https://api.redenes.org/dev/v1/agency-module-settings/",
-            //     data: JSON.stringify(formData),
-            //     dataType: "json",
-            //     contentType: 'application/json',
-            //     success: function(res) {
-            //         document.getElementById("edit-btn").classList.remove("d-none");
-            //         document.getElementById("save-btn").classList.add("d-none");
-            //         document.getElementById("cancel-btn").classList.add("d-none");
-            //         var inputs = document.querySelectorAll('.custom-control-input');
-            //         inputs.forEach(element => {
-            //             element.setAttribute("disabled", true);
-            //         });
-            //         var selects = document.querySelectorAll('.custom-select');
-            //         selects.forEach(element => {
-            //             element.setAttribute("disabled", true);
-            //         });
-            //         document.getElementById('userGroupDropdown').removeAttribute("disabled");
-			// 		disableLoader();
-            //     },
-			// 	error: function(res){
-			// 		console.log('Request Status: ' + res.status + ' Status Text: ' + res.statusText + ' ' + res.responseText);
-			// 		document.getElementById("edit-btn").classList.remove("d-none");
-            //         document.getElementById("save-btn").classList.add("d-none");
-            //         document.getElementById("cancel-btn").classList.add("d-none");
-			// 		getData(init_id);
-			// 	}
-            // })
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-module-settings/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    document.getElementById("edit-btn").classList.remove("d-none");
+                    document.getElementById("save-btn").classList.add("d-none");
+                    document.getElementById("cancel-btn").classList.add("d-none");
+                    var inputs = document.querySelectorAll('.custom-control-input');
+                    inputs.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    var selects = document.querySelectorAll('.custom-select');
+                    selects.forEach(element => {
+                        element.setAttribute("disabled", true);
+                    });
+                    document.getElementById('userGroupDropdown').removeAttribute("disabled");
+					disableLoader();
+                },
+				error: function(res){
+					console.log('Request Status: ' + res.status + ' Status Text: ' + res.statusText + ' ' + res.responseText);
+					document.getElementById("edit-btn").classList.remove("d-none");
+                    document.getElementById("save-btn").classList.add("d-none");
+                    document.getElementById("cancel-btn").classList.add("d-none");
+					getData(init_id);
+				}
+            })
         }
 
         function saveEnable() {
