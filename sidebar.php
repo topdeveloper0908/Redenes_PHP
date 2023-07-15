@@ -70,7 +70,12 @@ if (strlen($user) == 0) {
             <span>Module Settings</span>
         </a>
     </li>
-
+<li id="module_format_item" class="nav-item">
+        <a class="nav-link" href="module-format">
+            <i class="fas fa-fw fa-fan"></i>
+            <span>Module Builder</span>
+        </a>
+    </li>
     <li id="integration_item" class="nav-item">
         <a class="nav-link" href="integration">
             <i class="fas fa-fw fa-tools"></i>
@@ -82,18 +87,8 @@ if (strlen($user) == 0) {
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li id="call_item" class="nav-item">
-        <a class="nav-link" href="call-type">
-            <i class="fas fa-fw fa-phone-alt"></i>
-            <span>Call Types</span>
-        </a>
-    </li>
-    <li id="module_format_item" class="nav-item">
-        <a class="nav-link" href="module-format">
-            <i class="fas fa-fw fa-fan"></i>
-            <span>Module Format</span>
-        </a>
-    </li>
+    
+    
     <li id="users_item" class="nav-item">
         <a class="nav-link" href="users">
             <i class="fas fa-fw fa-user-friends"></i>
@@ -104,6 +99,12 @@ if (strlen($user) == 0) {
         <a class="nav-link" href="devices">
             <i class="fas fa-fw fa-desktop"></i>
             <span>Devices</span>
+        </a>
+    </li>
+<li id="call_item" class="nav-item">
+        <a class="nav-link" href="call-type">
+            <i class="fas fa-fw fa-phone-alt"></i>
+            <span>Call Types</span>
         </a>
     </li>
     <li id="page_item" class="nav-item">
