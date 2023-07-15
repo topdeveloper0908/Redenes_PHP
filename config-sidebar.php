@@ -21,7 +21,7 @@ if (strlen($user) == 0) {
 
     <!-- Nav Item - Charts -->
     <li id="overview_item" class="nav-item">
-        <a class="nav-link" href="overview">
+        <a class="nav-link" href="">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>View As Agency</span></a>
     </li>
@@ -61,7 +61,7 @@ if (strlen($user) == 0) {
     <li id="module_format_item" class="nav-item">
         <a class="nav-link" href="config-module-format">
             <i class="fas fa-fw fa-tools"></i>
-            <span>Format Modules</span>
+            <span>Module Builder</span>
         </a>
     </li>
 
@@ -90,13 +90,13 @@ if (strlen($user) == 0) {
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <li id="module_format_item" class="nav-item">
-        <a class="nav-link" href="module-format">
+        <a class="nav-link" href="">
             <i class="fas fa-fw fa-fan"></i>
             <span>Alpha Pagers</span>
         </a>
     </li>
     <li id="module_format_item" class="nav-item">
-        <a class="nav-link" href="module-format">
+        <a class="nav-link" href="">
             <i class="fas fa-fw fa-fan"></i>
             <span>Twillo</span>
         </a>

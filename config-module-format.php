@@ -61,7 +61,7 @@ $agency_id = $_COOKIE['agency_id'];
                     <form action="">
                         <div class="d-flex align-items-baseline justify-content-between">
                             <!-- Page Heading -->
-                            <h1 class="h3 mb-4 text-gray-800">Format Modules</h1>
+                            <h1 class="h3 mb-4 text-gray-800">Module Builder</h1>
                             <!-- Nav Item - User Information -->
                             <div class="nav-item dropdown no-arrow">
                                 <button type="button" id="openModal" class='nav-link dropdown-toggle edit-btn btn btn-primary btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-plus'></i></span><span class='text'>Create New Format</span></button>
@@ -430,7 +430,12 @@ $agency_id = $_COOKIE['agency_id'];
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
-                    if (res.delete == 'completed') {
+					data = res.agencies_users;
+                    writeData(data);
+                    writeAgencyType(res.agency_types);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    /*if (res.delete == 'completed') {
                         trs = document.getElementById("table-content").children;
                         for (let index = 0; index < trs.length; index++) {
                             const element = trs[index];
@@ -442,7 +447,7 @@ $agency_id = $_COOKIE['agency_id'];
                         $('#dataTable').dataTable();
                         document.getElementById("my-loader-element").classList.remove("loader");
                         document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    }
+                    }*/
                 }
             })
         }
