@@ -185,6 +185,7 @@ $agency_id = $_COOKIE['agency_id'];
                     authorization: "<?php echo $authorization; ?>"
                 },
                 success: function(res) {
+                    console.log(res);
                     module_setting = res.agencies_module_settings[0];
                     writeDropdown(res.agency_types_selected, res.agency_groups);
                     writeTable();
@@ -215,6 +216,7 @@ $agency_id = $_COOKIE['agency_id'];
 				agency_groups: document.getElementById('userGroupDropdown').value,
                 agency_module_settings: [data]
             };
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-module-settings/",
@@ -370,6 +372,10 @@ $agency_id = $_COOKIE['agency_id'];
             }
             else if(value == false) {
                 module_setting[key][0][subkey][0][action] = 'false';
+            }
+            else {
+                value = e.currentTarget.value;
+                module_setting[key][0][subkey][0][action] = value;
             }
         }
 

@@ -325,8 +325,13 @@ $agency_id = $_COOKIE['agency_id'];
                 if (element.admin == 'true')
                     tmp += 'checked';
                 tmp += "><label class='custom-control-label' for='onCallCheck" + index + "'></label></div></td>";
-                tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
-                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                if(element.added_by == 'pending') {
+                    tmp += "<td><button type='button' onclick=openDeleteModal(event,'" + element.id + "') class='btn btn-primary btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Approve</span></button></td>";
+                }
+                else {
+                    tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                }
+                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event,'" + element.id + "')><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
                 index++;
             });
@@ -515,27 +520,26 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 delete: row
             }
-            // $.ajax({
-            //     type: "POST",
-            //     url: "https://api.redenes.org/dev/v1/users/",
-            //     data: JSON.stringify(formData),
-            //     dataType: "json",
-            //     contentType: 'application/json',
-            //     success: function(res) {
-            //         if (res.delete == 'completed') {
-
-            //         }
-            //     }
-            // })
-            trs = document.getElementById("table-content").children;
-            for (let index = 0; index < trs.length; index++) {
-                const element = trs[index];
-                if (trs[index].getAttribute('data-id') == row) {
-                    trs[index].remove();
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/users/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    if (res.delete == 'completed') {
+                        trs = document.getElementById("table-content").children;
+                        for (let index = 0; index < trs.length; index++) {
+                            const element = trs[index];
+                            if (trs[index].getAttribute('data-id') == row) {
+                                trs[index].remove();
+                            }
+                        }
+                        document.getElementById("my-loader-element").classList.remove("loader");
+                        document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    }
                 }
-            }
-            document.getElementById("my-loader-element").classList.remove("loader");
-            document.getElementById("my-loader-wrapper").classList.add("d-none");
+            })
         }
 
         function confirmCancel() {
@@ -556,7 +560,6 @@ $agency_id = $_COOKIE['agency_id'];
                 firstname: document.getElementById("userFirstName").value,
                 lastname: document.getElementById("userLastName").value
             }
-            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-users/",
