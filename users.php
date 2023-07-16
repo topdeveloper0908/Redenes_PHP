@@ -326,7 +326,7 @@ $agency_id = $_COOKIE['agency_id'];
                     tmp += 'checked';
                 tmp += "><label class='custom-control-label' for='onCallCheck" + index + "'></label></div></td>";
                 if(element.added_by == 'pending') {
-                    tmp += "<td><button type='button' onclick=openDeleteModal(event,'" + element.id + "') class='btn btn-primary btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Approve</span></button></td>";
+                    tmp += "<td><button type='button' onclick=approveUser(event,'" + element.id + "') class='btn btn-primary btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Approve</span></button></td>";
                 }
                 else {
                     tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
@@ -505,7 +505,7 @@ $agency_id = $_COOKIE['agency_id'];
             deleteModal.style.display = "none";
         }
 
-        function confirmDelete() {
+        function confirmDelete(id) {
             row = localStorage.getItem('deleteRow');
             localStorage.removeItem('deleteRow');
             deleteUser(row);
@@ -518,26 +518,62 @@ $agency_id = $_COOKIE['agency_id'];
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
+                agency_id: init_id,
                 delete: row
             }
             $.ajax({
                 type: "POST",
-                url: "https://api.redenes.org/dev/v1/users/",
+                url: "https://api.redenes.org/dev/v1/agency-users/",
                 data: JSON.stringify(formData),
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
-                    if (res.delete == 'completed') {
-                        trs = document.getElementById("table-content").children;
-                        for (let index = 0; index < trs.length; index++) {
-                            const element = trs[index];
-                            if (trs[index].getAttribute('data-id') == row) {
-                                trs[index].remove();
-                            }
-                        }
-                        document.getElementById("my-loader-element").classList.remove("loader");
-                        document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    }
+                    console.log(res);
+                    // trs = document.getElementById("table-content").children;
+                    // for (let index = 0; index < trs.length; index++) {
+                    //     const element = trs[index];
+                    //     if (trs[index].getAttribute('data-id') == row) {
+                    //         trs[index].remove();
+                    //     }
+                    // }
+                    var data = res.agencies_users;
+                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    writeModal(res.user_groups, res.user_ranks, res.user_status);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+        }
+
+        function approveUser(row) {
+            document.getElementById("my-loader-element").classList.add("loader");
+            document.getElementById("my-loader-wrapper").classList.remove("d-none");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id,
+                approve: row
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-users/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log(res);
+                    // trs = document.getElementById("table-content").children;
+                    // for (let index = 0; index < trs.length; index++) {
+                    //     const element = trs[index];
+                    //     if (trs[index].getAttribute('data-id') == row) {
+                    //         trs[index].remove();
+                    //     }
+                    // }
+                    var data = res.agencies_users;
+                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    writeModal(res.user_groups, res.user_ranks, res.user_status);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
         }
@@ -550,6 +586,13 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById("my-loader-element").classList.add("loader");
             e.preventDefault();
             var authorization = "<?php echo $authorization; ?>";
+            group = document.getElementById('groupsModalDropdown').children[0].getAttribute('title');
+            if(group == '') {
+                window.alert('You should select group before create')
+                document.getElementById("my-loader-element").classList.remove("loader");
+                document.getElementById("my-loader-wrapper").classList.add("d-none");
+                return;
+            }
             var formData = {
                 authorization: authorization.toString(),
                 agency_id: init_id,
