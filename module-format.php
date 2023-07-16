@@ -324,7 +324,11 @@ $agency_id = $_COOKIE['agency_id'];
                 tmp += "</select></td>";
                 tmp += "<td><a href='form-builder?form_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
                 tmp += "<td><a href='format-logic-builder?format_id=" + element.format_id + "' class='edit-btn btn btn-success btn-icon-split my-1'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></a></td>";
-                tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                if (element.status == 'In Use') {
+                    tmp += "<td><a class='disabled btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event," + element.format_id + ")><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                } else {
+                    tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event,'" + element.format_id + "')><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
+                }
                 tmp += "</tr>";
                 index++;
             });
@@ -339,7 +343,8 @@ $agency_id = $_COOKIE['agency_id'];
                 authorization: authorization.toString(),
                 format_type: $('#formatType').val(),
                 module: $('#formatModule').val(),
-                format_name: $('#formatName').val()
+                format_name: $('#formatName').val(),
+                agency_id: init_id
             }
             $.ajax({
                 type: "POST",
