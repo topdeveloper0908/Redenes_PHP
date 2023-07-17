@@ -401,6 +401,7 @@ $agency_id = $_COOKIE['agency_id'];
             var authorization = "<?php echo $authorization; ?>";
             var formData = {
                 authorization: authorization.toString(),
+                agency_id: init_id,
                 delete: row
             }
             $.ajax({
@@ -410,18 +411,22 @@ $agency_id = $_COOKIE['agency_id'];
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
-                    if (res.delete == 'completed') {
-                        trs = document.getElementById("table-content").children;
-                        for (let index = 0; index < trs.length; index++) {
-                            const element = trs[index];
-                            console.log(trs[index]);
-                            if (trs[index].getAttribute('data-id') == row) {
-                                trs[index].remove();
-                            }
-                        }
-                        document.getElementById("my-loader-element").classList.remove("loader");
-                        document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    }
+                    data = res.agencies_users;
+                    writeData(data);
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    // if (res.delete == 'completed') {
+                    //     trs = document.getElementById("table-content").children;
+                    //     for (let index = 0; index < trs.length; index++) {
+                    //         const element = trs[index];
+                    //         console.log(trs[index]);
+                    //         if (trs[index].getAttribute('data-id') == row) {
+                    //             trs[index].remove();
+                    //         }
+                    //     }
+                    //     document.getElementById("my-loader-element").classList.remove("loader");
+                    //     document.getElementById("my-loader-wrapper").classList.add("d-none");
+                    // }
                 }
             })
         }
