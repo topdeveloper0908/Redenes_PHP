@@ -325,11 +325,11 @@ $agency_id = $_COOKIE['agency_id'];
                 if (element.admin == 'true')
                     tmp += 'checked';
                 tmp += "><label class='custom-control-label' for='onCallCheck" + index + "'></label></div></td>";
-                if(element.added_by == 'pending') {
+                if(element.added_by == 'Pending') {
                     tmp += "<td><button type='button' onclick=approveUser(event,'" + element.id + "') class='btn btn-primary btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Approve</span></button></td>";
                 }
                 else {
-                    tmp += "<td><button type='button' class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
+                    tmp += "<td><button type='button' onclick=saveClicked(event,'" + element.id + "') class='save-btn btn btn-success btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Save</span></button><button type='button' onclick=editClicked(event,'" + element.id + "') class='edit-btn btn btn-success btn-icon-split my-1 mr-2'><span class='icon text-white-50'><i class='fas fa-check'></i></span><span class='text'>Edit</span></button><button type='button' onclick=cancelClicked(event,'" + element.id + "') class='cancel-btn btn btn-danger btn-icon-split my-1 mr-2 d-none'><span class='icon text-white-50'><i class='fas fa-edit'></i></span><span class='text'>Cancel</span></button></td>";
                 }
                 tmp += "<td><a class='btn btn-danger btn-icon-split' href='#' onclick=openDeleteModal(event,'" + element.id + "')><span class='icon text-white-50'><i class='fas fa-trash'></i></span><span class='text'>Delete</span></a></td>"
                 tmp += "</tr>";
@@ -360,122 +360,134 @@ $agency_id = $_COOKIE['agency_id'];
             document.getElementById('rankType').innerHTML = tmp;
             tmp = '';
             for (var i = 0; i < statuses.length; i++) {
-                tmp += "<option value='" + statuses[i] + "'>" + statuses[i] + "</option>";
+                if( i == 0 ) {
+                    tmp += "<option value='" + statuses[i] + "' selected>" + statuses[i] + "</option>";
+                }
+                else {
+                    tmp += "<option value='" + statuses[i] + "'>" + statuses[i] + "</option>";
+                }
             }
             document.getElementById('statusType').innerHTML = tmp;
             new Multiselect('#groupsModalDropdown', '');
         }
 
-        const editButtons = document.querySelectorAll('.edit-btn');
-        const saveButtons = document.querySelectorAll('.save-btn');
-        const cancelButtons = document.querySelectorAll('.cancel-btn');
-
         var values = [ '', '', '', false];
-        editButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
-                tdElement.querySelector('.save-btn').classList.remove('d-none');
-                tdElement.querySelector('.cancel-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
+        
+        function editClicked(e, row) {
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
+            tdElement.querySelector('.save-btn').classList.remove('d-none');
+            tdElement.querySelector('.cancel-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
 
-                checkbox = trElement.querySelector('.custom-control-input')
-                selects = trElement.querySelectorAll('.custom-select');
-                multiSelect = trElement.querySelector('.multiselect');
+            checkbox = trElement.querySelector('.custom-control-input')
+            selects = trElement.querySelectorAll('.custom-select');
+            multiSelect = trElement.querySelector('.multiselect');
 
-                checkbox.removeAttribute('disabled');
-                multiSelect.classList.remove('disabled');
-                i = 0;
-                selects.forEach(element => {
-                    element.removeAttribute('disabled');
-                    values[i] = element.value;
-                    i++;
-                });
-
-                editButtons.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
-                values[3] = checkbox.checked;
-            });
-        });
-        cancelButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
-                tdElement.querySelector('.save-btn').classList.add('d-none');
-                tdElement.querySelector('.edit-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
-                checkbox = trElement.querySelector('.custom-control-input')
-                selects = trElement.querySelectorAll('.custom-select')
-                checkbox.setAttribute('disabled', true);
-                selects.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
-                editButtons.forEach(element => {
-                    element.removeAttribute('disabled');
-                });
-                multiSelect = trElement.querySelector('.multiselect');
-                multiSelect.classList.remove('active');
-                multiSelect.classList.add('disabled');
-                selects[0].value = values[0];
-                selects[1].value = values[1];
-                selects[2].value = values[2];
-                checkbox.checked = values[3];
-            });
-        });
-        saveButtons.forEach(element => {
-            element.addEventListener('click', function(e) {
-                tdElement = e.currentTarget.parentNode;
-                trElement = tdElement.parentNode;
-
-                tdElement.querySelector('.cancel-btn').classList.add('d-none');
-                tdElement.querySelector('.edit-btn').classList.remove('d-none');
-                e.currentTarget.classList.add('d-none');
-
-                checkbox = trElement.querySelector('.custom-control-input')
-                input = trElement.querySelector('.form-control')
-                selects = trElement.querySelectorAll('.custom-select')
-
-                groups = trElement.querySelector('.multiselect').children[0].getAttribute('title');
-
-                editButtons.forEach(element => {
-                    element.removeAttribute('disabled');
-                });
-                document.getElementById("my-loader-element").classList.add("loader");
-                var authorization = "<?php echo $authorization; ?>";
-                var formData = {
-                    authorization: authorization.toString(),
-                    agency_id: init_id.toString(),
-                    id: trElement.getAttribute('data-id'),
-                    name: input.value,
-                    rank: selects[0].value,
-                    group: groups,
-                    status: selects[1].value,
-                    admin: checkbox.checked
+            checkbox.removeAttribute('disabled');
+            multiSelect.classList.remove('disabled');
+            i = 0;
+            selects.forEach(element => {
+                element.removeAttribute('disabled');
+                if(i == 1) {
+                    values[i+1] = element.value;
                 }
-                $.ajax({
-                    type: "POST",
-                    url: "https://api.redenes.org/dev/v1/agency-users/",
-                    data: JSON.stringify(formData),
-                    dataType: "json",
-                    contentType: 'application/json',
-                    success: function(res) {
-                        // To hide the loader
-                        document.getElementById("my-loader-element").classList.remove("loader");
-                        document.getElementById("my-loader-wrapper").classList.add("d-none");
-                    }
-                })
-
-                input.setAttribute('readOnly', true);
-                checkbox.setAttribute('disabled', true);
-                selects.forEach(element => {
-                    element.setAttribute('disabled', true);
-                });
-                multiSelect = trElement.querySelector('.multiselect');
-                multiSelect.classList.remove('active');
-                multiSelect.classList.add('disabled');
+                else {
+                    values[i] = element.value;
+                }
+                i++;
             });
-        });
+
+            values [1] = trElement.querySelector('.multiselect').children[0].getAttribute('title');
+
+            const editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(element => {
+                element.setAttribute('disabled', true);
+            });
+            values[3] = checkbox.checked;
+        }
+        function cancelClicked(e, row) {
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
+            tdElement.querySelector('.save-btn').classList.add('d-none');
+            tdElement.querySelector('.edit-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
+            checkbox = trElement.querySelector('.custom-control-input')
+            selects = trElement.querySelectorAll('.custom-select')
+            checkbox.setAttribute('disabled', true);
+            selects.forEach(element => {
+                element.setAttribute('disabled', true);
+            });
+            const editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(element => {
+                element.removeAttribute('disabled');
+            });
+            multiSelect = trElement.querySelector('.multiselect');
+            multiSelect.classList.remove('active');
+            multiSelect.classList.add('disabled');
+            selects[0].value = values[0];
+            selects[1].value = values[2];
+            trElement.querySelector('.multiselect').children[0].setAttribute('title', values[1]);
+            trElement.querySelector('.multiselect').children[0].children[0].innerHTML = values[1];
+            checkbox.checked = values[3];
+        }
+        function saveClicked(e, row) {
+            tdElement = e.currentTarget.parentNode;
+            trElement = tdElement.parentNode;
+
+            tdElement.querySelector('.cancel-btn').classList.add('d-none');
+            tdElement.querySelector('.edit-btn').classList.remove('d-none');
+            e.currentTarget.classList.add('d-none');
+
+            checkbox = trElement.querySelector('.custom-control-input')
+            input = trElement.querySelector('.form-control')
+            selects = trElement.querySelectorAll('.custom-select')
+
+            groups = trElement.querySelector('.multiselect').children[0].getAttribute('title');
+            groups = groups.split(',');
+
+            const editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(element => {
+                element.removeAttribute('disabled');
+            });
+            document.getElementById("my-loader-element").classList.add("loader");
+            var authorization = "<?php echo $authorization; ?>";
+            var formData = {
+                authorization: authorization.toString(),
+                agency_id: init_id.toString(),
+                id: trElement.getAttribute('data-id'),
+                name: input.value,
+                rank: selects[0].value,
+                group: groups,
+                status: selects[1].value,
+                admin: checkbox.checked
+            }
+            $.ajax({
+                type: "POST",
+                url: "https://api.redenes.org/dev/v1/agency-users/",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log(res);
+                    var data = res.agencies_users;
+                    writeData(data, res.user_groups, res.user_ranks, res.user_status);
+                    writeModal(res.user_groups, res.user_ranks, res.user_status);
+                    // To hide the loader
+                    document.getElementById("my-loader-element").classList.remove("loader");
+                    document.getElementById("my-loader-wrapper").classList.add("d-none");
+                }
+            })
+
+            input.setAttribute('readOnly', true);
+            checkbox.setAttribute('disabled', true);
+            selects.forEach(element => {
+                element.setAttribute('disabled', true);
+            });
+            multiSelect = trElement.querySelector('.multiselect');
+            multiSelect.classList.remove('active');
+            multiSelect.classList.add('disabled');
+        }
         var modal = document.getElementById("myModal");
         // Get the button that opens the modal
         var modalBtn = document.getElementById("openModal");
@@ -485,12 +497,32 @@ $agency_id = $_COOKIE['agency_id'];
             modal.style.display = "block";
         }
         closeBtn.onclick = function() {
+            clearModal();
             modal.style.display = "none";
         }
         window.onclick = function(event) {
             if (event.target == modal) {
+                clearModal();
                 modal.style.display = "none";
             }
+        }
+
+        function clearModal() {
+            document.getElementById('groupsModalDropdown').children[0].setAttribute('title', '');
+            document.getElementById('groupsModalDropdown').children[0].children[0].innerHTML = 'Select';
+            elements = document.getElementById('groupsModalDropdown').children[1];
+            $("#groupsModalDropdown .option-item").each(function () {
+                $(this).removeClass('selected');
+            });
+            $("#rankType option").prop("selected", function () {
+                return this.defaultSelected;
+            });
+            $("#statusType option").prop("selected", function () {
+                return this.defaultSelected;
+            });
+            document.getElementById("userPhone").value = '';
+            document.getElementById("userFirstName").value = '';
+            document.getElementById("userLastName").value = '';
         }
 
         var deleteModal = document.getElementById("deleteModal");
@@ -529,13 +561,6 @@ $agency_id = $_COOKIE['agency_id'];
                 contentType: 'application/json',
                 success: function(res) {
                     console.log(res);
-                    // trs = document.getElementById("table-content").children;
-                    // for (let index = 0; index < trs.length; index++) {
-                    //     const element = trs[index];
-                    //     if (trs[index].getAttribute('data-id') == row) {
-                    //         trs[index].remove();
-                    //     }
-                    // }
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
                     writeModal(res.user_groups, res.user_ranks, res.user_status);
@@ -543,6 +568,7 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
+            $('#dataTable').dataTable();
         }
 
         function approveUser(row) {
@@ -561,14 +587,6 @@ $agency_id = $_COOKIE['agency_id'];
                 dataType: "json",
                 contentType: 'application/json',
                 success: function(res) {
-                    console.log(res);
-                    // trs = document.getElementById("table-content").children;
-                    // for (let index = 0; index < trs.length; index++) {
-                    //     const element = trs[index];
-                    //     if (trs[index].getAttribute('data-id') == row) {
-                    //         trs[index].remove();
-                    //     }
-                    // }
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
                     writeModal(res.user_groups, res.user_ranks, res.user_status);
@@ -576,6 +594,7 @@ $agency_id = $_COOKIE['agency_id'];
                     document.getElementById("my-loader-wrapper").classList.add("d-none");
                 }
             })
+            $('#dataTable').dataTable();
         }
 
         function confirmCancel() {
@@ -602,7 +621,8 @@ $agency_id = $_COOKIE['agency_id'];
                 phone: document.getElementById("userPhone").value,
                 firstname: document.getElementById("userFirstName").value,
                 lastname: document.getElementById("userLastName").value
-            }
+            };
+            formData.group = formData.group.split(',');
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-users/",
@@ -613,6 +633,7 @@ $agency_id = $_COOKIE['agency_id'];
                 success: function(res) {
                     console.log(res);
                     modal.style.display = "none";
+                    clearModal();
                     var data = res.agencies_users;
                     writeData(data, res.user_groups, res.user_ranks, res.user_status);
                     writeModal(res.user_groups, res.user_ranks, res.user_status);
