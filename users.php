@@ -460,7 +460,7 @@ $agency_id = $_COOKIE['agency_id'];
                 rank: selects[0].value,
                 group: groups,
                 status: selects[1].value,
-                admin: checkbox.checked
+                admin: checkbox.checked == true ? 'true':'false'
             }
             $.ajax({
                 type: "POST",
@@ -571,7 +571,7 @@ $agency_id = $_COOKIE['agency_id'];
             $('#dataTable').dataTable();
         }
 
-        function approveUser(row) {
+        function approveUser(e, row) {
             document.getElementById("my-loader-element").classList.add("loader");
             document.getElementById("my-loader-wrapper").classList.remove("d-none");
             var authorization = "<?php echo $authorization; ?>";
@@ -580,6 +580,7 @@ $agency_id = $_COOKIE['agency_id'];
                 agency_id: init_id,
                 approve: row
             }
+            console.log(formData);
             $.ajax({
                 type: "POST",
                 url: "https://api.redenes.org/dev/v1/agency-users/",
