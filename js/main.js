@@ -42,7 +42,7 @@ Multiselect.prototype = {
 
         var first = false;
 
-        $(document).on("click", that.selector + ".multiselect > .title", function (e) {
+        $(that.selector + ".multiselect > .title").on("click", function (e) {
             parent = $(e.currentTarget).parent();
             if (parent[0].classList.value.indexOf('disabled') > -1) {
                 return;
@@ -55,7 +55,7 @@ Multiselect.prototype = {
             }
         });
 
-        $(document).on("click", that.selector + ".multiselect option", function (e) {
+        $(that.selector + ".multiselect option").on("click", function (e) {
             var selection = $(this).attr("value");
             var target = $(this).parent().parent().attr("data-target");
 
