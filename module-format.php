@@ -31,8 +31,6 @@ $agency_id = $_COOKIE['agency_id'];
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
 
 </head>
 
@@ -256,8 +254,6 @@ $agency_id = $_COOKIE['agency_id'];
     <script>
         document.getElementById("my-loader-element").classList.add("loader");
     </script>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom scripts for all pages-->

@@ -413,11 +413,12 @@ if (strlen($user) == 0) {
 
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/jquery/jquery.cookie.js"></script>
         <script>
             // To show the loader
             document.getElementById("my-loader-element").classList.add("loader");
-            <?php $agencies_id = explode("$$", $_COOKIE['agencies_id']); ?>
-            init_id = "<?php echo $agencies_id[0] ?>";
+            init_id = $.cookie('agency_id');
 
             function getAgencyData(agency_id) {
                 document.cookie = "agency_id = " + agency_id;
@@ -430,8 +431,8 @@ if (strlen($user) == 0) {
                         authorization: "<?php echo $authorization; ?>"
                     },
                     success: function(res) {
-                        agency_info = res.agencies_overview[0];
                         console.log(res);
+                        agency_info = res.agencies_overview[0];
                         document.cookie = "agency_name = " + agency_info.agency_name;
 
                         document.getElementById('agency-name').innerHTML = agency_info.agency_name;

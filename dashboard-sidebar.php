@@ -1,7 +1,7 @@
 <?php
 $authorization = $_COOKIE['authorization'];
 $agencies = explode("$$", $_COOKIE['agency']);
-$agencies_id = explode("$$", $_COOKIE['agency_id']);
+$agencies_id = explode("$$", $_COOKIE['agencies_id']);
 $user = $_COOKIE['name'];
 if (strlen($user) == 0) {
     header('location:logout');
@@ -23,9 +23,12 @@ if (strlen($user) == 0) {
         <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <?php
+                    $i = 0;
                 foreach ($agencies as $key => $agency) {
-                    if ($key != count($agencies) - 1)
-                        echo "<button class='collapse-item d-inline-block' onClick='changeAgencyData(" . $agencies_id[$key] . ")'>" . $agency . "</button>";
+                    if ($key != count($agencies) - 1) {
+                        echo "<button class='collapse-item d-inline-block' onClick='changeAgencyData(\"" . $agencies_id[$key] . "\", " . $i . ")'>" . $agency . "</button>";
+                        $i ++;
+                    }
                 }
                 ?>
             </div>
@@ -141,6 +144,8 @@ if (strlen($user) == 0) {
         <!-- Nav Item - Pages Collapse Menu -->
     </li>
 </ul>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/jquery/jquery.cookie.js"></script>
 <script>
     // To show the loader
     var currentUrl = window.location.href;
@@ -306,8 +311,10 @@ if (strlen($user) == 0) {
     //     document.getElementById('alert-item').lastElementChild.classList.add('show');
     // }
 
-    function changeAgencyData(agency_id) {
-        document.cookie = "agency_id = " + agency_id;
-        window.location.replace("overview");
+    function changeAgencyData(agency_id, number) {
+        agencies = $.cookie("agency").split('$$');
+        $.cookie("agency_id", agency_id);
+        $.cookie("agency_name", agencies[number]);
+        window.location.replace("online-form?form_id=737b1459-25b4-4397-915f-f1f949c93492");
     }
 </script>
